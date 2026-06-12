@@ -13,6 +13,7 @@
     "db:seed": "dotenv -e .env.local -- prisma db seed",
     "db:studio": "dotenv -e .env.local -- prisma studio",
     "dev": "vite dev --port 3000",
+    "env:gen": "sed 's/=.*/=/' .env.local > .env.example",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "generate-routes": "tsr generate",
