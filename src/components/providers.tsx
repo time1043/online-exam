@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Link, useNavigate } from '@tanstack/react-router';
 
 import { authClient } from '@/lib/auth-client';
+import { zhLocalization } from '@/lib/auth-zh';
 import { themePlugin } from '@/lib/auth/theme-plugin';
 
 import { AuthProvider } from './auth/auth-provider';
@@ -20,6 +21,7 @@ export function Providers({ children }: { children: ReactNode }) {
         redirectTo="/settings/account"
         navigate={navigate}
         plugins={[themePlugin({ useTheme })]}
+        localization={zhLocalization}
         Link={Link}
       >
         <TooltipProvider>{children}</TooltipProvider>
