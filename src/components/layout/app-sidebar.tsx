@@ -46,7 +46,11 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton
+              size="lg"
+              asChild
+              className="data-[collapsible=icon]:h-12! data-[collapsible=icon]:p-2!"
+            >
               <Link to="/admin">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <GraduationCap className="size-4" />
@@ -61,7 +65,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarSeparator />
+      <SidebarSeparator className="data-horizontal:w-auto" />
 
       <SidebarContent>
         <SidebarGroup>
@@ -87,7 +91,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarSeparator />
+      <SidebarSeparator className="data-horizontal:w-auto" />
 
       <SidebarFooter>
         <SidebarMenu>
