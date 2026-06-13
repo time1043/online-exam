@@ -1,4 +1,4 @@
-import { Link, useLocation } from '@tanstack/react-router';
+import { Link, useLocation, type FileRouteTypes } from '@tanstack/react-router';
 import { LogOut, Menu, GraduationCap } from 'lucide-react';
 import * as React from 'react';
 
@@ -15,12 +15,12 @@ import { cn } from '@/lib/utils';
 
 export interface NavItem {
   label: string;
-  href: string;
+  href: FileRouteTypes['to'];
 }
 
 interface NavbarProps {
   title: string;
-  role: string;
+  role: 'admin' | 'teacher' | 'student';
   navItems: NavItem[];
 }
 
