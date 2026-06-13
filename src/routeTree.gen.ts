@@ -9,50 +9,303 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeacherRouteRouteImport } from './routes/teacher/route'
+import { Route as StudentRouteRouteImport } from './routes/student/route'
+import { Route as AuthRouteRouteImport } from './routes/auth/route'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
+import { Route as MainRouteRouteImport } from './routes/_main/route'
+import { Route as TeacherIndexRouteImport } from './routes/teacher/index'
+import { Route as StudentIndexRouteImport } from './routes/student/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as MainIndexRouteImport } from './routes/_main/index'
+import { Route as AuthRegisterRouteImport } from './routes/auth/register'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
 
-const IndexRoute = IndexRouteImport.update({
+const TeacherRouteRoute = TeacherRouteRouteImport.update({
+  id: '/teacher',
+  path: '/teacher',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentRouteRoute = StudentRouteRouteImport.update({
+  id: '/student',
+  path: '/student',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRouteRoute = AuthRouteRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MainRouteRoute = MainRouteRouteImport.update({
+  id: '/_main',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeacherIndexRoute = TeacherIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => TeacherRouteRoute,
+} as any)
+const StudentIndexRoute = StudentIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StudentRouteRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const MainIndexRoute = MainIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MainRouteRoute,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthRouteRoute,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof MainIndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/student': typeof StudentRouteRouteWithChildren
+  '/teacher': typeof TeacherRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/admin/': typeof AdminIndexRoute
+  '/student/': typeof StudentIndexRoute
+  '/teacher/': typeof TeacherIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/': typeof MainIndexRoute
+  '/admin': typeof AdminIndexRoute
+  '/student': typeof StudentIndexRoute
+  '/teacher': typeof TeacherIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_main': typeof MainRouteRouteWithChildren
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/auth': typeof AuthRouteRouteWithChildren
+  '/student': typeof StudentRouteRouteWithChildren
+  '/teacher': typeof TeacherRouteRouteWithChildren
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
+  '/_main/': typeof MainIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/student/': typeof StudentIndexRoute
+  '/teacher/': typeof TeacherIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/student'
+    | '/teacher'
+    | '/auth/login'
+    | '/auth/register'
+    | '/admin/'
+    | '/student/'
+    | '/teacher/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/auth'
+    | '/auth/login'
+    | '/auth/register'
+    | '/'
+    | '/admin'
+    | '/student'
+    | '/teacher'
+  id:
+    | '__root__'
+    | '/_main'
+    | '/admin'
+    | '/auth'
+    | '/student'
+    | '/teacher'
+    | '/auth/login'
+    | '/auth/register'
+    | '/_main/'
+    | '/admin/'
+    | '/student/'
+    | '/teacher/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  MainRouteRoute: typeof MainRouteRouteWithChildren
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren
+  StudentRouteRoute: typeof StudentRouteRouteWithChildren
+  TeacherRouteRoute: typeof TeacherRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/teacher': {
+      id: '/teacher'
+      path: '/teacher'
+      fullPath: '/teacher'
+      preLoaderRoute: typeof TeacherRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student': {
+      id: '/student'
+      path: '/student'
+      fullPath: '/student'
+      preLoaderRoute: typeof StudentRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_main': {
+      id: '/_main'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof MainRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teacher/': {
+      id: '/teacher/'
+      path: '/'
+      fullPath: '/teacher/'
+      preLoaderRoute: typeof TeacherIndexRouteImport
+      parentRoute: typeof TeacherRouteRoute
+    }
+    '/student/': {
+      id: '/student/'
+      path: '/'
+      fullPath: '/student/'
+      preLoaderRoute: typeof StudentIndexRouteImport
+      parentRoute: typeof StudentRouteRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/_main/': {
+      id: '/_main/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof MainIndexRouteImport
+      parentRoute: typeof MainRouteRoute
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof AuthRouteRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof AuthRouteRoute
     }
   }
 }
 
+interface MainRouteRouteChildren {
+  MainIndexRoute: typeof MainIndexRoute
+}
+
+const MainRouteRouteChildren: MainRouteRouteChildren = {
+  MainIndexRoute: MainIndexRoute,
+}
+
+const MainRouteRouteWithChildren = MainRouteRoute._addFileChildren(
+  MainRouteRouteChildren,
+)
+
+interface AdminRouteRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
+interface AuthRouteRouteChildren {
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
+}
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+)
+
+interface StudentRouteRouteChildren {
+  StudentIndexRoute: typeof StudentIndexRoute
+}
+
+const StudentRouteRouteChildren: StudentRouteRouteChildren = {
+  StudentIndexRoute: StudentIndexRoute,
+}
+
+const StudentRouteRouteWithChildren = StudentRouteRoute._addFileChildren(
+  StudentRouteRouteChildren,
+)
+
+interface TeacherRouteRouteChildren {
+  TeacherIndexRoute: typeof TeacherIndexRoute
+}
+
+const TeacherRouteRouteChildren: TeacherRouteRouteChildren = {
+  TeacherIndexRoute: TeacherIndexRoute,
+}
+
+const TeacherRouteRouteWithChildren = TeacherRouteRoute._addFileChildren(
+  TeacherRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  MainRouteRoute: MainRouteRouteWithChildren,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
+  StudentRouteRoute: StudentRouteRouteWithChildren,
+  TeacherRouteRoute: TeacherRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
