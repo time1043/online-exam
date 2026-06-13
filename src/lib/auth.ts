@@ -12,12 +12,15 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
   },
-  additionalFields: {
-    role: {
-      type: 'string',
-      required: true,
-      defaultValue: 'student',
-      input: false,
+  // https://better-auth.com/docs/concepts/database#extending-core-schema
+  user: {
+    additionalFields: {
+      role: {
+        type: ['student', 'teacher', 'admin'],
+        required: true,
+        defaultValue: 'student',
+        input: false,
+      },
     },
   },
   plugins: [

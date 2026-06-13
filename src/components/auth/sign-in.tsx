@@ -24,6 +24,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { authClient as typedAuthClient } from '@/lib/auth-client';
 import { cn } from '@/lib/utils';
 
 import { ProviderButtons, type SocialLayout } from './provider-buttons';
@@ -84,7 +85,11 @@ export function SignIn({ className, socialLayout, socialPosition = 'bottom' }: S
 
       resetFetchOptions();
     },
-    onSuccess: () => navigate({ to: redirectTo }),
+    onSuccess: async () => {
+      const session = await typedAuthClient.getSession();
+      const role = session.data?.user.role || 'student';
+      navigate({ to: `/${role}` });
+    },
   });
 
   const signInMutating = useIsMutating({

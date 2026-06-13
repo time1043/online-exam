@@ -1,11 +1,17 @@
-import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import { ModeToggle } from '#/components/dark/mode-toggle';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { Separator } from '@/components/ui/separator';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { authClient } from '@/lib/auth-client';
 
 export const Route = createFileRoute('/admin')({
+  beforeLoad: async () => {
+    const session = await authClient.getSession();
+    if (!session.data) throw redirect({ to: '/auth/$path', params: { path: 'sign-in' } });
+    if (session.data.user.role !== 'admin') throw redirect({ to: '/' });
+  },
   component: RouteComponent,
 });
 
