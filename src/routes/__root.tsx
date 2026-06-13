@@ -4,7 +4,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools';
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
-import { Providers } from '#/components/providers';
+import { Providers } from '@/components/providers';
 
 import appCss from '../styles.css?url';
 

@@ -2,7 +2,7 @@ import { Link, useLocation, type FileRouteTypes } from '@tanstack/react-router';
 import { LogOut, Menu, GraduationCap, Settings } from 'lucide-react';
 import * as React from 'react';
 
-import { ModeToggle } from '#/components/dark/mode-toggle';
+import { ModeToggle } from '@/components/dark/mode-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
