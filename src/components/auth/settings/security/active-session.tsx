@@ -56,8 +56,8 @@ export function ActiveSession({ activeSession }: ActiveSessionProps) {
   });
 
   const isCurrentSession = activeSession.token === session?.session.token;
-  const ua = Bowser.parse(activeSession.userAgent || '');
-  const isMobile = ua.platform.type === 'mobile' || ua.platform.type === 'tablet';
+  const ua = activeSession.userAgent ? Bowser.parse(activeSession.userAgent) : null;
+  const isMobile = ua?.platform.type === 'mobile' || ua?.platform.type === 'tablet';
 
   return (
     <Card className="border-0 bg-transparent shadow-none ring-0">
@@ -68,8 +68,8 @@ export function ActiveSession({ activeSession }: ActiveSessionProps) {
 
         <div className="flex min-w-0 flex-col">
           <span className="truncate text-sm font-medium">
-            {ua.browser.name || 'Unknown Browser'}
-            {ua.os.name ? `, ${ua.os.name}` : ''}
+            {ua?.browser.name || 'Unknown Browser'}
+            {ua?.os.name ? `, ${ua.os.name}` : ''}
           </span>
 
           {isCurrentSession ? (
