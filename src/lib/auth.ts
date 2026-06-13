@@ -12,6 +12,14 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
   },
+  additionalFields: {
+    role: {
+      type: 'string',
+      required: true,
+      defaultValue: 'student',
+      input: false,
+    },
+  },
   plugins: [
     // make sure this is the last plugin in the array
     tanstackStartCookies(),

@@ -8,5 +8,10 @@
  * 🟢 You can import this file directly.
  */
 
-// This file is empty because there are no enums in the schema.
-export {};
+export const Role = {
+  admin: 'admin',
+  teacher: 'teacher',
+  student: 'student',
+} as const;
+
+export type Role = (typeof Role)[keyof typeof Role];
