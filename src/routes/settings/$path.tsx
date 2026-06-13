@@ -8,18 +8,17 @@ import { getRequestHeaders } from '@tanstack/react-start/server';
 import { Settings } from '@/components/auth/settings/settings';
 import { auth } from '@/lib/auth';
 import { authClient } from '@/lib/auth-client';
-import { organizationPlugin } from '@/lib/auth/organization-plugin';
+import { makeQueryClient } from '@/lib/query-client';
 
-const validSettingsPaths = [
-  ...Object.values(viewPaths.settings),
-  ...Object.values(organizationPlugin().viewPaths.settings),
-];
+const validSettingsPaths = Object.values(viewPaths.settings);
 
 export const Route = createFileRoute('/settings/$path')({
-  async beforeLoad({ params: { path }, context: { queryClient }, location }) {
+  async beforeLoad({ params: { path }, location }) {
     if (!validSettingsPaths.includes(path)) {
       throw notFound();
     }
+
+    const queryClient = makeQueryClient();
 
     const ensureSession = createIsomorphicFn()
       .server(() => ensureSessionServer(queryClient, auth, { headers: getRequestHeaders() }))
