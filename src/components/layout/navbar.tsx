@@ -1,5 +1,5 @@
 import { Link, useLocation, type FileRouteTypes } from '@tanstack/react-router';
-import { LogOut, Menu, GraduationCap } from 'lucide-react';
+import { LogOut, Menu, GraduationCap, Settings } from 'lucide-react';
 import * as React from 'react';
 
 import { ModeToggle } from '#/components/dark/mode-toggle';
@@ -75,6 +75,12 @@ export function Navbar({ title, role, navItems }: NavbarProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link to="/settings/$path" params={{ path: 'account' }}>
+                  <Settings className="mr-2 size-4" />
+                  <span>设置</span>
+                </Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={signOut}>
                 <LogOut className="mr-2 size-4" />
                 <span>退出登录</span>

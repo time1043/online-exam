@@ -114,6 +114,12 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-[--radix-dropdown-menu-trigger-width]">
+                <DropdownMenuItem asChild>
+                  <Link to="/settings/$path" params={{ path: 'account' }}>
+                    <Settings className="mr-2 size-4" />
+                    <span>设置</span>
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={signOut}>
                   <LogOut className="mr-2 size-4" />
                   <span>退出登录</span>
