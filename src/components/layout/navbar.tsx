@@ -29,7 +29,7 @@ interface NavbarProps {
 export function Navbar({ title, role, navItems }: NavbarProps) {
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
-  const { user } = useUser();
+  const { user, signOut } = useUser();
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background">
@@ -75,7 +75,7 @@ export function Navbar({ title, role, navItems }: NavbarProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={signOut}>
                 <LogOut className="mr-2 size-4" />
                 <span>退出登录</span>
               </DropdownMenuItem>

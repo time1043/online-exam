@@ -41,7 +41,7 @@ const navItems = [
 
 export function AppSidebar() {
   const location = useLocation();
-  const { user } = useUser();
+  const { user, signOut } = useUser();
 
   return (
     <Sidebar collapsible="icon">
@@ -114,7 +114,7 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="top" className="w-[--radix-dropdown-menu-trigger-width]">
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={signOut}>
                   <LogOut className="mr-2 size-4" />
                   <span>退出登录</span>
                 </DropdownMenuItem>

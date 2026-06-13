@@ -88,6 +88,7 @@ export function SignIn({ className, socialLayout, socialPosition = 'bottom' }: S
     onSuccess: async () => {
       const session = await typedAuthClient.getSession();
       const role = session.data?.user.role || 'student';
+      toast.success(`欢迎回来，${session.data?.user.name} [${role}]`);
       navigate({ to: `/${role}` });
     },
   });
