@@ -12,6 +12,7 @@ type ThemeProviderProps = {
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  themes: Theme[];
 };
 
 function getThemeScript(storageKey: string, defaultTheme: Theme) {
@@ -24,6 +25,7 @@ function getThemeScript(storageKey: string, defaultTheme: Theme) {
 const ThemeProviderContext = createContext<ThemeProviderState>({
   theme: 'system',
   setTheme: () => {},
+  themes: ['system', 'light', 'dark'],
 });
 
 function applyTheme(theme: Theme) {
@@ -77,7 +79,7 @@ export function ThemeProvider({
   };
 
   return (
-    <ThemeProviderContext value={{ theme, setTheme }}>
+    <ThemeProviderContext value={{ theme, setTheme, themes: ['system', 'light', 'dark'] }}>
       <ScriptOnce>{getThemeScript(storageKey, defaultTheme)}</ScriptOnce>
       {children}
     </ThemeProviderContext>
