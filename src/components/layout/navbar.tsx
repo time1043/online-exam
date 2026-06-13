@@ -2,6 +2,7 @@ import { Link, useLocation, type FileRouteTypes } from '@tanstack/react-router';
 import { LogOut, Menu, GraduationCap } from 'lucide-react';
 import * as React from 'react';
 
+import { ModeToggle } from '#/components/dark/mode-toggle';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -59,6 +60,7 @@ export function Navbar({ title, role, navItems }: NavbarProps) {
 
         {/* 右侧: 用户菜单 */}
         <div className="flex items-center gap-2">
+          <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon-sm" className="rounded-full">

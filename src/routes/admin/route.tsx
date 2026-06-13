@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
+import { ModeToggle } from '#/components/dark/mode-toggle';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { Separator } from '@/components/ui/separator';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
@@ -16,6 +17,7 @@ function RouteComponent() {
         <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="my-2 h-8" />
+          <ModeToggle />
         </header>
         <div className="flex-1 p-6">
           <Outlet />

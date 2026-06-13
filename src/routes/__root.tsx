@@ -2,6 +2,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools';
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 
+import { ThemeProvider } from '#/components/dark/theme-provider';
 import { TooltipProvider } from '#/components/ui/tooltip';
 
 import appCss from '../styles.css?url';
@@ -32,12 +33,14 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       <body>
-        <TooltipProvider>{children}</TooltipProvider>
+        <ThemeProvider defaultTheme="system" storageKey="theme">
+          <TooltipProvider>{children}</TooltipProvider>
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
