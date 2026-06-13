@@ -1,14 +1,9 @@
 import { viewPaths } from '@better-auth-ui/core';
-import { ensureSession as ensureSessionClient } from '@better-auth-ui/react';
-import { ensureSession as ensureSessionServer } from '@better-auth-ui/react/server';
-import { createFileRoute, notFound, redirect } from '@tanstack/react-router';
-import { createIsomorphicFn } from '@tanstack/react-start';
-import { getRequestHeaders } from '@tanstack/react-start/server';
+import { createFileRoute, Link, notFound, redirect } from '@tanstack/react-router';
+import { ArrowLeft } from 'lucide-react';
 
 import { Settings } from '@/components/auth/settings/settings';
-import { auth } from '@/lib/auth';
-import { authClient } from '@/lib/auth-client';
-import { makeQueryClient } from '@/lib/query-client';
+import { ensureSession } from '@/lib/auth-guard';
 
 const validSettingsPaths = Object.values(viewPaths.settings);
 
@@ -17,12 +12,6 @@ export const Route = createFileRoute('/settings/$path')({
     if (!validSettingsPaths.includes(path)) {
       throw notFound();
     }
-
-    const queryClient = makeQueryClient();
-
-    const ensureSession = createIsomorphicFn()
-      .server(() => ensureSessionServer(queryClient, auth, { headers: getRequestHeaders() }))
-      .client(() => ensureSessionClient(queryClient, authClient));
 
     const session = await ensureSession();
 
@@ -34,16 +23,24 @@ export const Route = createFileRoute('/settings/$path')({
       });
     }
 
-    return { session };
+    return { role: session.user.role };
   },
   component: SettingsPage,
 });
 
 function SettingsPage() {
   const { path } = Route.useParams();
+  const { role } = Route.useRouteContext();
 
   return (
     <div className="mx-auto w-full max-w-3xl p-4 md:p-6">
+      <Link
+        to={`/${role}`}
+        className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+      >
+        <ArrowLeft className="size-4" />
+        返回
+      </Link>
       <Settings path={path} />
     </div>
   );
