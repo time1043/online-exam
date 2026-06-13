@@ -3,7 +3,7 @@ import { LogOut, Menu, GraduationCap } from 'lucide-react';
 import * as React from 'react';
 
 import { ModeToggle } from '#/components/dark/mode-toggle';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { useUser } from '@/hooks/use-user';
 import { cn } from '@/lib/utils';
 
 export interface NavItem {
@@ -28,6 +29,7 @@ interface NavbarProps {
 export function Navbar({ title, role, navItems }: NavbarProps) {
   const location = useLocation();
   const [open, setOpen] = React.useState(false);
+  const { user } = useUser();
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background">
@@ -65,7 +67,10 @@ export function Navbar({ title, role, navItems }: NavbarProps) {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon-sm" className="rounded-full">
                 <Avatar className="size-8">
-                  <AvatarFallback>{role === 'teacher' ? 'T' : 'S'}</AvatarFallback>
+                  <AvatarImage src={user?.image ?? undefined} alt={user?.name} />
+                  <AvatarFallback>
+                    {user?.name?.charAt(0).toUpperCase() ?? role.charAt(0).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>

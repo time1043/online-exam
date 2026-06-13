@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { auth } from '@/lib/auth';
 
+// http://localhost:3000/api/auth/get-session
 export const Route = createFileRoute('/api/auth/$')({
   server: {
     handlers: {

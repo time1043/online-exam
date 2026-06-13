@@ -9,7 +9,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,6 +29,7 @@ import {
   SidebarMenuItem,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
+import { useUser } from '@/hooks/use-user';
 
 const navItems = [
   { label: '仪表盘', href: '/admin', icon: LayoutDashboard },
@@ -40,6 +41,7 @@ const navItems = [
 
 export function AppSidebar() {
   const location = useLocation();
+  const { user } = useUser();
 
   return (
     <Sidebar collapsible="icon">
@@ -100,12 +102,13 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton size="lg">
                   <Avatar className="size-8">
-                    <AvatarFallback>A</AvatarFallback>
+                    <AvatarImage src={user?.image ?? undefined} alt={user?.name} />
+                    <AvatarFallback>{user?.name?.charAt(0).toUpperCase() ?? 'A'}</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">管理员</span>
+                    <span className="truncate font-semibold">{user?.name ?? '加载中...'}</span>
                     <span className="truncate text-xs text-muted-foreground">
-                      admin@example.com
+                      {user?.email ?? ''}
                     </span>
                   </div>
                 </SidebarMenuButton>
