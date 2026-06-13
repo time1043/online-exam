@@ -11,7 +11,7 @@ type ThemeProviderProps = {
 
 type ThemeProviderState = {
   theme: Theme;
-  setTheme: (theme: Theme) => void;
+  setTheme: (theme: string) => void;
   themes: Theme[];
 };
 
@@ -25,7 +25,7 @@ function getThemeScript(storageKey: string, defaultTheme: Theme) {
 const ThemeProviderContext = createContext<ThemeProviderState>({
   theme: 'system',
   setTheme: () => {},
-  themes: ['system', 'light', 'dark'],
+  themes: ['system', 'light', 'dark'] as Theme[],
 });
 
 function applyTheme(theme: Theme) {
@@ -73,9 +73,11 @@ export function ThemeProvider({
     return () => media.removeEventListener('change', onChange);
   }, [theme, mounted]);
 
-  const setTheme = (next: Theme) => {
-    localStorage.setItem(storageKey, next);
-    setThemeState(next);
+  const setTheme = (next: string) => {
+    if (next === 'dark' || next === 'light' || next === 'system') {
+      localStorage.setItem(storageKey, next);
+      setThemeState(next);
+    }
   };
 
   return (
