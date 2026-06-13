@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import { Navbar } from '@/components/layout/navbar';
-import { authClient } from '@/lib/auth-client';
+import { ensureSession } from '@/lib/auth-guard';
 
 const navItems = [
   { label: '仪表盘', href: '/student' },
@@ -12,9 +12,9 @@ const navItems = [
 
 export const Route = createFileRoute('/student')({
   beforeLoad: async () => {
-    const session = await authClient.getSession();
-    if (!session.data) throw redirect({ to: '/auth/$path', params: { path: 'sign-in' } });
-    if (session.data.user.role !== 'student') throw redirect({ to: '/' });
+    const session = await ensureSession();
+    if (!session) throw redirect({ to: '/auth/$path', params: { path: 'sign-in' } });
+    if (session.user.role !== 'student') throw redirect({ to: `/${session.user.role}` });
   },
   component: RouteComponent,
 });

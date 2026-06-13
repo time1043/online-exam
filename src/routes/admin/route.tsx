@@ -4,13 +4,13 @@ import { ModeToggle } from '#/components/dark/mode-toggle';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import { Separator } from '@/components/ui/separator';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { authClient } from '@/lib/auth-client';
+import { ensureSession } from '@/lib/auth-guard';
 
 export const Route = createFileRoute('/admin')({
   beforeLoad: async () => {
-    const session = await authClient.getSession();
-    if (!session.data) throw redirect({ to: '/auth/$path', params: { path: 'sign-in' } });
-    if (session.data.user.role !== 'admin') throw redirect({ to: '/' });
+    const session = await ensureSession();
+    if (!session) throw redirect({ to: '/auth/$path', params: { path: 'sign-in' } });
+    if (session.user.role !== 'admin') throw redirect({ to: `/${session.user.role}` });
   },
   component: RouteComponent,
 });
