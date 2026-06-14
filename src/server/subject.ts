@@ -47,12 +47,12 @@ export const getSubject = createServerFn({ method: 'GET' })
 export const createSubject = createServerFn({ method: 'POST' })
   .validator(createSubjectSchema)
   .middleware([authFnMiddleware])
-  .handler(async ({ data: name, context }) => {
+  .handler(async ({ data, context }) => {
     const { session } = context;
     const inviteCode = generateInviteCode();
     return prisma.subject.create({
       data: {
-        name,
+        name: data.name,
         inviteCode,
         teacherId: session.user.id,
       },

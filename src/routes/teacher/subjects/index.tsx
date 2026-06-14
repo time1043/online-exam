@@ -20,7 +20,7 @@ function RouteComponent() {
   });
 
   const createMutation = useMutation({
-    mutationFn: (name: string) => createSubject({ data: name }),
+    mutationFn: (name: string) => createSubject({ data: { name } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['subjects'] });
       toast.success('科目创建成功');

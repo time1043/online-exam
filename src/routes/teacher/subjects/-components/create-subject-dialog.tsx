@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { createSubjectSchema } from '@/schemas/subject';
 
 interface CreateSubjectDialogProps {
   onSubmit: (name: string) => void;
@@ -25,6 +26,9 @@ export function CreateSubjectDialog({ onSubmit }: CreateSubjectDialogProps) {
   const form = useForm({
     defaultValues: {
       name: '',
+    },
+    validators: {
+      onSubmit: createSubjectSchema,
     },
     onSubmit: async ({ value }) => {
       onSubmit(value.name.trim());
@@ -56,25 +60,28 @@ export function CreateSubjectDialog({ onSubmit }: CreateSubjectDialogProps) {
           <div className="py-4">
             <form.Field
               name="name"
-              validators={{
-                onChange: ({ value }) => (!value.trim() ? '科目名称不能为空' : undefined),
+              children={(field) => {
+                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+                return (
+                  <>
+                    <Label htmlFor={field.name}>科目名称</Label>
+                    <Input
+                      id={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="例如：数据库原理"
+                      className="mt-2"
+                      aria-invalid={isInvalid}
+                    />
+                    {isInvalid && field.state.meta.errors.length > 0 && (
+                      <p className="mt-1 text-sm text-destructive">
+                        {field.state.meta.errors[0]?.message}
+                      </p>
+                    )}
+                  </>
+                );
               }}
-              children={(field) => (
-                <>
-                  <Label htmlFor={field.name}>科目名称</Label>
-                  <Input
-                    id={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="例如：数据库原理"
-                    className="mt-2"
-                  />
-                  {field.state.meta.errors.length > 0 && (
-                    <p className="mt-1 text-sm text-destructive">{field.state.meta.errors[0]}</p>
-                  )}
-                </>
-              )}
             />
           </div>
           <DialogFooter>
