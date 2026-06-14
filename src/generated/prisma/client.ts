@@ -65,3 +65,18 @@ export type Account = Prisma.AccountModel;
  *
  */
 export type Verification = Prisma.VerificationModel;
+/**
+ * Model Subject
+ *
+ */
+export type Subject = Prisma.SubjectModel;
+/**
+ * Model Enrollment
+ *
+ */
+export type Enrollment = Prisma.EnrollmentModel;
+/**
+ * Model Exam
+ *
+ */
+export type Exam = Prisma.ExamModel;

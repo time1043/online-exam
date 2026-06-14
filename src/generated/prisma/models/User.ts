@@ -205,6 +205,8 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
   sessions?: Prisma.SessionListRelationFilter;
   accounts?: Prisma.AccountListRelationFilter;
+  subjects?: Prisma.SubjectListRelationFilter;
+  enrollments?: Prisma.EnrollmentListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -218,6 +220,8 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder;
   sessions?: Prisma.SessionOrderByRelationAggregateInput;
   accounts?: Prisma.AccountOrderByRelationAggregateInput;
+  subjects?: Prisma.SubjectOrderByRelationAggregateInput;
+  enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -235,6 +239,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     updatedAt?: Prisma.DateTimeFilter<'User'> | Date | string;
     sessions?: Prisma.SessionListRelationFilter;
     accounts?: Prisma.AccountListRelationFilter;
+    subjects?: Prisma.SubjectListRelationFilter;
+    enrollments?: Prisma.EnrollmentListRelationFilter;
   },
   'id' | 'email'
 >;
@@ -278,6 +284,8 @@ export type UserCreateInput = {
   updatedAt?: Date | string;
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -291,6 +299,8 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string;
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
 };
 
 export type UserUpdateInput = {
@@ -304,6 +314,8 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -317,6 +329,8 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -462,6 +476,58 @@ export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutSubjectsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutSubjectsInput,
+    Prisma.UserUncheckedCreateWithoutSubjectsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubjectsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutSubjectsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutSubjectsInput,
+    Prisma.UserUncheckedCreateWithoutSubjectsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubjectsInput;
+  upsert?: Prisma.UserUpsertWithoutSubjectsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutSubjectsInput,
+      Prisma.UserUpdateWithoutSubjectsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutSubjectsInput
+  >;
+};
+
+export type UserCreateNestedOneWithoutEnrollmentsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutEnrollmentsInput,
+    Prisma.UserUncheckedCreateWithoutEnrollmentsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEnrollmentsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutEnrollmentsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutEnrollmentsInput,
+    Prisma.UserUncheckedCreateWithoutEnrollmentsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEnrollmentsInput;
+  upsert?: Prisma.UserUpsertWithoutEnrollmentsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutEnrollmentsInput,
+      Prisma.UserUpdateWithoutEnrollmentsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutEnrollmentsInput
+  >;
+};
+
 export type UserCreateWithoutSessionsInput = {
   id: string;
   name: string;
@@ -472,6 +538,8 @@ export type UserCreateWithoutSessionsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
 };
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -484,6 +552,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
 };
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -524,6 +594,8 @@ export type UserUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -536,6 +608,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
 };
 
 export type UserCreateWithoutAccountsInput = {
@@ -548,6 +622,8 @@ export type UserCreateWithoutAccountsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
 };
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -560,6 +636,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
 };
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -600,6 +678,8 @@ export type UserUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -612,6 +692,176 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
+};
+
+export type UserCreateWithoutSubjectsInput = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified?: boolean;
+  image?: string | null;
+  role?: $Enums.Role;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
+};
+
+export type UserUncheckedCreateWithoutSubjectsInput = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified?: boolean;
+  image?: string | null;
+  role?: $Enums.Role;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
+};
+
+export type UserCreateOrConnectWithoutSubjectsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutSubjectsInput,
+    Prisma.UserUncheckedCreateWithoutSubjectsInput
+  >;
+};
+
+export type UserUpsertWithoutSubjectsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutSubjectsInput,
+    Prisma.UserUncheckedUpdateWithoutSubjectsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutSubjectsInput,
+    Prisma.UserUncheckedCreateWithoutSubjectsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutSubjectsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutSubjectsInput,
+    Prisma.UserUncheckedUpdateWithoutSubjectsInput
+  >;
+};
+
+export type UserUpdateWithoutSubjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutSubjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
+};
+
+export type UserCreateWithoutEnrollmentsInput = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified?: boolean;
+  image?: string | null;
+  role?: $Enums.Role;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
+};
+
+export type UserUncheckedCreateWithoutEnrollmentsInput = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified?: boolean;
+  image?: string | null;
+  role?: $Enums.Role;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
+};
+
+export type UserCreateOrConnectWithoutEnrollmentsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutEnrollmentsInput,
+    Prisma.UserUncheckedCreateWithoutEnrollmentsInput
+  >;
+};
+
+export type UserUpsertWithoutEnrollmentsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutEnrollmentsInput,
+    Prisma.UserUncheckedUpdateWithoutEnrollmentsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutEnrollmentsInput,
+    Prisma.UserUncheckedCreateWithoutEnrollmentsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutEnrollmentsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutEnrollmentsInput,
+    Prisma.UserUncheckedUpdateWithoutEnrollmentsInput
+  >;
+};
+
+export type UserUpdateWithoutEnrollmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutEnrollmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
 };
 
 /**
@@ -621,6 +871,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
 export type UserCountOutputType = {
   sessions: number;
   accounts: number;
+  subjects: number;
+  enrollments: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -628,6 +880,8 @@ export type UserCountOutputTypeSelect<
 > = {
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs;
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs;
+  subjects?: boolean | UserCountOutputTypeCountSubjectsArgs;
+  enrollments?: boolean | UserCountOutputTypeCountEnrollmentsArgs;
 };
 
 /**
@@ -660,6 +914,24 @@ export type UserCountOutputTypeCountAccountsArgs<
   where?: Prisma.AccountWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSubjectsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.SubjectWhereInput;
+};
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountEnrollmentsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.EnrollmentWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
@@ -674,6 +946,8 @@ export type UserSelect<
     updatedAt?: boolean;
     sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>;
     accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>;
+    subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>;
+    enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -733,6 +1007,8 @@ export type UserInclude<
 > = {
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>;
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>;
+  subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>;
+  enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -749,6 +1025,8 @@ export type $UserPayload<
   objects: {
     sessions: Prisma.$SessionPayload<ExtArgs>[];
     accounts: Prisma.$AccountPayload<ExtArgs>[];
+    subjects: Prisma.$SubjectPayload<ExtArgs>[];
+    enrollments: Prisma.$EnrollmentPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1292,6 +1570,28 @@ export interface Prisma__UserClient<
       >
     | Null
   >;
+  subjects<T extends Prisma.User$subjectsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$subjectsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$SubjectPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  enrollments<T extends Prisma.User$enrollmentsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$enrollmentsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$EnrollmentPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1800,6 +2100,58 @@ export type User$accountsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.AccountScalarFieldEnum | Prisma.AccountScalarFieldEnum[];
+};
+
+/**
+ * User.subjects
+ */
+export type User$subjectsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Subject
+   */
+  select?: Prisma.SubjectSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Subject
+   */
+  omit?: Prisma.SubjectOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SubjectInclude<ExtArgs> | null;
+  where?: Prisma.SubjectWhereInput;
+  orderBy?: Prisma.SubjectOrderByWithRelationInput | Prisma.SubjectOrderByWithRelationInput[];
+  cursor?: Prisma.SubjectWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.SubjectScalarFieldEnum | Prisma.SubjectScalarFieldEnum[];
+};
+
+/**
+ * User.enrollments
+ */
+export type User$enrollmentsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Enrollment
+   */
+  select?: Prisma.EnrollmentSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Enrollment
+   */
+  omit?: Prisma.EnrollmentOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EnrollmentInclude<ExtArgs> | null;
+  where?: Prisma.EnrollmentWhereInput;
+  orderBy?: Prisma.EnrollmentOrderByWithRelationInput | Prisma.EnrollmentOrderByWithRelationInput[];
+  cursor?: Prisma.EnrollmentWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.EnrollmentScalarFieldEnum | Prisma.EnrollmentScalarFieldEnum[];
 };
 
 /**

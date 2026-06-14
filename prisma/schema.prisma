@@ -13,17 +13,24 @@ enum Role {
   student
 }
 
+enum ExamStatus {
+  draft
+  published
+}
+
 model User {
-  id            String    @id
+  id            String       @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean      @default(false)
   image         String?
-  role          Role      @default(student)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  role          Role         @default(student)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   sessions      Session[]
   accounts      Account[]
+  subjects      Subject[]    @relation("TeacherSubjects")
+  enrollments   Enrollment[]
 
   @@unique([email])
   @@map("user")
@@ -75,4 +82,50 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Subject {
+  id          Int          @id @default(autoincrement())
+  name        String
+  inviteCode  String       @unique
+  teacherId   String
+  teacher     User         @relation("TeacherSubjects", fields: [teacherId], references: [id], onDelete: Cascade)
+  enrollments Enrollment[]
+  exams       Exam[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([teacherId])
+  @@map("subject")
+}
+
+// Junction Table
+// 1 Student : n Subject
+// 1 Subject : n Student
+model Enrollment {
+  id        Int      @id @default(autoincrement())
+  studentId String
+  subjectId Int
+  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  joinedAt  DateTime @default(now())
+
+  @@unique([studentId, subjectId])
+  @@index([studentId])
+  @@index([subjectId])
+  @@map("enrollment")
+}
+
+model Exam {
+  id        Int        @id @default(autoincrement())
+  title     String
+  subjectId Int
+  subject   Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  status    ExamStatus @default(draft)
+  timeLimit Int?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([subjectId])
+  @@map("exam")
 }

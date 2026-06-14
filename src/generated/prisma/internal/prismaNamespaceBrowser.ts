@@ -52,6 +52,9 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
+  Subject: 'Subject',
+  Enrollment: 'Enrollment',
+  Exam: 'Exam',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -127,6 +130,40 @@ export const VerificationScalarFieldEnum = {
 
 export type VerificationScalarFieldEnum =
   (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum];
+
+export const SubjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  inviteCode: 'inviteCode',
+  teacherId: 'teacherId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type SubjectScalarFieldEnum =
+  (typeof SubjectScalarFieldEnum)[keyof typeof SubjectScalarFieldEnum];
+
+export const EnrollmentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  subjectId: 'subjectId',
+  joinedAt: 'joinedAt',
+} as const;
+
+export type EnrollmentScalarFieldEnum =
+  (typeof EnrollmentScalarFieldEnum)[keyof typeof EnrollmentScalarFieldEnum];
+
+export const ExamScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subjectId: 'subjectId',
+  status: 'status',
+  timeLimit: 'timeLimit',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

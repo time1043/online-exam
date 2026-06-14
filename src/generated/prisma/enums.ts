@@ -15,3 +15,10 @@ export const Role = {
 } as const;
 
 export type Role = (typeof Role)[keyof typeof Role];
+
+export const ExamStatus = {
+  draft: 'draft',
+  published: 'published',
+} as const;
+
+export type ExamStatus = (typeof ExamStatus)[keyof typeof ExamStatus];
