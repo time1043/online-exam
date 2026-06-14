@@ -1,13 +1,12 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { BookOpen, Copy, Plus, Users } from 'lucide-react';
-import { toast } from 'sonner';
+import { createFileRoute } from '@tanstack/react-router';
+import { Plus } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+import { SubjectCard } from './-components/subject-card';
 
 export const Route = createFileRoute('/teacher/subjects/')({
-  component: SubjectListPage,
+  component: RouteComponent,
 });
 
 // TODO: 替换为真实数据
@@ -32,15 +31,7 @@ const mockSubjects = [
   },
 ];
 
-function SubjectListPage() {
-  function handleCopyCode(e: React.MouseEvent, code: string) {
-    e.preventDefault();
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    navigator.clipboard.writeText(code);
-    toast.success(`邀请码已复制 ${code}`);
-  }
-
+function RouteComponent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -56,40 +47,14 @@ function SubjectListPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {mockSubjects.map((subject) => (
-          <Link
+          <SubjectCard
             key={subject.id}
-            to="/teacher/subjects/$subjectId"
-            params={{ subjectId: String(subject.id) }}
-          >
-            <Card className="transition-colors hover:bg-muted/50">
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center gap-2">
-                  <BookOpen className="size-5 text-primary" />
-                  {subject.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-muted-foreground">邀请码</span>
-                  <Badge
-                    variant="secondary"
-                    className="cursor-pointer font-mono"
-                    onClick={(e) => handleCopyCode(e, subject.inviteCode)}
-                  >
-                    {subject.inviteCode}
-                    <Copy className="ml-1 size-3" />
-                  </Badge>
-                </div>
-                <div className="flex gap-4 text-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
-                    <Users className="size-3" />
-                    {subject._count.enrollments} 名学生
-                  </span>
-                  <span>{subject._count.exams} 场考试</span>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+            id={subject.id}
+            name={subject.name}
+            inviteCode={subject.inviteCode}
+            enrollmentCount={subject._count.enrollments}
+            examCount={subject._count.exams}
+          />
         ))}
       </div>
     </div>

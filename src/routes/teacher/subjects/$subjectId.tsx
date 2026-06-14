@@ -1,13 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowLeft, Copy, Users } from 'lucide-react';
-import { toast } from 'sonner';
+import { ArrowLeft } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { EnrollmentList } from './-components/enrollment-list';
+import { InviteCodeCard } from './-components/invite-code-card';
 
 export const Route = createFileRoute('/teacher/subjects/$subjectId')({
-  component: SubjectDetailPage,
+  component: RouteComponent,
 });
 
 // TODO: 替换为真实数据
@@ -34,14 +32,7 @@ const mockSubject = {
   ],
 };
 
-function SubjectDetailPage() {
-  const { subjectId } = Route.useParams();
-
-  function handleCopyCode() {
-    navigator.clipboard.writeText(mockSubject.inviteCode);
-    toast.success(`邀请码已复制`);
-  }
-
+function RouteComponent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
@@ -53,53 +44,8 @@ function SubjectDetailPage() {
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">邀请码</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-3">
-            <Badge
-              variant="secondary"
-              className="cursor-pointer font-mono text-lg"
-              onClick={handleCopyCode}
-            >
-              {mockSubject.inviteCode}
-              <Copy className="ml-2 size-4" />
-            </Badge>
-          </div>
-          <p className="mt-2 text-sm text-muted-foreground">
-            将此邀请码分享给学生，学生可通过邀请码加入该科目
-          </p>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">
-            <Users className="mr-2 inline size-5" />
-            已选学生 ({mockSubject.enrollments.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {mockSubject.enrollments.map((enrollment) => (
-              <div key={enrollment.id}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-medium">{enrollment.student.name}</p>
-                    <p className="text-sm text-muted-foreground">{enrollment.student.email}</p>
-                  </div>
-                  <span className="text-xs text-muted-foreground">
-                    {enrollment.joinedAt.toLocaleDateString('zh-CN')}
-                  </span>
-                </div>
-                <Separator className="mt-3" />
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <InviteCodeCard inviteCode={mockSubject.inviteCode} />
+      <EnrollmentList enrollments={mockSubject.enrollments} />
     </div>
   );
 }
