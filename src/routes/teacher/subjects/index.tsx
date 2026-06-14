@@ -1,8 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { Plus } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-
+import { CreateSubjectDialog } from './-components/create-subject-dialog';
 import { SubjectCard } from './-components/subject-card';
 
 export const Route = createFileRoute('/teacher/subjects/')({
@@ -39,10 +37,7 @@ function RouteComponent() {
           <h1 className="text-2xl font-bold">科目管理</h1>
           <p className="text-muted-foreground">管理你创建的科目和邀请码</p>
         </div>
-        <Button>
-          <Plus className="mr-2 size-4" />
-          创建科目
-        </Button>
+        <CreateSubjectDialog onSubmit={(name) => console.log('创建科目:', name)} />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
