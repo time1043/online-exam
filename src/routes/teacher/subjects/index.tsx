@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { BookOpen, Copy, Plus, Users } from 'lucide-react';
+import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,14 @@ const mockSubjects = [
 ];
 
 function SubjectListPage() {
+  function handleCopyCode(e: React.MouseEvent, code: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    navigator.clipboard.writeText(code);
+    toast.success(`邀请码已复制 ${code}`);
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -62,9 +71,13 @@ function SubjectListPage() {
               <CardContent className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-muted-foreground">邀请码</span>
-                  <Badge variant="secondary" className="font-mono">
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer font-mono"
+                    onClick={(e) => handleCopyCode(e, subject.inviteCode)}
+                  >
                     {subject.inviteCode}
-                    <Copy className="ml-1 size-3 cursor-pointer hover:text-foreground" />
+                    <Copy className="ml-1 size-3" />
                   </Badge>
                 </div>
                 <div className="flex gap-4 text-xs text-muted-foreground">
