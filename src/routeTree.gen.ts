@@ -20,6 +20,7 @@ import { Route as MainIndexRouteImport } from './routes/_main/index'
 import { Route as SettingsPathRouteImport } from './routes/settings/$path'
 import { Route as AuthPathRouteImport } from './routes/auth/$path'
 import { Route as TeacherSubjectsIndexRouteImport } from './routes/teacher/subjects/index'
+import { Route as TeacherQuestionsIndexRouteImport } from './routes/teacher/questions/index'
 import { Route as StudentSubjectsIndexRouteImport } from './routes/student/subjects/index'
 import { Route as TeacherSubjectsSubjectIdRouteImport } from './routes/teacher/subjects/$subjectId'
 import { Route as StudentSubjectsSubjectIdRouteImport } from './routes/student/subjects/$subjectId'
@@ -79,6 +80,11 @@ const TeacherSubjectsIndexRoute = TeacherSubjectsIndexRouteImport.update({
   path: '/subjects/',
   getParentRoute: () => TeacherRouteRoute,
 } as any)
+const TeacherQuestionsIndexRoute = TeacherQuestionsIndexRouteImport.update({
+  id: '/questions/',
+  path: '/questions/',
+  getParentRoute: () => TeacherRouteRoute,
+} as any)
 const StudentSubjectsIndexRoute = StudentSubjectsIndexRouteImport.update({
   id: '/subjects/',
   path: '/subjects/',
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRoute
   '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRoute
   '/student/subjects/': typeof StudentSubjectsIndexRoute
+  '/teacher/questions/': typeof TeacherQuestionsIndexRoute
   '/teacher/subjects/': typeof TeacherSubjectsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRoute
   '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRoute
   '/student/subjects': typeof StudentSubjectsIndexRoute
+  '/teacher/questions': typeof TeacherQuestionsIndexRoute
   '/teacher/subjects': typeof TeacherSubjectsIndexRoute
 }
 export interface FileRoutesById {
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRoute
   '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRoute
   '/student/subjects/': typeof StudentSubjectsIndexRoute
+  '/teacher/questions/': typeof TeacherQuestionsIndexRoute
   '/teacher/subjects/': typeof TeacherSubjectsIndexRoute
 }
 export interface FileRouteTypes {
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/student/subjects/$subjectId'
     | '/teacher/subjects/$subjectId'
     | '/student/subjects/'
+    | '/teacher/questions/'
     | '/teacher/subjects/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/student/subjects/$subjectId'
     | '/teacher/subjects/$subjectId'
     | '/student/subjects'
+    | '/teacher/questions'
     | '/teacher/subjects'
   id:
     | '__root__'
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '/student/subjects/$subjectId'
     | '/teacher/subjects/$subjectId'
     | '/student/subjects/'
+    | '/teacher/questions/'
     | '/teacher/subjects/'
   fileRoutesById: FileRoutesById
 }
@@ -287,6 +299,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherSubjectsIndexRouteImport
       parentRoute: typeof TeacherRouteRoute
     }
+    '/teacher/questions/': {
+      id: '/teacher/questions/'
+      path: '/questions'
+      fullPath: '/teacher/questions/'
+      preLoaderRoute: typeof TeacherQuestionsIndexRouteImport
+      parentRoute: typeof TeacherRouteRoute
+    }
     '/student/subjects/': {
       id: '/student/subjects/'
       path: '/subjects'
@@ -361,12 +380,14 @@ const StudentRouteRouteWithChildren = StudentRouteRoute._addFileChildren(
 interface TeacherRouteRouteChildren {
   TeacherIndexRoute: typeof TeacherIndexRoute
   TeacherSubjectsSubjectIdRoute: typeof TeacherSubjectsSubjectIdRoute
+  TeacherQuestionsIndexRoute: typeof TeacherQuestionsIndexRoute
   TeacherSubjectsIndexRoute: typeof TeacherSubjectsIndexRoute
 }
 
 const TeacherRouteRouteChildren: TeacherRouteRouteChildren = {
   TeacherIndexRoute: TeacherIndexRoute,
   TeacherSubjectsSubjectIdRoute: TeacherSubjectsSubjectIdRoute,
+  TeacherQuestionsIndexRoute: TeacherQuestionsIndexRoute,
   TeacherSubjectsIndexRoute: TeacherSubjectsIndexRoute,
 }
 
