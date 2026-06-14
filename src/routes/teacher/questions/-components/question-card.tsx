@@ -6,6 +6,7 @@ interface QuestionCardProps {
   content: string;
   type: string;
   tags: string[];
+  status: string;
 }
 
 const questionTypeMap: Record<string, string> = {
@@ -16,15 +17,27 @@ const questionTypeMap: Record<string, string> = {
   essay: '论述题',
 };
 
-export function QuestionCard({ content, type, tags }: QuestionCardProps) {
+const statusMap: Record<
+  string,
+  { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }
+> = {
+  pending: { label: '待审核', variant: 'secondary' },
+  active: { label: '已通过', variant: 'default' },
+  rejected: { label: '已拒绝', variant: 'destructive' },
+};
+
+export function QuestionCard({ content, type, tags, status }: QuestionCardProps) {
+  const statusInfo = statusMap[status] || statusMap.pending;
+
   return (
     <Card className="transition-colors hover:bg-muted/50">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between">
           <span className="line-clamp-1 text-sm font-medium">{content}</span>
-          <Badge variant="secondary" className="ml-2 shrink-0">
-            {questionTypeMap[type] || type}
-          </Badge>
+          <div className="flex shrink-0 items-center gap-2">
+            <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+            <Badge variant="secondary">{questionTypeMap[type] || type}</Badge>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>

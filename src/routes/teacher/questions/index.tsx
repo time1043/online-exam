@@ -14,30 +14,35 @@ const mockQuestions = [
     content: 'HTTP 状态码 404 表示什么？',
     type: 'single_choice',
     tags: ['HTTP', '网络'],
+    status: 'active',
   },
   {
     id: '2',
     content: '以下哪些是 JavaScript 的原始类型？',
     type: 'multiple_choice',
     tags: ['JavaScript', '基础'],
+    status: 'pending',
   },
   {
     id: '3',
     content: 'TypeScript 是 JavaScript 的超集。',
     type: 'true_false',
     tags: ['TypeScript'],
+    status: 'active',
   },
   {
     id: '4',
     content: 'HTML 中，____ 标签用于创建超链接。',
     type: 'fill_blank',
     tags: ['HTML', '前端'],
+    status: 'rejected',
   },
   {
     id: '5',
     content: '解释 RESTful API 的设计原则，并举例说明。',
     type: 'essay',
     tags: ['API', '架构'],
+    status: 'pending',
   },
 ];
 
@@ -63,6 +68,7 @@ function RouteComponent() {
               content={question.content}
               type={question.type}
               tags={question.tags}
+              status={question.status}
             />
           ))}
         </div>
