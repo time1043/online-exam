@@ -174,7 +174,7 @@ export const QuestionScalarFieldEnum = {
   answer: 'answer',
   referenceAnswer: 'referenceAnswer',
   tags: 'tags',
-  subjectId: 'subjectId',
+  createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;

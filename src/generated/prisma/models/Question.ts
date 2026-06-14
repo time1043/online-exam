@@ -20,18 +20,8 @@ export type QuestionModel = runtime.Types.Result.DefaultSelection<Prisma.$Questi
 
 export type AggregateQuestion = {
   _count: QuestionCountAggregateOutputType | null;
-  _avg: QuestionAvgAggregateOutputType | null;
-  _sum: QuestionSumAggregateOutputType | null;
   _min: QuestionMinAggregateOutputType | null;
   _max: QuestionMaxAggregateOutputType | null;
-};
-
-export type QuestionAvgAggregateOutputType = {
-  subjectId: number | null;
-};
-
-export type QuestionSumAggregateOutputType = {
-  subjectId: number | null;
 };
 
 export type QuestionMinAggregateOutputType = {
@@ -39,7 +29,7 @@ export type QuestionMinAggregateOutputType = {
   content: string | null;
   type: $Enums.QuestionType | null;
   referenceAnswer: string | null;
-  subjectId: number | null;
+  createdBy: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -49,7 +39,7 @@ export type QuestionMaxAggregateOutputType = {
   content: string | null;
   type: $Enums.QuestionType | null;
   referenceAnswer: string | null;
-  subjectId: number | null;
+  createdBy: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -62,18 +52,10 @@ export type QuestionCountAggregateOutputType = {
   answer: number;
   referenceAnswer: number;
   tags: number;
-  subjectId: number;
+  createdBy: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
-};
-
-export type QuestionAvgAggregateInputType = {
-  subjectId?: true;
-};
-
-export type QuestionSumAggregateInputType = {
-  subjectId?: true;
 };
 
 export type QuestionMinAggregateInputType = {
@@ -81,7 +63,7 @@ export type QuestionMinAggregateInputType = {
   content?: true;
   type?: true;
   referenceAnswer?: true;
-  subjectId?: true;
+  createdBy?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -91,7 +73,7 @@ export type QuestionMaxAggregateInputType = {
   content?: true;
   type?: true;
   referenceAnswer?: true;
-  subjectId?: true;
+  createdBy?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -104,7 +86,7 @@ export type QuestionCountAggregateInputType = {
   answer?: true;
   referenceAnswer?: true;
   tags?: true;
-  subjectId?: true;
+  createdBy?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -150,18 +132,6 @@ export type QuestionAggregateArgs<
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    *
-   * Select which fields to average
-   **/
-  _avg?: QuestionAvgAggregateInputType;
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   *
-   * Select which fields to sum
-   **/
-  _sum?: QuestionSumAggregateInputType;
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   *
    * Select which fields to find the minimum value
    **/
   _min?: QuestionMinAggregateInputType;
@@ -193,8 +163,6 @@ export type QuestionGroupByArgs<
   take?: number;
   skip?: number;
   _count?: QuestionCountAggregateInputType | true;
-  _avg?: QuestionAvgAggregateInputType;
-  _sum?: QuestionSumAggregateInputType;
   _min?: QuestionMinAggregateInputType;
   _max?: QuestionMaxAggregateInputType;
 };
@@ -207,12 +175,10 @@ export type QuestionGroupByOutputType = {
   answer: runtime.JsonValue;
   referenceAnswer: string | null;
   tags: string[];
-  subjectId: number;
+  createdBy: string;
   createdAt: Date;
   updatedAt: Date;
   _count: QuestionCountAggregateOutputType | null;
-  _avg: QuestionAvgAggregateOutputType | null;
-  _sum: QuestionSumAggregateOutputType | null;
   _min: QuestionMinAggregateOutputType | null;
   _max: QuestionMaxAggregateOutputType | null;
 };
@@ -240,10 +206,10 @@ export type QuestionWhereInput = {
   answer?: Prisma.JsonFilter<'Question'>;
   referenceAnswer?: Prisma.StringNullableFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
-  subjectId?: Prisma.IntFilter<'Question'> | number;
+  createdBy?: Prisma.StringFilter<'Question'> | string;
   createdAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
-  subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>;
+  creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
 };
 
 export type QuestionOrderByWithRelationInput = {
@@ -254,10 +220,10 @@ export type QuestionOrderByWithRelationInput = {
   answer?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrderInput | Prisma.SortOrder;
   tags?: Prisma.SortOrder;
-  subjectId?: Prisma.SortOrder;
+  createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  subject?: Prisma.SubjectOrderByWithRelationInput;
+  creator?: Prisma.UserOrderByWithRelationInput;
 };
 
 export type QuestionWhereUniqueInput = Prisma.AtLeast<
@@ -272,10 +238,10 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<
     answer?: Prisma.JsonFilter<'Question'>;
     referenceAnswer?: Prisma.StringNullableFilter<'Question'> | string | null;
     tags?: Prisma.StringNullableListFilter<'Question'>;
-    subjectId?: Prisma.IntFilter<'Question'> | number;
+    createdBy?: Prisma.StringFilter<'Question'> | string;
     createdAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
-    subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>;
+    creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   },
   'id'
 >;
@@ -288,14 +254,12 @@ export type QuestionOrderByWithAggregationInput = {
   answer?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrderInput | Prisma.SortOrder;
   tags?: Prisma.SortOrder;
-  subjectId?: Prisma.SortOrder;
+  createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.QuestionCountOrderByAggregateInput;
-  _avg?: Prisma.QuestionAvgOrderByAggregateInput;
   _max?: Prisma.QuestionMaxOrderByAggregateInput;
   _min?: Prisma.QuestionMinOrderByAggregateInput;
-  _sum?: Prisma.QuestionSumOrderByAggregateInput;
 };
 
 export type QuestionScalarWhereWithAggregatesInput = {
@@ -313,7 +277,7 @@ export type QuestionScalarWhereWithAggregatesInput = {
   answer?: Prisma.JsonWithAggregatesFilter<'Question'>;
   referenceAnswer?: Prisma.StringNullableWithAggregatesFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
-  subjectId?: Prisma.IntWithAggregatesFilter<'Question'> | number;
+  createdBy?: Prisma.StringWithAggregatesFilter<'Question'> | string;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'Question'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'Question'> | Date | string;
 };
@@ -328,7 +292,7 @@ export type QuestionCreateInput = {
   tags?: Prisma.QuestionCreatetagsInput | string[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  subject: Prisma.SubjectCreateNestedOneWithoutQuestionsInput;
+  creator: Prisma.UserCreateNestedOneWithoutQuestionsInput;
 };
 
 export type QuestionUncheckedCreateInput = {
@@ -339,7 +303,7 @@ export type QuestionUncheckedCreateInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
-  subjectId: number;
+  createdBy: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -354,7 +318,7 @@ export type QuestionUpdateInput = {
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  subject?: Prisma.SubjectUpdateOneRequiredWithoutQuestionsNestedInput;
+  creator?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput;
 };
 
 export type QuestionUncheckedUpdateInput = {
@@ -365,7 +329,7 @@ export type QuestionUncheckedUpdateInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
-  subjectId?: Prisma.IntFieldUpdateOperationsInput | number;
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -378,7 +342,7 @@ export type QuestionCreateManyInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
-  subjectId: number;
+  createdBy: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -403,7 +367,7 @@ export type QuestionUncheckedUpdateManyInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
-  subjectId?: Prisma.IntFieldUpdateOperationsInput | number;
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -434,13 +398,9 @@ export type QuestionCountOrderByAggregateInput = {
   answer?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrder;
   tags?: Prisma.SortOrder;
-  subjectId?: Prisma.SortOrder;
+  createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-};
-
-export type QuestionAvgOrderByAggregateInput = {
-  subjectId?: Prisma.SortOrder;
 };
 
 export type QuestionMaxOrderByAggregateInput = {
@@ -448,7 +408,7 @@ export type QuestionMaxOrderByAggregateInput = {
   content?: Prisma.SortOrder;
   type?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrder;
-  subjectId?: Prisma.SortOrder;
+  createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -458,98 +418,94 @@ export type QuestionMinOrderByAggregateInput = {
   content?: Prisma.SortOrder;
   type?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrder;
-  subjectId?: Prisma.SortOrder;
+  createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
 
-export type QuestionSumOrderByAggregateInput = {
-  subjectId?: Prisma.SortOrder;
-};
-
-export type QuestionCreateNestedManyWithoutSubjectInput = {
+export type QuestionCreateNestedManyWithoutCreatorInput = {
   create?:
     | Prisma.XOR<
-        Prisma.QuestionCreateWithoutSubjectInput,
-        Prisma.QuestionUncheckedCreateWithoutSubjectInput
+        Prisma.QuestionCreateWithoutCreatorInput,
+        Prisma.QuestionUncheckedCreateWithoutCreatorInput
       >
-    | Prisma.QuestionCreateWithoutSubjectInput[]
-    | Prisma.QuestionUncheckedCreateWithoutSubjectInput[];
+    | Prisma.QuestionCreateWithoutCreatorInput[]
+    | Prisma.QuestionUncheckedCreateWithoutCreatorInput[];
   connectOrCreate?:
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput[];
-  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope;
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput[];
+  createMany?: Prisma.QuestionCreateManyCreatorInputEnvelope;
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
 };
 
-export type QuestionUncheckedCreateNestedManyWithoutSubjectInput = {
+export type QuestionUncheckedCreateNestedManyWithoutCreatorInput = {
   create?:
     | Prisma.XOR<
-        Prisma.QuestionCreateWithoutSubjectInput,
-        Prisma.QuestionUncheckedCreateWithoutSubjectInput
+        Prisma.QuestionCreateWithoutCreatorInput,
+        Prisma.QuestionUncheckedCreateWithoutCreatorInput
       >
-    | Prisma.QuestionCreateWithoutSubjectInput[]
-    | Prisma.QuestionUncheckedCreateWithoutSubjectInput[];
+    | Prisma.QuestionCreateWithoutCreatorInput[]
+    | Prisma.QuestionUncheckedCreateWithoutCreatorInput[];
   connectOrCreate?:
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput[];
-  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope;
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput[];
+  createMany?: Prisma.QuestionCreateManyCreatorInputEnvelope;
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
 };
 
-export type QuestionUpdateManyWithoutSubjectNestedInput = {
+export type QuestionUpdateManyWithoutCreatorNestedInput = {
   create?:
     | Prisma.XOR<
-        Prisma.QuestionCreateWithoutSubjectInput,
-        Prisma.QuestionUncheckedCreateWithoutSubjectInput
+        Prisma.QuestionCreateWithoutCreatorInput,
+        Prisma.QuestionUncheckedCreateWithoutCreatorInput
       >
-    | Prisma.QuestionCreateWithoutSubjectInput[]
-    | Prisma.QuestionUncheckedCreateWithoutSubjectInput[];
+    | Prisma.QuestionCreateWithoutCreatorInput[]
+    | Prisma.QuestionUncheckedCreateWithoutCreatorInput[];
   connectOrCreate?:
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput[];
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput[];
   upsert?:
-    | Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput
-    | Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput[];
-  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope;
+    | Prisma.QuestionUpsertWithWhereUniqueWithoutCreatorInput
+    | Prisma.QuestionUpsertWithWhereUniqueWithoutCreatorInput[];
+  createMany?: Prisma.QuestionCreateManyCreatorInputEnvelope;
   set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   update?:
-    | Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput
-    | Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput[];
+    | Prisma.QuestionUpdateWithWhereUniqueWithoutCreatorInput
+    | Prisma.QuestionUpdateWithWhereUniqueWithoutCreatorInput[];
   updateMany?:
-    | Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput
-    | Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput[];
+    | Prisma.QuestionUpdateManyWithWhereWithoutCreatorInput
+    | Prisma.QuestionUpdateManyWithWhereWithoutCreatorInput[];
   deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[];
 };
 
-export type QuestionUncheckedUpdateManyWithoutSubjectNestedInput = {
+export type QuestionUncheckedUpdateManyWithoutCreatorNestedInput = {
   create?:
     | Prisma.XOR<
-        Prisma.QuestionCreateWithoutSubjectInput,
-        Prisma.QuestionUncheckedCreateWithoutSubjectInput
+        Prisma.QuestionCreateWithoutCreatorInput,
+        Prisma.QuestionUncheckedCreateWithoutCreatorInput
       >
-    | Prisma.QuestionCreateWithoutSubjectInput[]
-    | Prisma.QuestionUncheckedCreateWithoutSubjectInput[];
+    | Prisma.QuestionCreateWithoutCreatorInput[]
+    | Prisma.QuestionUncheckedCreateWithoutCreatorInput[];
   connectOrCreate?:
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput
-    | Prisma.QuestionCreateOrConnectWithoutSubjectInput[];
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput
+    | Prisma.QuestionCreateOrConnectWithoutCreatorInput[];
   upsert?:
-    | Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput
-    | Prisma.QuestionUpsertWithWhereUniqueWithoutSubjectInput[];
-  createMany?: Prisma.QuestionCreateManySubjectInputEnvelope;
+    | Prisma.QuestionUpsertWithWhereUniqueWithoutCreatorInput
+    | Prisma.QuestionUpsertWithWhereUniqueWithoutCreatorInput[];
+  createMany?: Prisma.QuestionCreateManyCreatorInputEnvelope;
   set?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   disconnect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   delete?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   connect?: Prisma.QuestionWhereUniqueInput | Prisma.QuestionWhereUniqueInput[];
   update?:
-    | Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput
-    | Prisma.QuestionUpdateWithWhereUniqueWithoutSubjectInput[];
+    | Prisma.QuestionUpdateWithWhereUniqueWithoutCreatorInput
+    | Prisma.QuestionUpdateWithWhereUniqueWithoutCreatorInput[];
   updateMany?:
-    | Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput
-    | Prisma.QuestionUpdateManyWithWhereWithoutSubjectInput[];
+    | Prisma.QuestionUpdateManyWithWhereWithoutCreatorInput
+    | Prisma.QuestionUpdateManyWithWhereWithoutCreatorInput[];
   deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[];
 };
 
@@ -566,7 +522,7 @@ export type QuestionUpdatetagsInput = {
   push?: string | string[];
 };
 
-export type QuestionCreateWithoutSubjectInput = {
+export type QuestionCreateWithoutCreatorInput = {
   id?: string;
   content: string;
   type: $Enums.QuestionType;
@@ -578,7 +534,7 @@ export type QuestionCreateWithoutSubjectInput = {
   updatedAt?: Date | string;
 };
 
-export type QuestionUncheckedCreateWithoutSubjectInput = {
+export type QuestionUncheckedCreateWithoutCreatorInput = {
   id?: string;
   content: string;
   type: $Enums.QuestionType;
@@ -590,44 +546,44 @@ export type QuestionUncheckedCreateWithoutSubjectInput = {
   updatedAt?: Date | string;
 };
 
-export type QuestionCreateOrConnectWithoutSubjectInput = {
+export type QuestionCreateOrConnectWithoutCreatorInput = {
   where: Prisma.QuestionWhereUniqueInput;
   create: Prisma.XOR<
-    Prisma.QuestionCreateWithoutSubjectInput,
-    Prisma.QuestionUncheckedCreateWithoutSubjectInput
+    Prisma.QuestionCreateWithoutCreatorInput,
+    Prisma.QuestionUncheckedCreateWithoutCreatorInput
   >;
 };
 
-export type QuestionCreateManySubjectInputEnvelope = {
-  data: Prisma.QuestionCreateManySubjectInput | Prisma.QuestionCreateManySubjectInput[];
+export type QuestionCreateManyCreatorInputEnvelope = {
+  data: Prisma.QuestionCreateManyCreatorInput | Prisma.QuestionCreateManyCreatorInput[];
   skipDuplicates?: boolean;
 };
 
-export type QuestionUpsertWithWhereUniqueWithoutSubjectInput = {
+export type QuestionUpsertWithWhereUniqueWithoutCreatorInput = {
   where: Prisma.QuestionWhereUniqueInput;
   update: Prisma.XOR<
-    Prisma.QuestionUpdateWithoutSubjectInput,
-    Prisma.QuestionUncheckedUpdateWithoutSubjectInput
+    Prisma.QuestionUpdateWithoutCreatorInput,
+    Prisma.QuestionUncheckedUpdateWithoutCreatorInput
   >;
   create: Prisma.XOR<
-    Prisma.QuestionCreateWithoutSubjectInput,
-    Prisma.QuestionUncheckedCreateWithoutSubjectInput
+    Prisma.QuestionCreateWithoutCreatorInput,
+    Prisma.QuestionUncheckedCreateWithoutCreatorInput
   >;
 };
 
-export type QuestionUpdateWithWhereUniqueWithoutSubjectInput = {
+export type QuestionUpdateWithWhereUniqueWithoutCreatorInput = {
   where: Prisma.QuestionWhereUniqueInput;
   data: Prisma.XOR<
-    Prisma.QuestionUpdateWithoutSubjectInput,
-    Prisma.QuestionUncheckedUpdateWithoutSubjectInput
+    Prisma.QuestionUpdateWithoutCreatorInput,
+    Prisma.QuestionUncheckedUpdateWithoutCreatorInput
   >;
 };
 
-export type QuestionUpdateManyWithWhereWithoutSubjectInput = {
+export type QuestionUpdateManyWithWhereWithoutCreatorInput = {
   where: Prisma.QuestionScalarWhereInput;
   data: Prisma.XOR<
     Prisma.QuestionUpdateManyMutationInput,
-    Prisma.QuestionUncheckedUpdateManyWithoutSubjectInput
+    Prisma.QuestionUncheckedUpdateManyWithoutCreatorInput
   >;
 };
 
@@ -642,12 +598,12 @@ export type QuestionScalarWhereInput = {
   answer?: Prisma.JsonFilter<'Question'>;
   referenceAnswer?: Prisma.StringNullableFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
-  subjectId?: Prisma.IntFilter<'Question'> | number;
+  createdBy?: Prisma.StringFilter<'Question'> | string;
   createdAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
 };
 
-export type QuestionCreateManySubjectInput = {
+export type QuestionCreateManyCreatorInput = {
   id?: string;
   content: string;
   type: $Enums.QuestionType;
@@ -659,7 +615,7 @@ export type QuestionCreateManySubjectInput = {
   updatedAt?: Date | string;
 };
 
-export type QuestionUpdateWithoutSubjectInput = {
+export type QuestionUpdateWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   content?: Prisma.StringFieldUpdateOperationsInput | string;
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
@@ -671,7 +627,7 @@ export type QuestionUpdateWithoutSubjectInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
-export type QuestionUncheckedUpdateWithoutSubjectInput = {
+export type QuestionUncheckedUpdateWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   content?: Prisma.StringFieldUpdateOperationsInput | string;
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
@@ -683,7 +639,7 @@ export type QuestionUncheckedUpdateWithoutSubjectInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 
-export type QuestionUncheckedUpdateManyWithoutSubjectInput = {
+export type QuestionUncheckedUpdateManyWithoutCreatorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string;
   content?: Prisma.StringFieldUpdateOperationsInput | string;
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
@@ -706,10 +662,10 @@ export type QuestionSelect<
     answer?: boolean;
     referenceAnswer?: boolean;
     tags?: boolean;
-    subjectId?: boolean;
+    createdBy?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
+    creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['question']
 >;
@@ -725,10 +681,10 @@ export type QuestionSelectCreateManyAndReturn<
     answer?: boolean;
     referenceAnswer?: boolean;
     tags?: boolean;
-    subjectId?: boolean;
+    createdBy?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
+    creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['question']
 >;
@@ -744,10 +700,10 @@ export type QuestionSelectUpdateManyAndReturn<
     answer?: boolean;
     referenceAnswer?: boolean;
     tags?: boolean;
-    subjectId?: boolean;
+    createdBy?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
+    creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['question']
 >;
@@ -760,7 +716,7 @@ export type QuestionSelectScalar = {
   answer?: boolean;
   referenceAnswer?: boolean;
   tags?: boolean;
-  subjectId?: boolean;
+  createdBy?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -775,7 +731,7 @@ export type QuestionOmit<
   | 'answer'
   | 'referenceAnswer'
   | 'tags'
-  | 'subjectId'
+  | 'createdBy'
   | 'createdAt'
   | 'updatedAt',
   ExtArgs['result']['question']
@@ -783,17 +739,17 @@ export type QuestionOmit<
 export type QuestionInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type QuestionIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type QuestionIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
-  subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
+  creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 
 export type $QuestionPayload<
@@ -801,7 +757,7 @@ export type $QuestionPayload<
 > = {
   name: 'Question';
   objects: {
-    subject: Prisma.$SubjectPayload<ExtArgs>;
+    creator: Prisma.$UserPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -812,7 +768,7 @@ export type $QuestionPayload<
       answer: runtime.JsonValue;
       referenceAnswer: string | null;
       tags: string[];
-      subjectId: number;
+      createdBy: string;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -1350,11 +1306,11 @@ export interface Prisma__QuestionClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: 'PrismaPromise';
-  subject<T extends Prisma.SubjectDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.SubjectDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__SubjectClient<
+  creator<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__UserClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$SubjectPayload<ExtArgs>,
+        Prisma.$UserPayload<ExtArgs>,
         T,
         'findUniqueOrThrow',
         GlobalOmitOptions
@@ -1402,7 +1358,7 @@ export interface QuestionFieldRefs {
   readonly answer: Prisma.FieldRef<'Question', 'Json'>;
   readonly referenceAnswer: Prisma.FieldRef<'Question', 'String'>;
   readonly tags: Prisma.FieldRef<'Question', 'String[]'>;
-  readonly subjectId: Prisma.FieldRef<'Question', 'Int'>;
+  readonly createdBy: Prisma.FieldRef<'Question', 'String'>;
   readonly createdAt: Prisma.FieldRef<'Question', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Question', 'DateTime'>;
 }

@@ -39,6 +39,7 @@ model User {
   accounts      Account[]
   subjects      Subject[]    @relation("TeacherSubjects")
   enrollments   Enrollment[]
+  questions     Question[]   @relation("QuestionCreator")
 
   @@unique([email])
   @@map("user")
@@ -100,7 +101,6 @@ model Subject {
   teacher     User         @relation("TeacherSubjects", fields: [teacherId], references: [id], onDelete: Cascade)
   enrollments Enrollment[]
   exams       Exam[]
-  questions   Question[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
@@ -140,19 +140,19 @@ model Exam {
 }
 
 model Question {
-  id              String       @id @default(cuid())
+  id              String         @id @default(cuid())
   content         String
   type            QuestionType
   options         Json?
   answer          Json
   referenceAnswer String?
   tags            String[]
-  subjectId       Int
-  subject         Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  createdBy       String
+  creator         User           @relation("QuestionCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
-  @@index([subjectId])
+  @@index([createdBy])
   @@index([tags])
   @@map("question")
 }

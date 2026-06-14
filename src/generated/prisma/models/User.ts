@@ -207,6 +207,7 @@ export type UserWhereInput = {
   accounts?: Prisma.AccountListRelationFilter;
   subjects?: Prisma.SubjectListRelationFilter;
   enrollments?: Prisma.EnrollmentListRelationFilter;
+  questions?: Prisma.QuestionListRelationFilter;
 };
 
 export type UserOrderByWithRelationInput = {
@@ -222,6 +223,7 @@ export type UserOrderByWithRelationInput = {
   accounts?: Prisma.AccountOrderByRelationAggregateInput;
   subjects?: Prisma.SubjectOrderByRelationAggregateInput;
   enrollments?: Prisma.EnrollmentOrderByRelationAggregateInput;
+  questions?: Prisma.QuestionOrderByRelationAggregateInput;
 };
 
 export type UserWhereUniqueInput = Prisma.AtLeast<
@@ -241,6 +243,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<
     accounts?: Prisma.AccountListRelationFilter;
     subjects?: Prisma.SubjectListRelationFilter;
     enrollments?: Prisma.EnrollmentListRelationFilter;
+    questions?: Prisma.QuestionListRelationFilter;
   },
   'id' | 'email'
 >;
@@ -286,6 +289,7 @@ export type UserCreateInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserUncheckedCreateInput = {
@@ -301,6 +305,7 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserUpdateInput = {
@@ -316,6 +321,7 @@ export type UserUpdateInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
   enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserUncheckedUpdateInput = {
@@ -331,6 +337,7 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserCreateManyInput = {
@@ -528,6 +535,32 @@ export type UserUpdateOneRequiredWithoutEnrollmentsNestedInput = {
   >;
 };
 
+export type UserCreateNestedOneWithoutQuestionsInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutQuestionsInput,
+    Prisma.UserUncheckedCreateWithoutQuestionsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuestionsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+};
+
+export type UserUpdateOneRequiredWithoutQuestionsNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.UserCreateWithoutQuestionsInput,
+    Prisma.UserUncheckedCreateWithoutQuestionsInput
+  >;
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutQuestionsInput;
+  upsert?: Prisma.UserUpsertWithoutQuestionsInput;
+  connect?: Prisma.UserWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.UserUpdateToOneWithWhereWithoutQuestionsInput,
+      Prisma.UserUpdateWithoutQuestionsInput
+    >,
+    Prisma.UserUncheckedUpdateWithoutQuestionsInput
+  >;
+};
+
 export type UserCreateWithoutSessionsInput = {
   id: string;
   name: string;
@@ -540,6 +573,7 @@ export type UserCreateWithoutSessionsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -554,6 +588,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -596,6 +631,7 @@ export type UserUpdateWithoutSessionsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
   enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -610,6 +646,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserCreateWithoutAccountsInput = {
@@ -624,6 +661,7 @@ export type UserCreateWithoutAccountsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -638,6 +676,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -680,6 +719,7 @@ export type UserUpdateWithoutAccountsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
   enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -694,6 +734,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserCreateWithoutSubjectsInput = {
@@ -708,6 +749,7 @@ export type UserCreateWithoutSubjectsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
   enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserUncheckedCreateWithoutSubjectsInput = {
@@ -722,6 +764,7 @@ export type UserUncheckedCreateWithoutSubjectsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
   enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserCreateOrConnectWithoutSubjectsInput = {
@@ -764,6 +807,7 @@ export type UserUpdateWithoutSubjectsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
   enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutSubjectsInput = {
@@ -778,6 +822,7 @@ export type UserUncheckedUpdateWithoutSubjectsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
   enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserCreateWithoutEnrollmentsInput = {
@@ -792,6 +837,7 @@ export type UserCreateWithoutEnrollmentsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
+  questions?: Prisma.QuestionCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -806,6 +852,7 @@ export type UserUncheckedCreateWithoutEnrollmentsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
   subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
+  questions?: Prisma.QuestionUncheckedCreateNestedManyWithoutCreatorInput;
 };
 
 export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -848,6 +895,7 @@ export type UserUpdateWithoutEnrollmentsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
+  questions?: Prisma.QuestionUpdateManyWithoutCreatorNestedInput;
 };
 
 export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -862,6 +910,95 @@ export type UserUncheckedUpdateWithoutEnrollmentsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
   subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
+  questions?: Prisma.QuestionUncheckedUpdateManyWithoutCreatorNestedInput;
+};
+
+export type UserCreateWithoutQuestionsInput = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified?: boolean;
+  image?: string | null;
+  role?: $Enums.Role;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput;
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentCreateNestedManyWithoutStudentInput;
+};
+
+export type UserUncheckedCreateWithoutQuestionsInput = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified?: boolean;
+  image?: string | null;
+  role?: $Enums.Role;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput;
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput;
+  subjects?: Prisma.SubjectUncheckedCreateNestedManyWithoutTeacherInput;
+  enrollments?: Prisma.EnrollmentUncheckedCreateNestedManyWithoutStudentInput;
+};
+
+export type UserCreateOrConnectWithoutQuestionsInput = {
+  where: Prisma.UserWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutQuestionsInput,
+    Prisma.UserUncheckedCreateWithoutQuestionsInput
+  >;
+};
+
+export type UserUpsertWithoutQuestionsInput = {
+  update: Prisma.XOR<
+    Prisma.UserUpdateWithoutQuestionsInput,
+    Prisma.UserUncheckedUpdateWithoutQuestionsInput
+  >;
+  create: Prisma.XOR<
+    Prisma.UserCreateWithoutQuestionsInput,
+    Prisma.UserUncheckedCreateWithoutQuestionsInput
+  >;
+  where?: Prisma.UserWhereInput;
+};
+
+export type UserUpdateToOneWithWhereWithoutQuestionsInput = {
+  where?: Prisma.UserWhereInput;
+  data: Prisma.XOR<
+    Prisma.UserUpdateWithoutQuestionsInput,
+    Prisma.UserUncheckedUpdateWithoutQuestionsInput
+  >;
+};
+
+export type UserUpdateWithoutQuestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput;
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUpdateManyWithoutStudentNestedInput;
+};
+
+export type UserUncheckedUpdateWithoutQuestionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  name?: Prisma.StringFieldUpdateOperationsInput | string;
+  email?: Prisma.StringFieldUpdateOperationsInput | string;
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput;
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput;
+  subjects?: Prisma.SubjectUncheckedUpdateManyWithoutTeacherNestedInput;
+  enrollments?: Prisma.EnrollmentUncheckedUpdateManyWithoutStudentNestedInput;
 };
 
 /**
@@ -873,6 +1010,7 @@ export type UserCountOutputType = {
   accounts: number;
   subjects: number;
   enrollments: number;
+  questions: number;
 };
 
 export type UserCountOutputTypeSelect<
@@ -882,6 +1020,7 @@ export type UserCountOutputTypeSelect<
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs;
   subjects?: boolean | UserCountOutputTypeCountSubjectsArgs;
   enrollments?: boolean | UserCountOutputTypeCountEnrollmentsArgs;
+  questions?: boolean | UserCountOutputTypeCountQuestionsArgs;
 };
 
 /**
@@ -932,6 +1071,15 @@ export type UserCountOutputTypeCountEnrollmentsArgs<
   where?: Prisma.EnrollmentWhereInput;
 };
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountQuestionsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.QuestionWhereInput;
+};
+
 export type UserSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
@@ -948,6 +1096,7 @@ export type UserSelect<
     accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>;
     subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>;
     enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>;
+    questions?: boolean | Prisma.User$questionsArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['user']
@@ -1009,6 +1158,7 @@ export type UserInclude<
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>;
   subjects?: boolean | Prisma.User$subjectsArgs<ExtArgs>;
   enrollments?: boolean | Prisma.User$enrollmentsArgs<ExtArgs>;
+  questions?: boolean | Prisma.User$questionsArgs<ExtArgs>;
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<
@@ -1027,6 +1177,7 @@ export type $UserPayload<
     accounts: Prisma.$AccountPayload<ExtArgs>[];
     subjects: Prisma.$SubjectPayload<ExtArgs>[];
     enrollments: Prisma.$EnrollmentPayload<ExtArgs>[];
+    questions: Prisma.$QuestionPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1586,6 +1737,17 @@ export interface Prisma__UserClient<
   ): Prisma.PrismaPromise<
     | runtime.Types.Result.GetResult<
         Prisma.$EnrollmentPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
+  questions<T extends Prisma.User$questionsArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.User$questionsArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$QuestionPayload<ExtArgs>,
         T,
         'findMany',
         GlobalOmitOptions
@@ -2152,6 +2314,32 @@ export type User$enrollmentsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.EnrollmentScalarFieldEnum | Prisma.EnrollmentScalarFieldEnum[];
+};
+
+/**
+ * User.questions
+ */
+export type User$questionsArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the Question
+   */
+  select?: Prisma.QuestionSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the Question
+   */
+  omit?: Prisma.QuestionOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuestionInclude<ExtArgs> | null;
+  where?: Prisma.QuestionWhereInput;
+  orderBy?: Prisma.QuestionOrderByWithRelationInput | Prisma.QuestionOrderByWithRelationInput[];
+  cursor?: Prisma.QuestionWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.QuestionScalarFieldEnum | Prisma.QuestionScalarFieldEnum[];
 };
 
 /**
