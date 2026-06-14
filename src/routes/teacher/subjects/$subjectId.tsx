@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft } from 'lucide-react';
 
+import { getSubjectSchema } from '@/schemas/subject';
 import { getSubject } from '@/server/subject';
 
 import { EnrollmentList } from './-components/enrollment-list';
@@ -16,7 +17,7 @@ function RouteComponent() {
 
   const { data: subject, isLoading } = useQuery({
     queryKey: ['subject', subjectId],
-    queryFn: () => getSubject({ data: Number(subjectId) }),
+    queryFn: () => getSubject({ data: getSubjectSchema.parse({ subjectId: Number(subjectId) }) }),
   });
 
   if (isLoading) {

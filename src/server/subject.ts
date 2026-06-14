@@ -2,7 +2,7 @@ import { createServerFn } from '@tanstack/react-start';
 
 import { prisma } from '@/db';
 import { authFnMiddleware } from '@/middlewares/auth';
-import { subjectIdSchema, createSubjectSchema } from '@/schemas/subject';
+import { getSubjectSchema, createSubjectSchema } from '@/schemas/subject';
 
 function generateInviteCode(): string {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -29,12 +29,12 @@ export const getSubjects = createServerFn({ method: 'GET' })
   });
 
 export const getSubject = createServerFn({ method: 'GET' })
-  .validator(subjectIdSchema)
+  .validator(getSubjectSchema)
   .middleware([authFnMiddleware])
-  .handler(async ({ data: subjectId, context }) => {
+  .handler(async ({ data, context }) => {
     const { session } = context;
     return prisma.subject.findFirst({
-      where: { id: subjectId, teacherId: session.user.id },
+      where: { id: data.subjectId, teacherId: session.user.id },
       include: {
         enrollments: {
           include: { student: { select: { id: true, name: true, email: true } } },
