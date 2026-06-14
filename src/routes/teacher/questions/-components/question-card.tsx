@@ -5,6 +5,8 @@ interface QuestionCardProps {
   id: string;
   content: string;
   type: string;
+  options: string[] | null;
+  answer: string | number | number[];
   tags: string[];
   status: string;
 }
@@ -26,7 +28,27 @@ const statusMap: Record<
   rejected: { label: '已拒绝', variant: 'destructive' },
 };
 
-export function QuestionCard({ content, type, tags, status }: QuestionCardProps) {
+function formatAnswer(type: string, answer: string | number | number[]): string {
+  switch (type) {
+    case 'single_choice':
+      return getOptionLabel(Number(answer));
+    case 'multiple_choice':
+      return (answer as number[]).map((i) => getOptionLabel(i)).join('、');
+    case 'true_false':
+      return Number(answer) === 0 ? '正确' : '错误';
+    case 'fill_blank':
+    case 'essay':
+      return String(answer);
+    default:
+      return String(answer);
+  }
+}
+
+function getOptionLabel(index: number): string {
+  return String.fromCharCode(65 + index); // 65 = 'A'
+}
+
+export function QuestionCard({ content, type, options, answer, tags, status }: QuestionCardProps) {
   const statusInfo = statusMap[status] || statusMap.pending;
 
   return (
@@ -40,7 +62,25 @@ export function QuestionCard({ content, type, tags, status }: QuestionCardProps)
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-3">
+        {/* 选项显示 */}
+        {options && options.length > 0 && (
+          <div className="space-y-1">
+            {options.map((option, index) => (
+              <div key={index} className="text-sm text-muted-foreground">
+                {getOptionLabel(index)}. {option}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 答案显示 */}
+        <div className="text-sm">
+          <span className="font-medium">答案：</span>
+          <span className="text-primary">{formatAnswer(type, answer)}</span>
+        </div>
+
+        {/* 标签 */}
         {tags.length > 0 && (
           <div className="flex flex-wrap gap-1">
             {tags.map((tag) => (
