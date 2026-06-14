@@ -29,6 +29,7 @@ export type QuestionMinAggregateOutputType = {
   content: string | null;
   type: $Enums.QuestionType | null;
   referenceAnswer: string | null;
+  status: $Enums.QuestionStatus | null;
   createdBy: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -39,6 +40,7 @@ export type QuestionMaxAggregateOutputType = {
   content: string | null;
   type: $Enums.QuestionType | null;
   referenceAnswer: string | null;
+  status: $Enums.QuestionStatus | null;
   createdBy: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
@@ -52,6 +54,8 @@ export type QuestionCountAggregateOutputType = {
   answer: number;
   referenceAnswer: number;
   tags: number;
+  status: number;
+  reviewHistory: number;
   createdBy: number;
   createdAt: number;
   updatedAt: number;
@@ -63,6 +67,7 @@ export type QuestionMinAggregateInputType = {
   content?: true;
   type?: true;
   referenceAnswer?: true;
+  status?: true;
   createdBy?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -73,6 +78,7 @@ export type QuestionMaxAggregateInputType = {
   content?: true;
   type?: true;
   referenceAnswer?: true;
+  status?: true;
   createdBy?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -86,6 +92,8 @@ export type QuestionCountAggregateInputType = {
   answer?: true;
   referenceAnswer?: true;
   tags?: true;
+  status?: true;
+  reviewHistory?: true;
   createdBy?: true;
   createdAt?: true;
   updatedAt?: true;
@@ -175,6 +183,8 @@ export type QuestionGroupByOutputType = {
   answer: runtime.JsonValue;
   referenceAnswer: string | null;
   tags: string[];
+  status: $Enums.QuestionStatus;
+  reviewHistory: runtime.JsonValue | null;
   createdBy: string;
   createdAt: Date;
   updatedAt: Date;
@@ -206,6 +216,8 @@ export type QuestionWhereInput = {
   answer?: Prisma.JsonFilter<'Question'>;
   referenceAnswer?: Prisma.StringNullableFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
+  status?: Prisma.EnumQuestionStatusFilter<'Question'> | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.JsonNullableFilter<'Question'>;
   createdBy?: Prisma.StringFilter<'Question'> | string;
   createdAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
@@ -220,6 +232,8 @@ export type QuestionOrderByWithRelationInput = {
   answer?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrderInput | Prisma.SortOrder;
   tags?: Prisma.SortOrder;
+  status?: Prisma.SortOrder;
+  reviewHistory?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -238,6 +252,8 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<
     answer?: Prisma.JsonFilter<'Question'>;
     referenceAnswer?: Prisma.StringNullableFilter<'Question'> | string | null;
     tags?: Prisma.StringNullableListFilter<'Question'>;
+    status?: Prisma.EnumQuestionStatusFilter<'Question'> | $Enums.QuestionStatus;
+    reviewHistory?: Prisma.JsonNullableFilter<'Question'>;
     createdBy?: Prisma.StringFilter<'Question'> | string;
     createdAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
@@ -254,6 +270,8 @@ export type QuestionOrderByWithAggregationInput = {
   answer?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrderInput | Prisma.SortOrder;
   tags?: Prisma.SortOrder;
+  status?: Prisma.SortOrder;
+  reviewHistory?: Prisma.SortOrderInput | Prisma.SortOrder;
   createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -277,6 +295,8 @@ export type QuestionScalarWhereWithAggregatesInput = {
   answer?: Prisma.JsonWithAggregatesFilter<'Question'>;
   referenceAnswer?: Prisma.StringNullableWithAggregatesFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
+  status?: Prisma.EnumQuestionStatusWithAggregatesFilter<'Question'> | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.JsonNullableWithAggregatesFilter<'Question'>;
   createdBy?: Prisma.StringWithAggregatesFilter<'Question'> | string;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'Question'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'Question'> | Date | string;
@@ -290,6 +310,8 @@ export type QuestionCreateInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   creator: Prisma.UserCreateNestedOneWithoutQuestionsInput;
@@ -303,6 +325,8 @@ export type QuestionUncheckedCreateInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdBy: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -316,6 +340,8 @@ export type QuestionUpdateInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   creator?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput;
@@ -329,6 +355,8 @@ export type QuestionUncheckedUpdateInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -342,6 +370,8 @@ export type QuestionCreateManyInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdBy: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
@@ -355,6 +385,8 @@ export type QuestionUpdateManyMutationInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -367,6 +399,8 @@ export type QuestionUncheckedUpdateManyInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
@@ -398,6 +432,8 @@ export type QuestionCountOrderByAggregateInput = {
   answer?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrder;
   tags?: Prisma.SortOrder;
+  status?: Prisma.SortOrder;
+  reviewHistory?: Prisma.SortOrder;
   createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -408,6 +444,7 @@ export type QuestionMaxOrderByAggregateInput = {
   content?: Prisma.SortOrder;
   type?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrder;
+  status?: Prisma.SortOrder;
   createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -418,6 +455,7 @@ export type QuestionMinOrderByAggregateInput = {
   content?: Prisma.SortOrder;
   type?: Prisma.SortOrder;
   referenceAnswer?: Prisma.SortOrder;
+  status?: Prisma.SortOrder;
   createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
@@ -522,6 +560,10 @@ export type QuestionUpdatetagsInput = {
   push?: string | string[];
 };
 
+export type EnumQuestionStatusFieldUpdateOperationsInput = {
+  set?: $Enums.QuestionStatus;
+};
+
 export type QuestionCreateWithoutCreatorInput = {
   id?: string;
   content: string;
@@ -530,6 +572,8 @@ export type QuestionCreateWithoutCreatorInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -542,6 +586,8 @@ export type QuestionUncheckedCreateWithoutCreatorInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -598,6 +644,8 @@ export type QuestionScalarWhereInput = {
   answer?: Prisma.JsonFilter<'Question'>;
   referenceAnswer?: Prisma.StringNullableFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
+  status?: Prisma.EnumQuestionStatusFilter<'Question'> | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.JsonNullableFilter<'Question'>;
   createdBy?: Prisma.StringFilter<'Question'> | string;
   createdAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
@@ -611,6 +659,8 @@ export type QuestionCreateManyCreatorInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -623,6 +673,8 @@ export type QuestionUpdateWithoutCreatorInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -635,6 +687,8 @@ export type QuestionUncheckedUpdateWithoutCreatorInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -647,6 +701,8 @@ export type QuestionUncheckedUpdateManyWithoutCreatorInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   referenceAnswer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -662,6 +718,8 @@ export type QuestionSelect<
     answer?: boolean;
     referenceAnswer?: boolean;
     tags?: boolean;
+    status?: boolean;
+    reviewHistory?: boolean;
     createdBy?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -681,6 +739,8 @@ export type QuestionSelectCreateManyAndReturn<
     answer?: boolean;
     referenceAnswer?: boolean;
     tags?: boolean;
+    status?: boolean;
+    reviewHistory?: boolean;
     createdBy?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -700,6 +760,8 @@ export type QuestionSelectUpdateManyAndReturn<
     answer?: boolean;
     referenceAnswer?: boolean;
     tags?: boolean;
+    status?: boolean;
+    reviewHistory?: boolean;
     createdBy?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
@@ -716,6 +778,8 @@ export type QuestionSelectScalar = {
   answer?: boolean;
   referenceAnswer?: boolean;
   tags?: boolean;
+  status?: boolean;
+  reviewHistory?: boolean;
   createdBy?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
@@ -731,6 +795,8 @@ export type QuestionOmit<
   | 'answer'
   | 'referenceAnswer'
   | 'tags'
+  | 'status'
+  | 'reviewHistory'
   | 'createdBy'
   | 'createdAt'
   | 'updatedAt',
@@ -768,6 +834,8 @@ export type $QuestionPayload<
       answer: runtime.JsonValue;
       referenceAnswer: string | null;
       tags: string[];
+      status: $Enums.QuestionStatus;
+      reviewHistory: runtime.JsonValue | null;
       createdBy: string;
       createdAt: Date;
       updatedAt: Date;
@@ -1358,6 +1426,8 @@ export interface QuestionFieldRefs {
   readonly answer: Prisma.FieldRef<'Question', 'Json'>;
   readonly referenceAnswer: Prisma.FieldRef<'Question', 'String'>;
   readonly tags: Prisma.FieldRef<'Question', 'String[]'>;
+  readonly status: Prisma.FieldRef<'Question', 'QuestionStatus'>;
+  readonly reviewHistory: Prisma.FieldRef<'Question', 'Json'>;
   readonly createdBy: Prisma.FieldRef<'Question', 'String'>;
   readonly createdAt: Prisma.FieldRef<'Question', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Question', 'DateTime'>;

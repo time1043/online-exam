@@ -32,3 +32,11 @@ export const QuestionType = {
 } as const;
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];
+
+export const QuestionStatus = {
+  pending: 'pending',
+  active: 'active',
+  rejected: 'rejected',
+} as const;
+
+export type QuestionStatus = (typeof QuestionStatus)[keyof typeof QuestionStatus];

@@ -1149,6 +1149,8 @@ export const QuestionScalarFieldEnum = {
   answer: 'answer',
   referenceAnswer: 'referenceAnswer',
   tags: 'tags',
+  status: 'status',
+  reviewHistory: 'reviewHistory',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -1290,6 +1292,22 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>;
+
+/**
+ * Reference to a field of type 'QuestionStatus'
+ */
+export type EnumQuestionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'QuestionStatus'
+>;
+
+/**
+ * Reference to a field of type 'QuestionStatus[]'
+ */
+export type ListEnumQuestionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'QuestionStatus[]'
+>;
 
 /**
  * Reference to a field of type 'Float'

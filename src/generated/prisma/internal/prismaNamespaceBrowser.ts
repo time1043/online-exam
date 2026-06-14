@@ -174,6 +174,8 @@ export const QuestionScalarFieldEnum = {
   answer: 'answer',
   referenceAnswer: 'referenceAnswer',
   tags: 'tags',
+  status: 'status',
+  reviewHistory: 'reviewHistory',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',

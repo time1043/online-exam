@@ -26,6 +26,12 @@ enum QuestionType {
   essay
 }
 
+enum QuestionStatus {
+  pending
+  active
+  rejected
+}
+
 model User {
   id            String       @id
   name          String
@@ -147,12 +153,15 @@ model Question {
   answer          Json
   referenceAnswer String?
   tags            String[]
+  status          QuestionStatus @default(pending)
+  reviewHistory   Json?
   createdBy       String
   creator         User           @relation("QuestionCreator", fields: [createdBy], references: [id], onDelete: Cascade)
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
   @@index([createdBy])
+  @@index([status])
   @@index([tags])
   @@map("question")
 }
