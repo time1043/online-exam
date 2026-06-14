@@ -19,6 +19,8 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as MainIndexRouteImport } from './routes/_main/index'
 import { Route as SettingsPathRouteImport } from './routes/settings/$path'
 import { Route as AuthPathRouteImport } from './routes/auth/$path'
+import { Route as TeacherSubjectsIndexRouteImport } from './routes/teacher/subjects/index'
+import { Route as TeacherSubjectsSubjectIdRouteImport } from './routes/teacher/subjects/$subjectId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const TeacherRouteRoute = TeacherRouteRouteImport.update({
@@ -70,6 +72,17 @@ const AuthPathRoute = AuthPathRouteImport.update({
   path: '/auth/$path',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeacherSubjectsIndexRoute = TeacherSubjectsIndexRouteImport.update({
+  id: '/subjects/',
+  path: '/subjects/',
+  getParentRoute: () => TeacherRouteRoute,
+} as any)
+const TeacherSubjectsSubjectIdRoute =
+  TeacherSubjectsSubjectIdRouteImport.update({
+    id: '/subjects/$subjectId',
+    path: '/subjects/$subjectId',
+    getParentRoute: () => TeacherRouteRoute,
+  } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -87,6 +100,8 @@ export interface FileRoutesByFullPath {
   '/student/': typeof StudentIndexRoute
   '/teacher/': typeof TeacherIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRoute
+  '/teacher/subjects/': typeof TeacherSubjectsIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth/$path': typeof AuthPathRoute
@@ -96,6 +111,8 @@ export interface FileRoutesByTo {
   '/student': typeof StudentIndexRoute
   '/teacher': typeof TeacherIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRoute
+  '/teacher/subjects': typeof TeacherSubjectsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,6 +127,8 @@ export interface FileRoutesById {
   '/student/': typeof StudentIndexRoute
   '/teacher/': typeof TeacherIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRoute
+  '/teacher/subjects/': typeof TeacherSubjectsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,6 +143,8 @@ export interface FileRouteTypes {
     | '/student/'
     | '/teacher/'
     | '/api/auth/$'
+    | '/teacher/subjects/$subjectId'
+    | '/teacher/subjects/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth/$path'
@@ -133,6 +154,8 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/api/auth/$'
+    | '/teacher/subjects/$subjectId'
+    | '/teacher/subjects'
   id:
     | '__root__'
     | '/_main'
@@ -146,6 +169,8 @@ export interface FileRouteTypes {
     | '/student/'
     | '/teacher/'
     | '/api/auth/$'
+    | '/teacher/subjects/$subjectId'
+    | '/teacher/subjects/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -230,6 +255,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPathRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/subjects/': {
+      id: '/teacher/subjects/'
+      path: '/subjects'
+      fullPath: '/teacher/subjects/'
+      preLoaderRoute: typeof TeacherSubjectsIndexRouteImport
+      parentRoute: typeof TeacherRouteRoute
+    }
+    '/teacher/subjects/$subjectId': {
+      id: '/teacher/subjects/$subjectId'
+      path: '/subjects/$subjectId'
+      fullPath: '/teacher/subjects/$subjectId'
+      preLoaderRoute: typeof TeacherSubjectsSubjectIdRouteImport
+      parentRoute: typeof TeacherRouteRoute
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -278,10 +317,14 @@ const StudentRouteRouteWithChildren = StudentRouteRoute._addFileChildren(
 
 interface TeacherRouteRouteChildren {
   TeacherIndexRoute: typeof TeacherIndexRoute
+  TeacherSubjectsSubjectIdRoute: typeof TeacherSubjectsSubjectIdRoute
+  TeacherSubjectsIndexRoute: typeof TeacherSubjectsIndexRoute
 }
 
 const TeacherRouteRouteChildren: TeacherRouteRouteChildren = {
   TeacherIndexRoute: TeacherIndexRoute,
+  TeacherSubjectsSubjectIdRoute: TeacherSubjectsSubjectIdRoute,
+  TeacherSubjectsIndexRoute: TeacherSubjectsIndexRoute,
 }
 
 const TeacherRouteRouteWithChildren = TeacherRouteRoute._addFileChildren(

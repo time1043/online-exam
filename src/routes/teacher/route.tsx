@@ -5,6 +5,7 @@ import { ensureSession } from '@/lib/auth-guard';
 
 const navItems = [
   { label: '仪表盘', href: '/teacher' },
+  { label: '科目', href: '/teacher/subjects' },
   { label: '考试管理', href: '/teacher/exams' },
   { label: '题库', href: '/teacher/questions' },
   { label: '学生', href: '/teacher/students' },
