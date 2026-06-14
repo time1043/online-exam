@@ -22,3 +22,13 @@ export const ExamStatus = {
 } as const;
 
 export type ExamStatus = (typeof ExamStatus)[keyof typeof ExamStatus];
+
+export const QuestionType = {
+  single_choice: 'single_choice',
+  multiple_choice: 'multiple_choice',
+  true_false: 'true_false',
+  fill_blank: 'fill_blank',
+  essay: 'essay',
+} as const;
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType];

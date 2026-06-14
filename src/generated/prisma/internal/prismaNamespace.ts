@@ -384,6 +384,7 @@ export const ModelName = {
   Subject: 'Subject',
   Enrollment: 'Enrollment',
   Exam: 'Exam',
+  Question: 'Question',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -403,7 +404,15 @@ export type TypeMap<
     omit: GlobalOmitOptions;
   };
   meta: {
-    modelProps: 'user' | 'session' | 'account' | 'verification' | 'subject' | 'enrollment' | 'exam';
+    modelProps:
+      | 'user'
+      | 'session'
+      | 'account'
+      | 'verification'
+      | 'subject'
+      | 'enrollment'
+      | 'exam'
+      | 'question';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -927,6 +936,80 @@ export type TypeMap<
         };
       };
     };
+    Question: {
+      payload: Prisma.$QuestionPayload<ExtArgs>;
+      fields: Prisma.QuestionFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.QuestionFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.QuestionFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>;
+        };
+        findFirst: {
+          args: Prisma.QuestionFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.QuestionFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>;
+        };
+        findMany: {
+          args: Prisma.QuestionFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>[];
+        };
+        create: {
+          args: Prisma.QuestionCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>;
+        };
+        createMany: {
+          args: Prisma.QuestionCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.QuestionCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>[];
+        };
+        delete: {
+          args: Prisma.QuestionDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>;
+        };
+        update: {
+          args: Prisma.QuestionUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>;
+        };
+        deleteMany: {
+          args: Prisma.QuestionDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.QuestionUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.QuestionUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>[];
+        };
+        upsert: {
+          args: Prisma.QuestionUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$QuestionPayload>;
+        };
+        aggregate: {
+          args: Prisma.QuestionAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateQuestion>;
+        };
+        groupBy: {
+          args: Prisma.QuestionGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.QuestionGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.QuestionCountArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.QuestionCountAggregateOutputType> | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -1058,12 +1141,42 @@ export const ExamScalarFieldEnum = {
 
 export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum];
 
+export const QuestionScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  type: 'type',
+  options: 'options',
+  answer: 'answer',
+  referenceAnswer: 'referenceAnswer',
+  tags: 'tags',
+  subjectId: 'subjectId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+} as const;
+
+export type QuestionScalarFieldEnum =
+  (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum];
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc',
 } as const;
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+} as const;
+
+export type NullableJsonNullValueInput =
+  (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull,
+} as const;
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
 
 export const QueryMode = {
   default: 'default',
@@ -1078,6 +1191,14 @@ export const NullsOrder = {
 } as const;
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull,
+} as const;
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter];
 
 /**
  * Field references
@@ -1143,6 +1264,32 @@ export type ListEnumExamStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
   'ExamStatus[]'
 >;
+
+/**
+ * Reference to a field of type 'QuestionType'
+ */
+export type EnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'QuestionType'
+>;
+
+/**
+ * Reference to a field of type 'QuestionType[]'
+ */
+export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  'QuestionType[]'
+>;
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>;
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>;
 
 /**
  * Reference to a field of type 'Float'
@@ -1279,6 +1426,7 @@ export type GlobalOmitConfig = {
   subject?: Prisma.SubjectOmit;
   enrollment?: Prisma.EnrollmentOmit;
   exam?: Prisma.ExamOmit;
+  question?: Prisma.QuestionOmit;
 };
 
 /* Types for Logging */

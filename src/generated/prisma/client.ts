@@ -80,3 +80,8 @@ export type Enrollment = Prisma.EnrollmentModel;
  *
  */
 export type Exam = Prisma.ExamModel;
+/**
+ * Model Question
+ *
+ */
+export type Question = Prisma.QuestionModel;

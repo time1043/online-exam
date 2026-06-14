@@ -18,6 +18,14 @@ enum ExamStatus {
   published
 }
 
+enum QuestionType {
+  single_choice
+  multiple_choice
+  true_false
+  fill_blank
+  essay
+}
+
 model User {
   id            String       @id
   name          String
@@ -92,6 +100,7 @@ model Subject {
   teacher     User         @relation("TeacherSubjects", fields: [teacherId], references: [id], onDelete: Cascade)
   enrollments Enrollment[]
   exams       Exam[]
+  questions   Question[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
@@ -128,4 +137,22 @@ model Exam {
 
   @@index([subjectId])
   @@map("exam")
+}
+
+model Question {
+  id              String       @id @default(cuid())
+  content         String
+  type            QuestionType
+  options         Json?
+  answer          Json
+  referenceAnswer String?
+  tags            String[]
+  subjectId       Int
+  subject         Subject      @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@index([subjectId])
+  @@index([tags])
+  @@map("question")
 }
