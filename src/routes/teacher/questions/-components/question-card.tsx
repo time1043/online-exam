@@ -1,6 +1,8 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
+import { formatAnswer, getOptionLabel, questionTypeMap, statusMap } from './question-helpers';
+
 interface QuestionCardProps {
   id: string;
   content: string;
@@ -9,43 +11,6 @@ interface QuestionCardProps {
   answer: string | number | number[];
   tags: string[];
   status: string;
-}
-
-const questionTypeMap: Record<string, string> = {
-  single_choice: '单选题',
-  multiple_choice: '多选题',
-  true_false: '判断题',
-  fill_blank: '填空题',
-  essay: '论述题',
-};
-
-const statusMap: Record<
-  string,
-  { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }
-> = {
-  pending: { label: '待审核', variant: 'secondary' },
-  active: { label: '已通过', variant: 'default' },
-  rejected: { label: '已拒绝', variant: 'destructive' },
-};
-
-function formatAnswer(type: string, answer: string | number | number[]): string {
-  switch (type) {
-    case 'single_choice':
-      return getOptionLabel(Number(answer));
-    case 'multiple_choice':
-      return (answer as number[]).map((i) => getOptionLabel(i)).join('、');
-    case 'true_false':
-      return Number(answer) === 0 ? '正确' : '错误';
-    case 'fill_blank':
-    case 'essay':
-      return String(answer);
-    default:
-      return String(answer);
-  }
-}
-
-function getOptionLabel(index: number): string {
-  return String.fromCharCode(65 + index); // 65 = 'A'
 }
 
 export function QuestionCard({ content, type, options, answer, tags, status }: QuestionCardProps) {
