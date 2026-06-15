@@ -151,7 +151,6 @@ model Question {
   type            QuestionType
   options         Json?
   answer          Json
-  referenceAnswer String?
   tags            String[]
   status          QuestionStatus @default(pending)
   reviewHistory   Json?

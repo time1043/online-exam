@@ -41,7 +41,6 @@ type CreateQuestionInput = {
   type: string;
   options: string[] | null;
   answer: string | number | number[];
-  referenceAnswer?: string;
   tags: string[];
 };
 

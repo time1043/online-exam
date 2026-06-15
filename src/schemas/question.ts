@@ -9,7 +9,6 @@ export const createQuestionSchema = z.object({
   type: z.enum(questionTypeValues),
   options: z.array(z.string()).nullable(),
   answer: z.union([z.string(), z.number(), z.array(z.number())]),
-  referenceAnswer: z.string().optional(),
   tags: z.array(z.string()),
 });
 

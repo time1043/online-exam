@@ -29,7 +29,6 @@
     "content": "简述虚拟 DOM 的工作原理及其优势。",
     "type": "essay",
     "answer": "虚拟 DOM 是真实 DOM 的轻量级 JavaScript 对象表示。当状态变化时，框架先在虚拟 DOM 上计算差异（diff），再将最小变更批量应用到真实 DOM，从而减少昂贵的 DOM 操作次数，提升渲染性能。",
-    "referenceAnswer": "虚拟 DOM 是真实 DOM 的轻量级 JavaScript 对象表示...",
     "tags": ["React", "原理"]
   },
   {
@@ -51,5 +50,293 @@
     "type": "fill_blank",
     "answer": "fs",
     "tags": ["Node.js", "基础"]
+  },
+  {
+    "content": "在 JavaScript 中，typeof null 的返回值是什么？",
+    "type": "single_choice",
+    "options": ["null", "undefined", "object", "boolean"],
+    "answer": 2,
+    "tags": ["JavaScript", "基础"]
+  },
+  {
+    "content": "以下哪些是 CSS 定位方式？",
+    "type": "multiple_choice",
+    "options": ["static", "relative", "absolute", "fixed", "float"],
+    "answer": [0, 1, 2, 3],
+    "tags": ["CSS", "布局"]
+  },
+  {
+    "content": "React 中，useState 返回的是一个数组。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["React", "Hooks"]
+  },
+  {
+    "content": "CSS 中，____ 属性用于设置元素的外边距。",
+    "type": "fill_blank",
+    "answer": "margin",
+    "tags": ["CSS", "基础"]
+  },
+  {
+    "content": "解释 React 中 useEffect 的依赖数组的作用。",
+    "type": "essay",
+    "answer": "useEffect 的依赖数组决定了 effect 何时重新执行。当数组中的值发生变化时，effect 会重新运行。空数组表示只在组件挂载和卸载时执行一次。不传依赖数组则每次渲染都会执行。",
+    "tags": ["React", "Hooks"]
+  },
+  {
+    "content": "TCP 三次握手的正确顺序是？",
+    "type": "single_choice",
+    "options": ["SYN → SYN-ACK → ACK", "ACK → SYN → SYN-ACK", "SYN → ACK → SYN-ACK", "SYN-ACK → SYN → ACK"],
+    "answer": 0,
+    "tags": ["网络", "TCP"]
+  },
+  {
+    "content": "以下哪些是合法的 JavaScript 变量声明方式？",
+    "type": "multiple_choice",
+    "options": ["var x = 1", "let x = 1", "const x = 1", "int x = 1"],
+    "answer": [0, 1, 2],
+    "tags": ["JavaScript", "基础"]
+  },
+  {
+    "content": "在 Git 中，git rebase 和 git merge 的最终代码状态是一致的。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["Git"]
+  },
+  {
+    "content": "JavaScript 中，Promise 有三种状态：pending、____ 和 rejected。",
+    "type": "fill_blank",
+    "answer": "fulfilled",
+    "tags": ["JavaScript", "异步"]
+  },
+  {
+    "content": "对比 SQL 和 NoSQL 数据库的优缺点。",
+    "type": "essay",
+    "answer": "SQL 数据库（如 MySQL、PostgreSQL）具有强一致性、支持复杂查询和事务，适合结构化数据。NoSQL 数据库（如 MongoDB、Redis）具有高扩展性、灵活的数据模型，适合非结构化数据和高并发场景。SQL 的缺点是扩展性有限，NoSQL 的缺点是事务支持较弱。",
+    "tags": ["数据库", "架构"]
+  },
+  {
+    "content": "HTTP/2 相比 HTTP/1.1 的主要改进是什么？",
+    "type": "single_choice",
+    "options": ["多路复用", "明文传输", "单向连接", "无状态"],
+    "answer": 0,
+    "tags": ["HTTP", "网络"]
+  },
+  {
+    "content": "以下哪些是 React 的生命周期方法？",
+    "type": "multiple_choice",
+    "options": ["componentDidMount", "componentWillUpdate", "onCreate", "componentDidCatch"],
+    "answer": [0, 1, 3],
+    "tags": ["React", "生命周期"]
+  },
+  {
+    "content": "JSON 的全称是 JavaScript Object Notation。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["JSON", "基础"]
+  },
+  {
+    "content": "在 CSS 中，display: ____ 会让元素同时具有行内和块级特性。",
+    "type": "fill_blank",
+    "answer": "inline-block",
+    "tags": ["CSS", "布局"]
+  },
+  {
+    "content": "描述浏览器从输入 URL 到页面渲染完成的完整流程。",
+    "type": "essay",
+    "answer": "1. DNS 解析域名获取 IP；2. 建立 TCP 连接（三次握手）；3. 发送 HTTP 请求；4. 服务器返回响应；5. 浏览器解析 HTML 构建 DOM 树；6. 解析 CSS 构建 CSSOM 树；7. 合并为渲染树；8. 布局计算；9. 绘制页面。",
+    "tags": ["浏览器", "网络", "原理"]
+  },
+  {
+    "content": "以下哪个不是 JavaScript 的数组方法？",
+    "type": "single_choice",
+    "options": ["push()", "pop()", "append()", "shift()"],
+    "answer": 2,
+    "tags": ["JavaScript", "数组"]
+  },
+  {
+    "content": "以下哪些是合法的 CSS 选择器？",
+    "type": "multiple_choice",
+    "options": [".class", "#id", "*::before", "@media"],
+    "answer": [0, 1, 2],
+    "tags": ["CSS", "选择器"]
+  },
+  {
+    "content": "WebSocket 协议是全双工通信协议。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["WebSocket", "网络"]
+  },
+  {
+    "content": "在 SQL 中，____ 关键字用于从表中查询数据。",
+    "type": "fill_blank",
+    "answer": "SELECT",
+    "tags": ["SQL", "数据库"]
+  },
+  {
+    "content": "什么是 CORS？为什么需要它？",
+    "type": "essay",
+    "answer": "CORS（Cross-Origin Resource Sharing）是一种浏览器安全机制，用于控制跨域资源访问。由于浏览器的同源策略限制，前端 JavaScript 默认不能请求不同源的 API。CORS 通过在响应头中添加 Access-Control-Allow-Origin 等字段，允许服务器声明哪些源可以访问其资源。",
+    "tags": ["安全", "HTTP", "网络"]
+  },
+  {
+    "content": "ES6 中，箭头函数与普通函数的主要区别是什么？",
+    "type": "single_choice",
+    "options": ["没有自己的 this 绑定", "运行更快", "必须有返回值", "不能接受参数"],
+    "answer": 0,
+    "tags": ["JavaScript", "ES6"]
+  },
+  {
+    "content": "以下哪些是 TypeScript 的内置类型？",
+    "type": "multiple_choice",
+    "options": ["any", "unknown", "nullable", "never"],
+    "answer": [0, 1, 3],
+    "tags": ["TypeScript", "基础"]
+  },
+  {
+    "content": "在 Linux 中，chmod 777 表示所有用户都有读、写、执行权限。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["Linux", "权限"]
+  },
+  {
+    "content": "RESTful API 中，删除资源通常使用 HTTP ____ 方法。",
+    "type": "fill_blank",
+    "answer": "DELETE",
+    "tags": ["API", "REST"]
+  },
+  {
+    "content": "解释 JavaScript 中的事件循环（Event Loop）机制。",
+    "type": "essay",
+    "answer": "事件循环是 JavaScript 处理异步操作的核心机制。主线程执行同步代码，异步任务被放入任务队列。微任务（Promise.then）优先于宏任务（setTimeout）执行。当调用栈为空时，事件循环从队列中取出任务执行，如此反复。",
+    "tags": ["JavaScript", "异步", "原理"]
+  },
+  {
+    "content": "以下哪个 CSS 属性可以创建动画效果？",
+    "type": "single_choice",
+    "options": ["transition", "display", "overflow", "position"],
+    "answer": 0,
+    "tags": ["CSS", "动画"]
+  },
+  {
+    "content": "以下哪些是 HTTP 状态码 2xx 表示的成功响应？",
+    "type": "multiple_choice",
+    "options": ["200 OK", "201 Created", "204 No Content", "206 Partial Content"],
+    "answer": [0, 1, 2, 3],
+    "tags": ["HTTP", "基础"]
+  },
+  {
+    "content": "在 Git 中，git stash 用于保存当前工作区的修改。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["Git"]
+  },
+  {
+    "content": "React 中，____ hook 用于在函数组件中管理副作用。",
+    "type": "fill_blank",
+    "answer": "useEffect",
+    "tags": ["React", "Hooks"]
+  },
+  {
+    "content": "什么是 XSS 攻击？如何防范？",
+    "type": "essay",
+    "answer": "XSS（Cross-Site Scripting）是一种将恶意脚本注入网页的安全攻击。防范方式包括：1. 对用户输入进行转义；2. 使用 CSP（Content Security Policy）限制脚本来源；3. 设置 HttpOnly Cookie 防止 JS 读取；4. 使用现代框架的自动转义功能。",
+    "tags": ["安全", "前端"]
+  },
+  {
+    "content": "以下哪个不是 CSS 盒模型的组成部分？",
+    "type": "single_choice",
+    "options": ["content", "padding", "margin", "shadow"],
+    "answer": 3,
+    "tags": ["CSS", "盒模型"]
+  },
+  {
+    "content": "以下哪些是 Node.js 的核心模块？",
+    "type": "multiple_choice",
+    "options": ["http", "fs", "path", "axios"],
+    "answer": [0, 1, 2],
+    "tags": ["Node.js", "基础"]
+  },
+  {
+    "content": "在 JavaScript 中，=== 运算符会进行类型转换。",
+    "type": "true_false",
+    "answer": 1,
+    "tags": ["JavaScript", "基础"]
+  },
+  {
+    "content": "Docker 中，____ 文件用于定义镜像的构建步骤。",
+    "type": "fill_blank",
+    "answer": "Dockerfile",
+    "tags": ["Docker", "DevOps"]
+  },
+  {
+    "content": "解释微服务架构与单体架构的区别及各自适用场景。",
+    "type": "essay",
+    "answer": "单体架构将所有功能打包在一个应用中，开发部署简单，适合小型项目。微服务将系统拆分为独立服务，各服务独立部署、扩展，适合大型复杂系统。微服务的优势是技术栈灵活、可独立扩展，缺点是增加了系统复杂性和运维成本。",
+    "tags": ["架构", "后端"]
+  },
+  {
+    "content": "以下哪个方法可以将字符串转换为整数？",
+    "type": "single_choice",
+    "options": ["parseInt()", "toString()", "toFixed()", "split()"],
+    "answer": 0,
+    "tags": ["JavaScript", "类型转换"]
+  },
+  {
+    "content": "以下哪些是 React 的 Hook？",
+    "type": "multiple_choice",
+    "options": ["useState", "useEffect", "useClass", "useMemo"],
+    "answer": [0, 1, 3],
+    "tags": ["React", "Hooks"]
+  },
+  {
+    "content": "在 SQL 中，LEFT JOIN 会返回左表的所有记录。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["SQL", "数据库"]
+  },
+  {
+    "content": "JavaScript 中，____ 方法用于将数组的所有元素连接成一个字符串。",
+    "type": "fill_blank",
+    "answer": "join",
+    "tags": ["JavaScript", "数组"]
+  },
+  {
+    "content": "什么是 CSRF 攻击？如何防范？",
+    "type": "essay",
+    "answer": "CSRF（Cross-Site Request Forgery）是一种利用用户已登录状态，在用户不知情的情况下发送恶意请求的攻击。防范方式包括：1. 使用 CSRF Token；2. 检查 Referer/Origin 头；3. SameSite Cookie 属性；4. 关键操作要求二次确认。",
+    "tags": ["安全", "网络"]
+  },
+  {
+    "content": "以下哪个不是 JavaScript 的循环语句？",
+    "type": "single_choice",
+    "options": ["for", "while", "foreach", "do...while"],
+    "answer": 2,
+    "tags": ["JavaScript", "基础"]
+  },
+  {
+    "content": "以下哪些是 HTML5 新增的语义化标签？",
+    "type": "multiple_choice",
+    "options": ["header", "footer", "div", "article"],
+    "answer": [0, 1, 3],
+    "tags": ["HTML", "语义化"]
+  },
+  {
+    "content": "CSS 中，position: sticky 元素在滚动时会固定在指定位置。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["CSS", "定位"]
+  },
+  {
+    "content": "TypeScript 中，____ 关键字用于定义接口。",
+    "type": "fill_blank",
+    "answer": "interface",
+    "tags": ["TypeScript", "基础"]
+  },
+  {
+    "content": "对比 Cookie、localStorage 和 sessionStorage 的区别。",
+    "type": "essay",
+    "answer": "Cookie：容量小（4KB），每次请求自动携带，可设置过期时间，适合身份认证。localStorage：容量大（5MB），持久存储，不过期，适合长期缓存。sessionStorage：容量大（5MB），会话级存储，关闭标签页清除，适合临时数据。Cookie 可跨子域共享，localStorage/sessionStorage 受同源策略限制。",
+    "tags": ["前端", "存储"]
   }
 ]

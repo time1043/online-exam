@@ -31,7 +31,6 @@ interface CreateQuestionDialogProps {
     type: string;
     options: string[] | null;
     answer: string | number | number[];
-    referenceAnswer?: string;
     tags: string[];
   }) => void;
 }
@@ -61,7 +60,6 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
         : null;
 
       let answer: string | number | number[];
-      let referenceAnswer: string | undefined;
 
       switch (questionType) {
         case 'single_choice':
@@ -78,7 +76,6 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
           break;
         case 'essay':
           answer = essayAnswer;
-          referenceAnswer = essayAnswer;
           break;
         default:
           answer = 0;
@@ -89,7 +86,6 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
         type: questionType,
         options: filteredOptions,
         answer,
-        referenceAnswer,
         tags: parsedTags,
       });
       form.reset();
