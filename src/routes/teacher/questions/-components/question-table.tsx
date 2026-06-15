@@ -218,7 +218,7 @@ export function QuestionTable({ data }: QuestionTableProps) {
             onChange={(e) =>
               table.getColumn('creatorName')?.setFilterValue(e.target.value || undefined)
             }
-            className="w-44 pl-9"
+            className="w-36 pl-9"
           />
         </div>
         <Select
