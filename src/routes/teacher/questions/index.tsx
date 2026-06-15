@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
 import {
@@ -8,11 +9,13 @@ import {
   deleteQuestions,
   getQuestions,
   importQuestions,
+  updateQuestion,
 } from '@/server/question';
 
 import type { QuestionRow } from './-components/question-table';
 
 import { CreateQuestionDialog } from './-components/create-question-dialog';
+import { EditQuestionDialog } from './-components/edit-question-dialog';
 import { ImportQuestionsDialog } from './-components/import-questions-dialog';
 import { QuestionTable } from './-components/question-table';
 
@@ -47,6 +50,7 @@ type CreateQuestionInput = {
 
 function RouteComponent() {
   const queryClient = useQueryClient();
+  const [editingQuestion, setEditingQuestion] = useState<QuestionRow | null>(null);
 
   const { data: questions = [], isLoading } = useQuery({
     queryKey: ['questions'],
@@ -99,6 +103,23 @@ function RouteComponent() {
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: (data: {
+      id: string;
+      content: string;
+      options: string[] | null;
+      answer: string | number | number[] | string[];
+      tags: string[];
+    }) => updateQuestion({ data }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+      toast.success('题目已更新');
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : '更新失败，请重试');
+    },
+  });
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -120,10 +141,20 @@ function RouteComponent() {
       ) : (
         <QuestionTable
           data={rows}
+          onEdit={(row) => setEditingQuestion(row)}
           onDelete={(id) => deleteMutation.mutate(id)}
           onBatchDelete={(ids) => batchDeleteMutation.mutate(ids)}
         />
       )}
+
+      <EditQuestionDialog
+        question={editingQuestion}
+        onClose={() => setEditingQuestion(null)}
+        onSubmit={(data) => {
+          updateMutation.mutate(data);
+          setEditingQuestion(null);
+        }}
+      />
     </div>
   );
 }

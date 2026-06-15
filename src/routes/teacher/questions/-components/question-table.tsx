@@ -19,6 +19,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Columns,
+  Pencil,
   Search,
   Trash2,
   User,
@@ -83,7 +84,7 @@ export type QuestionRow = {
 
 const columnHelper = createColumnHelper<QuestionRow>();
 
-function getColumns(onDelete?: (id: string) => void) {
+function getColumns(onEdit?: (row: QuestionRow) => void, onDelete?: (id: string) => void) {
   return [
     columnHelper.display({
       id: 'select',
@@ -204,38 +205,55 @@ function getColumns(onDelete?: (id: string) => void) {
       id: 'actions',
       header: '操作',
       cell: (info) => (
-        <AlertDialog>
+        <div className="flex items-center gap-1">
           <Tooltip>
             <TooltipTrigger asChild>
-              <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="icon-sm" onClick={(e) => e.stopPropagation()}>
-                  <Trash2 className="size-4 text-destructive" />
-                </Button>
-              </AlertDialogTrigger>
-            </TooltipTrigger>
-            <TooltipContent>删除题目</TooltipContent>
-          </Tooltip>
-          <AlertDialogContent onClick={(e) => e.stopPropagation()}>
-            <AlertDialogHeader>
-              <AlertDialogTitle>确认删除</AlertDialogTitle>
-              <AlertDialogDescription>
-                删除后无法恢复，确定要删除这道题目吗？
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel onClick={(e) => e.stopPropagation()}>取消</AlertDialogCancel>
-              <AlertDialogAction
-                variant="destructive"
+              <Button
+                variant="ghost"
+                size="icon-sm"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onDelete?.(info.row.original.id);
+                  onEdit?.(info.row.original);
                 }}
               >
-                删除
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+                <Pencil className="size-4 text-muted-foreground" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>编辑题目</TooltipContent>
+          </Tooltip>
+          <AlertDialog>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <AlertDialogTrigger asChild>
+                  <Button variant="ghost" size="icon-sm" onClick={(e) => e.stopPropagation()}>
+                    <Trash2 className="size-4 text-destructive" />
+                  </Button>
+                </AlertDialogTrigger>
+              </TooltipTrigger>
+              <TooltipContent>删除题目</TooltipContent>
+            </Tooltip>
+            <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+              <AlertDialogHeader>
+                <AlertDialogTitle>确认删除</AlertDialogTitle>
+                <AlertDialogDescription>
+                  删除后无法恢复，确定要删除这道题目吗？
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={(e) => e.stopPropagation()}>取消</AlertDialogCancel>
+                <AlertDialogAction
+                  variant="destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete?.(info.row.original.id);
+                  }}
+                >
+                  删除
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
       ),
     }),
   ];
@@ -243,18 +261,19 @@ function getColumns(onDelete?: (id: string) => void) {
 
 interface QuestionTableProps {
   data: QuestionRow[];
+  onEdit?: (row: QuestionRow) => void;
   onDelete?: (id: string) => void;
   onBatchDelete?: (ids: string[]) => void;
 }
 
-export function QuestionTable({ data, onDelete, onBatchDelete }: QuestionTableProps) {
+export function QuestionTable({ data, onEdit, onDelete, onBatchDelete }: QuestionTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ answer: false });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
-  const columns = getColumns(onDelete);
+  const columns = getColumns(onEdit, onDelete);
 
   const table = useReactTable({
     data,

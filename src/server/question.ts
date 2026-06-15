@@ -1,14 +1,16 @@
 import { createServerFn } from '@tanstack/react-start';
 
-import type { $Enums, Prisma } from '@/generated/prisma/client';
+import type { $Enums } from '@/generated/prisma/client';
 
 import { prisma } from '@/db';
+import { Prisma } from '@/generated/prisma/client';
 import { authFnMiddleware } from '@/middlewares/auth';
 import {
   createQuestionSchema,
   deleteQuestionSchema,
   deleteQuestionsSchema,
   importQuestionsSchema,
+  updateQuestionSchema,
 } from '@/schemas/question';
 
 export const getQuestions = createServerFn({ method: 'GET' })
@@ -89,4 +91,30 @@ export const deleteQuestions = createServerFn({ method: 'POST' })
       },
     });
     return { count };
+  });
+
+export const updateQuestion = createServerFn({ method: 'POST' })
+  .validator(updateQuestionSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+    const question = await prisma.question.findUnique({
+      where: { id: data.id },
+      select: { createdBy: true },
+    });
+    if (!question) throw new Error('题目不存在');
+    if (question.createdBy !== session.user.id) throw new Error('无权编辑');
+
+    return prisma.question.update({
+      where: { id: data.id },
+      data: {
+        content: data.content,
+        ...(data.options !== null ? { options: data.options } : { options: Prisma.JsonNull }),
+        answer: data.answer as Prisma.InputJsonValue,
+        tags: data.tags,
+      },
+      include: {
+        creator: { select: { name: true } },
+      },
+    });
   });

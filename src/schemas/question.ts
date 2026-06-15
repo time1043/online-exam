@@ -19,6 +19,14 @@ export const importQuestionsSchema = z.object({
     .max(200, '单次最多导入 200 道'),
 });
 
+export const updateQuestionSchema = z.object({
+  id: z.string(),
+  content: z.string().min(1, '题干不能为空'),
+  options: z.array(z.string()).nullable(),
+  answer: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
+  tags: z.array(z.string()),
+});
+
 export const deleteQuestionSchema = z.object({
   id: z.string(),
 });
