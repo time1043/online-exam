@@ -8,7 +8,7 @@ export const createQuestionSchema = z.object({
   content: z.string().min(1, '题干不能为空'),
   type: z.enum(questionTypeValues),
   options: z.array(z.string()).nullable(),
-  answer: z.union([z.string(), z.number(), z.array(z.number())]),
+  answer: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
   tags: z.array(z.string()),
 });
 

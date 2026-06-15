@@ -73,7 +73,7 @@ export type QuestionRow = {
   content: string;
   type: string;
   options: string[] | null;
-  answer: string | number | number[];
+  answer: string | number | number[] | string[];
   tags: string[];
   status: string;
   creatorName: string;

@@ -22,8 +22,14 @@
   {
     "content": "HTML 中，____ 标签用于创建超链接。",
     "type": "fill_blank",
-    "answer": "a",
+    "answer": ["a"],
     "tags": ["HTML", "前端"]
+  },
+  {
+    "content": "JavaScript 中，____ 和 ____ 是两种声明变量的关键字（ES6+）。",
+    "type": "fill_blank",
+    "answer": ["let", "const"],
+    "tags": ["JavaScript", "ES6"]
   },
   {
     "content": "简述虚拟 DOM 的工作原理及其优势。",
@@ -48,7 +54,7 @@
   {
     "content": "Node.js 中，____ 模块用于操作文件系统。",
     "type": "fill_blank",
-    "answer": "fs",
+    "answer": ["fs"],
     "tags": ["Node.js", "基础"]
   },
   {
@@ -74,7 +80,7 @@
   {
     "content": "CSS 中，____ 属性用于设置元素的外边距。",
     "type": "fill_blank",
-    "answer": "margin",
+    "answer": ["margin"],
     "tags": ["CSS", "基础"]
   },
   {
@@ -86,7 +92,12 @@
   {
     "content": "TCP 三次握手的正确顺序是？",
     "type": "single_choice",
-    "options": ["SYN → SYN-ACK → ACK", "ACK → SYN → SYN-ACK", "SYN → ACK → SYN-ACK", "SYN-ACK → SYN → ACK"],
+    "options": [
+      "SYN → SYN-ACK → ACK",
+      "ACK → SYN → SYN-ACK",
+      "SYN → ACK → SYN-ACK",
+      "SYN-ACK → SYN → ACK"
+    ],
     "answer": 0,
     "tags": ["网络", "TCP"]
   },
@@ -106,7 +117,7 @@
   {
     "content": "JavaScript 中，Promise 有三种状态：pending、____ 和 rejected。",
     "type": "fill_blank",
-    "answer": "fulfilled",
+    "answer": ["fulfilled"],
     "tags": ["JavaScript", "异步"]
   },
   {
@@ -138,7 +149,7 @@
   {
     "content": "在 CSS 中，display: ____ 会让元素同时具有行内和块级特性。",
     "type": "fill_blank",
-    "answer": "inline-block",
+    "answer": ["inline-block"],
     "tags": ["CSS", "布局"]
   },
   {
@@ -170,7 +181,7 @@
   {
     "content": "在 SQL 中，____ 关键字用于从表中查询数据。",
     "type": "fill_blank",
-    "answer": "SELECT",
+    "answer": ["SELECT"],
     "tags": ["SQL", "数据库"]
   },
   {
@@ -202,7 +213,7 @@
   {
     "content": "RESTful API 中，删除资源通常使用 HTTP ____ 方法。",
     "type": "fill_blank",
-    "answer": "DELETE",
+    "answer": ["DELETE"],
     "tags": ["API", "REST"]
   },
   {
@@ -234,7 +245,7 @@
   {
     "content": "React 中，____ hook 用于在函数组件中管理副作用。",
     "type": "fill_blank",
-    "answer": "useEffect",
+    "answer": ["useEffect"],
     "tags": ["React", "Hooks"]
   },
   {
@@ -266,7 +277,7 @@
   {
     "content": "Docker 中，____ 文件用于定义镜像的构建步骤。",
     "type": "fill_blank",
-    "answer": "Dockerfile",
+    "answer": ["Dockerfile"],
     "tags": ["Docker", "DevOps"]
   },
   {
@@ -298,7 +309,7 @@
   {
     "content": "JavaScript 中，____ 方法用于将数组的所有元素连接成一个字符串。",
     "type": "fill_blank",
-    "answer": "join",
+    "answer": ["join"],
     "tags": ["JavaScript", "数组"]
   },
   {
@@ -330,7 +341,7 @@
   {
     "content": "TypeScript 中，____ 关键字用于定义接口。",
     "type": "fill_blank",
-    "answer": "interface",
+    "answer": ["interface"],
     "tags": ["TypeScript", "基础"]
   },
   {

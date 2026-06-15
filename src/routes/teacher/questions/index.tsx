@@ -40,7 +40,7 @@ type CreateQuestionInput = {
   content: string;
   type: string;
   options: string[] | null;
-  answer: string | number | number[];
+  answer: string | number | number[] | string[];
   tags: string[];
 };
 

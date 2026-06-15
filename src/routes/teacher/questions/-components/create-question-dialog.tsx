@@ -30,7 +30,7 @@ interface CreateQuestionDialogProps {
     content: string;
     type: string;
     options: string[] | null;
-    answer: string | number | number[];
+    answer: string | number | number[] | string[];
     tags: string[];
   }) => void;
 }
@@ -41,7 +41,7 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
   const [options, setOptions] = useState<string[]>(['', '']);
   const [singleAnswer, setSingleAnswer] = useState<string>('');
   const [multipleAnswers, setMultipleAnswers] = useState<string[]>([]);
-  const [fillBlankAnswer, setFillBlankAnswer] = useState('');
+  const [fillBlankAnswers, setFillBlankAnswers] = useState<string[]>(['']);
   const [essayAnswer, setEssayAnswer] = useState('');
 
   const form = useForm({
@@ -59,7 +59,7 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
         ? options.filter(Boolean)
         : null;
 
-      let answer: string | number | number[];
+      let answer: string | number | number[] | string[];
 
       switch (questionType) {
         case 'single_choice':
@@ -72,7 +72,7 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
           answer = Number(singleAnswer) || 0;
           break;
         case 'fill_blank':
-          answer = fillBlankAnswer;
+          answer = fillBlankAnswers.filter(Boolean);
           break;
         case 'essay':
           answer = essayAnswer;
@@ -92,7 +92,7 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
       setOptions(['', '']);
       setSingleAnswer('');
       setMultipleAnswers([]);
-      setFillBlankAnswer('');
+      setFillBlankAnswers(['']);
       setEssayAnswer('');
       setOpen(false);
     },
@@ -268,14 +268,40 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
 
             {questionType === 'fill_blank' && (
               <div className="space-y-2">
-                <Label htmlFor="fillBlankAnswer">标准答案</Label>
-                <Input
-                  id="fillBlankAnswer"
-                  value={fillBlankAnswer}
-                  onChange={(e) => setFillBlankAnswer(e.target.value)}
-                  placeholder="输入标准答案"
-                  className="mt-2"
-                />
+                <Label>标准答案（每个空一个答案）</Label>
+                {fillBlankAnswers.map((answer, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Input
+                      value={answer}
+                      onChange={(e) => {
+                        const newAnswers = [...fillBlankAnswers];
+                        newAnswers[index] = e.target.value;
+                        setFillBlankAnswers(newAnswers);
+                      }}
+                      placeholder={`第 ${index + 1} 个空的答案`}
+                    />
+                    {fillBlankAnswers.length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() =>
+                          setFillBlankAnswers(fillBlankAnswers.filter((_, i) => i !== index))
+                        }
+                      >
+                        ×
+                      </Button>
+                    )}
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setFillBlankAnswers([...fillBlankAnswers, ''])}
+                >
+                  添加空
+                </Button>
               </div>
             )}
 

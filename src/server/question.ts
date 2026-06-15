@@ -49,21 +49,17 @@ export const importQuestions = createServerFn({ method: 'POST' })
   .middleware([authFnMiddleware])
   .handler(async ({ data, context }) => {
     const { session } = context;
-    const created = await prisma.$transaction(
-      data.questions.map((q) =>
-        prisma.question.create({
-          data: {
-            content: q.content,
-            type: q.type as $Enums.QuestionType,
-            ...(q.options !== null ? { options: q.options } : {}),
-            answer: q.answer as Prisma.InputJsonValue,
-            tags: q.tags,
-            createdBy: session.user.id,
-          },
-        }),
-      ),
-    );
-    return { count: created.length };
+    const { count } = await prisma.question.createMany({
+      data: data.questions.map((q) => ({
+        content: q.content,
+        type: q.type as $Enums.QuestionType,
+        ...(q.options !== null ? { options: q.options } : {}),
+        answer: q.answer as Prisma.InputJsonValue,
+        tags: q.tags,
+        createdBy: session.user.id,
+      })),
+    });
+    return { count };
   });
 
 export const deleteQuestion = createServerFn({ method: 'POST' })

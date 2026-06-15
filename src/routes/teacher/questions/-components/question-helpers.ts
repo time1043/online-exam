@@ -15,7 +15,7 @@ export const statusMap: Record<
   rejected: { label: '已拒绝', variant: 'destructive' },
 };
 
-export function formatAnswer(type: string, answer: string | number | number[]): string {
+export function formatAnswer(type: string, answer: string | number | number[] | string[]): string {
   switch (type) {
     case 'single_choice':
       return getOptionLabel(Number(answer));
@@ -24,6 +24,7 @@ export function formatAnswer(type: string, answer: string | number | number[]): 
     case 'true_false':
       return Number(answer) === 0 ? '正确' : '错误';
     case 'fill_blank':
+      return Array.isArray(answer) ? (answer as string[]).join('、') : String(answer);
     case 'essay':
       return String(answer).length > 50 ? String(answer).slice(0, 50) + '...' : String(answer);
     default:
