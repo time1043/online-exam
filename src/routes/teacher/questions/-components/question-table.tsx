@@ -9,7 +9,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ArrowUpDown, ChevronLeft, ChevronRight, Search, Trash2, X } from 'lucide-react';
+import { ArrowUpDown, ChevronLeft, ChevronRight, Search, Trash2, User, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -41,6 +41,7 @@ export type QuestionRow = {
   answer: string | number | number[];
   tags: string[];
   status: string;
+  creatorName: string;
   createdAt: string;
 };
 
@@ -93,6 +94,11 @@ const columns = [
       const s = statusMap[info.getValue()] || statusMap.pending;
       return <Badge variant={s.variant}>{s.label}</Badge>;
     },
+  }),
+  columnHelper.accessor('creatorName', {
+    header: '上传人',
+    filterFn: 'includesString',
+    cell: (info) => <span className="text-sm whitespace-nowrap">{info.getValue()}</span>,
   }),
   columnHelper.accessor('createdAt', {
     header: '创建时间',
@@ -164,6 +170,7 @@ export function QuestionTable({ data }: QuestionTableProps) {
 
   const typeFilter = (columnFilters.find((f) => f.id === 'type')?.value as string) ?? 'all';
   const statusFilter = (columnFilters.find((f) => f.id === 'status')?.value as string) ?? 'all';
+  const creatorFilter = (columnFilters.find((f) => f.id === 'creatorName')?.value as string) ?? '';
   const dateRange = (columnFilters.find((f) => f.id === 'createdAt')?.value as
     | { from: string | null; to: string | null }
     | undefined) ?? { from: null, to: null };
@@ -182,6 +189,17 @@ export function QuestionTable({ data }: QuestionTableProps) {
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="w-56 pl-9"
+          />
+        </div>
+        <div className="relative">
+          <User className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="上传人"
+            value={creatorFilter}
+            onChange={(e) =>
+              table.getColumn('creatorName')?.setFilterValue(e.target.value || undefined)
+            }
+            className="w-44 pl-9"
           />
         </div>
         <Select

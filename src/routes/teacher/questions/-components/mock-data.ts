@@ -9,6 +9,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 0,
     tags: ['HTTP', '网络'],
     status: 'active',
+    creatorName: '张三',
     createdAt: '2026-06-10T08:00:00.000Z',
   },
   {
@@ -19,6 +20,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: [0, 2, 4],
     tags: ['JavaScript', '基础'],
     status: 'pending',
+    creatorName: '张三',
     createdAt: '2026-06-12T10:30:00.000Z',
   },
   {
@@ -29,6 +31,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 0,
     tags: ['TypeScript'],
     status: 'active',
+    creatorName: '李四',
     createdAt: '2026-06-13T14:00:00.000Z',
   },
   {
@@ -39,6 +42,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 'a',
     tags: ['HTML', '前端'],
     status: 'rejected',
+    creatorName: '张三',
     createdAt: '2026-06-14T09:00:00.000Z',
   },
   {
@@ -49,6 +53,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 'RESTful API 的核心原则包括：无状态、统一接口、资源导向...',
     tags: ['API', '架构'],
     status: 'pending',
+    creatorName: '李四',
     createdAt: '2026-06-15T11:00:00.000Z',
   },
   {
@@ -59,6 +64,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 'setState',
     tags: ['React', 'Hooks'],
     status: 'active',
+    creatorName: '王五',
     createdAt: '2026-06-14T16:00:00.000Z',
   },
   {
@@ -69,6 +75,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 2,
     tags: ['CSS', '基础'],
     status: 'active',
+    creatorName: '王五',
     createdAt: '2026-06-13T09:00:00.000Z',
   },
   {
@@ -79,6 +86,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: [0, 2, 4],
     tags: ['HTTP', '网络'],
     status: 'active',
+    creatorName: '张三',
     createdAt: '2026-06-12T14:00:00.000Z',
   },
   {
@@ -89,6 +97,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 0,
     tags: ['JavaScript', '基础'],
     status: 'pending',
+    creatorName: '李四',
     createdAt: '2026-06-15T08:00:00.000Z',
   },
   {
@@ -99,6 +108,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: '虚拟 DOM 是真实 DOM 的轻量级 JavaScript 对象表示...',
     tags: ['React', '原理'],
     status: 'pending',
+    creatorName: '王五',
     createdAt: '2026-06-14T10:00:00.000Z',
   },
   {
@@ -109,6 +119,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 'fs',
     tags: ['Node.js', '基础'],
     status: 'active',
+    creatorName: '李四',
     createdAt: '2026-06-13T11:00:00.000Z',
   },
   {
@@ -119,6 +130,7 @@ export const mockQuestions: QuestionRow[] = [
     answer: 1,
     tags: ['CSS', '布局'],
     status: 'rejected',
+    creatorName: '张三',
     createdAt: '2026-06-12T08:00:00.000Z',
   },
 ];
