@@ -64,112 +64,117 @@ export type QuestionRow = {
 
 const columnHelper = createColumnHelper<QuestionRow>();
 
-const columns = [
-  columnHelper.accessor('content', {
-    header: '题干',
-    cell: (info) => <span className="line-clamp-2 max-w-80">{info.getValue()}</span>,
-  }),
-  columnHelper.accessor('type', {
-    header: '题型',
-    filterFn: 'equals',
-    cell: (info) => (
-      <Badge variant="secondary" className="shrink-0">
-        {questionTypeMap[info.getValue()] || info.getValue()}
-      </Badge>
-    ),
-  }),
-  columnHelper.accessor('answer', {
-    header: '答案',
-    enableSorting: false,
-    cell: (info) => (
-      <span className="text-sm text-muted-foreground">
-        {formatAnswer(info.row.original.type, info.getValue())}
-      </span>
-    ),
-  }),
-  columnHelper.accessor('tags', {
-    header: '标签',
-    enableSorting: false,
-    cell: (info) => {
-      const tags = info.getValue();
-      if (tags.length === 0) return <span className="text-sm text-muted-foreground">—</span>;
-      return (
-        <div className="flex flex-wrap gap-1">
-          {tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      );
-    },
-  }),
-  columnHelper.accessor('status', {
-    header: '状态',
-    filterFn: 'equals',
-    cell: (info) => {
-      const s = statusMap[info.getValue()] || statusMap.pending;
-      return <Badge variant={s.variant}>{s.label}</Badge>;
-    },
-  }),
-  columnHelper.accessor('creatorName', {
-    header: '上传人',
-    filterFn: 'includesString',
-    cell: (info) => <span className="text-sm whitespace-nowrap">{info.getValue()}</span>,
-  }),
-  columnHelper.accessor('createdAt', {
-    header: '创建时间',
-    filterFn: (
-      row,
-      columnId,
-      filterValue: { from: string | null; to: string | null } | undefined,
-    ) => {
-      if (!filterValue || (!filterValue.from && !filterValue.to)) return true;
-      const date = new Date(row.getValue(columnId));
-      const day = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
-      if (filterValue.from) {
-        const from = new Date(filterValue.from + 'T00:00:00').getTime();
-        if (day < from) return false;
-      }
-      if (filterValue.to) {
-        const to = new Date(filterValue.to + 'T23:59:59').getTime();
-        if (day > to) return false;
-      }
-      return true;
-    },
-    cell: (info) => (
-      <span className="text-sm whitespace-nowrap text-muted-foreground">
-        {new Date(info.getValue()).toLocaleDateString('zh-CN')}
-      </span>
-    ),
-  }),
-  columnHelper.display({
-    id: 'actions',
-    header: '操作',
-    cell: (info) => (
-      <Button
-        variant="ghost"
-        size="icon-sm"
-        onClick={(e) => {
-          e.stopPropagation();
-          console.log('Delete question:', info.row.original.id);
-        }}
-      >
-        <Trash2 className="size-4 text-muted-foreground hover:text-destructive" />
-      </Button>
-    ),
-  }),
-];
+function getColumns(onDelete?: (id: string) => void) {
+  return [
+    columnHelper.accessor('content', {
+      header: '题干',
+      cell: (info) => <span className="line-clamp-2 max-w-80">{info.getValue()}</span>,
+    }),
+    columnHelper.accessor('type', {
+      header: '题型',
+      filterFn: 'equals',
+      cell: (info) => (
+        <Badge variant="secondary" className="shrink-0">
+          {questionTypeMap[info.getValue()] || info.getValue()}
+        </Badge>
+      ),
+    }),
+    columnHelper.accessor('answer', {
+      header: '答案',
+      enableSorting: false,
+      cell: (info) => (
+        <span className="text-sm text-muted-foreground">
+          {formatAnswer(info.row.original.type, info.getValue())}
+        </span>
+      ),
+    }),
+    columnHelper.accessor('tags', {
+      header: '标签',
+      enableSorting: false,
+      cell: (info) => {
+        const tags = info.getValue();
+        if (tags.length === 0) return <span className="text-sm text-muted-foreground">—</span>;
+        return (
+          <div className="flex flex-wrap gap-1">
+            {tags.map((tag) => (
+              <Badge key={tag} variant="outline" className="text-xs">
+                {tag}
+              </Badge>
+            ))}
+          </div>
+        );
+      },
+    }),
+    columnHelper.accessor('status', {
+      header: '状态',
+      filterFn: 'equals',
+      cell: (info) => {
+        const s = statusMap[info.getValue()] || statusMap.pending;
+        return <Badge variant={s.variant}>{s.label}</Badge>;
+      },
+    }),
+    columnHelper.accessor('creatorName', {
+      header: '上传人',
+      filterFn: 'includesString',
+      cell: (info) => <span className="text-sm whitespace-nowrap">{info.getValue()}</span>,
+    }),
+    columnHelper.accessor('createdAt', {
+      header: '创建时间',
+      filterFn: (
+        row,
+        columnId,
+        filterValue: { from: string | null; to: string | null } | undefined,
+      ) => {
+        if (!filterValue || (!filterValue.from && !filterValue.to)) return true;
+        const date = new Date(row.getValue(columnId));
+        const day = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+        if (filterValue.from) {
+          const from = new Date(filterValue.from + 'T00:00:00').getTime();
+          if (day < from) return false;
+        }
+        if (filterValue.to) {
+          const to = new Date(filterValue.to + 'T23:59:59').getTime();
+          if (day > to) return false;
+        }
+        return true;
+      },
+      cell: (info) => (
+        <span className="text-sm whitespace-nowrap text-muted-foreground">
+          {new Date(info.getValue()).toLocaleDateString('zh-CN')}
+        </span>
+      ),
+    }),
+    columnHelper.display({
+      id: 'actions',
+      header: '操作',
+      cell: (info) => (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete?.(info.row.original.id);
+          }}
+        >
+          <Trash2 className="size-4 text-muted-foreground hover:text-destructive" />
+        </Button>
+      ),
+    }),
+  ];
+}
 
 interface QuestionTableProps {
   data: QuestionRow[];
+  onDelete?: (id: string) => void;
 }
 
-export function QuestionTable({ data }: QuestionTableProps) {
+export function QuestionTable({ data, onDelete }: QuestionTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
+  const columns = getColumns(onDelete);
 
   const table = useReactTable({
     data,
