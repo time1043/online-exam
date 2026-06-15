@@ -31,6 +31,7 @@ function toQuestionRow(
     answer: q.answer as string | number | number[],
     tags: q.tags,
     status: q.status,
+    isReported: q.isReported,
     creatorName: q.creator.name,
     createdAt: typeof q.createdAt === 'string' ? q.createdAt : (q.createdAt as Date).toISOString(),
   };

@@ -76,6 +76,7 @@ export type QuestionRow = {
   answer: string | number | number[] | string[];
   tags: string[];
   status: string;
+  isReported: boolean;
   creatorName: string;
   createdAt: string;
 };
@@ -151,9 +152,22 @@ function getColumns(onDelete?: (id: string) => void) {
       header: '状态',
       filterFn: 'equals',
       cell: (info) => {
-        const s = statusMap[info.getValue()] || statusMap.pending;
+        const s = statusMap[info.getValue()] || statusMap.private;
         return <Badge variant={s.variant}>{s.label}</Badge>;
       },
+    }),
+    columnHelper.accessor('isReported', {
+      header: '反馈',
+      enableSorting: false,
+      enableHiding: false,
+      cell: (info) =>
+        info.getValue() ? (
+          <Badge variant="destructive" className="text-xs">
+            有反馈
+          </Badge>
+        ) : (
+          <span className="text-sm text-muted-foreground">—</span>
+        ),
     }),
     columnHelper.accessor('creatorName', {
       header: '上传人',

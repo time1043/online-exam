@@ -10,9 +10,9 @@ export const statusMap: Record<
   string,
   { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }
 > = {
+  private: { label: '私有', variant: 'outline' },
   pending: { label: '待审核', variant: 'secondary' },
-  active: { label: '已通过', variant: 'default' },
-  rejected: { label: '已拒绝', variant: 'destructive' },
+  public: { label: '已公开', variant: 'default' },
 };
 
 export function formatAnswer(type: string, answer: string | number | number[] | string[]): string {

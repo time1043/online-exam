@@ -26,14 +26,16 @@ import type { QuestionRow } from './question-table';
 import { questionTypeMap } from './question-helpers';
 
 interface ImportQuestionsDialogProps {
-  onSubmit: (questions: Omit<QuestionRow, 'id' | 'status' | 'creatorName' | 'createdAt'>[]) => void;
+  onSubmit: (
+    questions: Omit<QuestionRow, 'id' | 'status' | 'isReported' | 'creatorName' | 'createdAt'>[],
+  ) => void;
   isLoading?: boolean;
 }
 
 export function ImportQuestionsDialog({ onSubmit, isLoading }: ImportQuestionsDialogProps) {
   const [open, setOpen] = useState(false);
   const [questions, setQuestions] = useState<
-    Omit<QuestionRow, 'id' | 'status' | 'creatorName' | 'createdAt'>[]
+    Omit<QuestionRow, 'id' | 'status' | 'isReported' | 'creatorName' | 'createdAt'>[]
   >([]);
   const [error, setError] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -78,7 +80,7 @@ export function ImportQuestionsDialog({ onSubmit, isLoading }: ImportQuestionsDi
           'fill_blank',
           'essay',
         ];
-        const parsed: Omit<QuestionRow, 'id' | 'status' | 'creatorName' | 'createdAt'>[] = [];
+        const parsed: Omit<QuestionRow, 'id' | 'status' | 'isReported' | 'creatorName' | 'createdAt'>[] = [];
 
         for (let i = 0; i < json.length; i++) {
           const item = json[i];
