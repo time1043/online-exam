@@ -1,0 +1,55 @@
+[
+  {
+    "content": "HTTP 状态码 404 表示什么？",
+    "type": "single_choice",
+    "options": ["Not Found", "Bad Request", "Unauthorized", "Internal Server Error"],
+    "answer": 0,
+    "tags": ["HTTP", "网络"]
+  },
+  {
+    "content": "以下哪些是 JavaScript 的原始类型？",
+    "type": "multiple_choice",
+    "options": ["string", "array", "boolean", "object", "number"],
+    "answer": [0, 2, 4],
+    "tags": ["JavaScript", "基础"]
+  },
+  {
+    "content": "TypeScript 是 JavaScript 的超集。",
+    "type": "true_false",
+    "answer": 0,
+    "tags": ["TypeScript"]
+  },
+  {
+    "content": "HTML 中，____ 标签用于创建超链接。",
+    "type": "fill_blank",
+    "answer": "a",
+    "tags": ["HTML", "前端"]
+  },
+  {
+    "content": "简述虚拟 DOM 的工作原理及其优势。",
+    "type": "essay",
+    "answer": "虚拟 DOM 是真实 DOM 的轻量级 JavaScript 对象表示。当状态变化时，框架先在虚拟 DOM 上计算差异（diff），再将最小变更批量应用到真实 DOM，从而减少昂贵的 DOM 操作次数，提升渲染性能。",
+    "referenceAnswer": "虚拟 DOM 是真实 DOM 的轻量级 JavaScript 对象表示...",
+    "tags": ["React", "原理"]
+  },
+  {
+    "content": "CSS Flexbox 中，justify-content 的默认值是？",
+    "type": "single_choice",
+    "options": ["center", "flex-start", "flex-end", "space-between"],
+    "answer": 1,
+    "tags": ["CSS", "布局"]
+  },
+  {
+    "content": "以下哪些是 HTTP 请求方法？",
+    "type": "multiple_choice",
+    "options": ["GET", "SEND", "POST", "FETCH", "DELETE"],
+    "answer": [0, 2, 4],
+    "tags": ["HTTP", "网络"]
+  },
+  {
+    "content": "Node.js 中，____ 模块用于操作文件系统。",
+    "type": "fill_blank",
+    "answer": "fs",
+    "tags": ["Node.js", "基础"]
+  }
+]

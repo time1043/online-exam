@@ -2,11 +2,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
-import { createQuestion, deleteQuestion, getQuestions } from '@/server/question';
+import { createQuestion, deleteQuestion, getQuestions, importQuestions } from '@/server/question';
 
 import type { QuestionRow } from './-components/question-table';
 
 import { CreateQuestionDialog } from './-components/create-question-dialog';
+import { ImportQuestionsDialog } from './-components/import-questions-dialog';
 import { QuestionTable } from './-components/question-table';
 
 export const Route = createFileRoute('/teacher/questions/')({
@@ -70,6 +71,17 @@ function RouteComponent() {
     },
   });
 
+  const importMutation = useMutation({
+    mutationFn: (questions: CreateQuestionInput[]) => importQuestions({ data: { questions } }),
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+      toast.success(`成功导入 ${result.count} 道题目`);
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : '导入失败，请重试');
+    },
+  });
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -77,7 +89,13 @@ function RouteComponent() {
           <h1 className="text-2xl font-bold">题库管理</h1>
           <p className="text-muted-foreground">管理你的题目</p>
         </div>
-        <CreateQuestionDialog onSubmit={(data) => createMutation.mutate(data)} />
+        <div className="flex items-center gap-2">
+          <CreateQuestionDialog onSubmit={(data) => createMutation.mutate(data)} />
+          <ImportQuestionsDialog
+            onSubmit={(questions) => importMutation.mutate(questions as CreateQuestionInput[])}
+            isLoading={importMutation.isPending}
+          />
+        </div>
       </div>
 
       {isLoading ? (

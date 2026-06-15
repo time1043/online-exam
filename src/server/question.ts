@@ -4,7 +4,7 @@ import type { $Enums, Prisma } from '@/generated/prisma/client';
 
 import { prisma } from '@/db';
 import { authFnMiddleware } from '@/middlewares/auth';
-import { createQuestionSchema, deleteQuestionSchema } from '@/schemas/question';
+import { createQuestionSchema, deleteQuestionSchema, importQuestionsSchema } from '@/schemas/question';
 
 export const getQuestions = createServerFn({ method: 'GET' })
   .middleware([authFnMiddleware])
@@ -38,6 +38,29 @@ export const createQuestion = createServerFn({ method: 'POST' })
         creator: { select: { name: true } },
       },
     });
+  });
+
+export const importQuestions = createServerFn({ method: 'POST' })
+  .validator(importQuestionsSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+    const created = await prisma.$transaction(
+      data.questions.map((q) =>
+        prisma.question.create({
+          data: {
+            content: q.content,
+            type: q.type as $Enums.QuestionType,
+            ...(q.options !== null ? { options: q.options } : {}),
+            answer: q.answer as Prisma.InputJsonValue,
+            referenceAnswer: q.referenceAnswer,
+            tags: q.tags,
+            createdBy: session.user.id,
+          },
+        }),
+      ),
+    );
+    return { count: created.length };
   });
 
 export const deleteQuestion = createServerFn({ method: 'POST' })
