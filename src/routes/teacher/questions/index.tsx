@@ -138,7 +138,11 @@ const columns = [
   }),
   columnHelper.accessor('createdAt', {
     header: '创建时间',
-    filterFn: (row, columnId, filterValue: { from: string | null; to: string | null } | undefined) => {
+    filterFn: (
+      row,
+      columnId,
+      filterValue: { from: string | null; to: string | null } | undefined,
+    ) => {
       if (!filterValue || (!filterValue.from && !filterValue.to)) return true;
       const date = new Date(row.getValue(columnId));
       // strip time for date-only comparison
@@ -325,9 +329,7 @@ function RouteComponent() {
   const dateRange = (columnFilters.find((f) => f.id === 'createdAt')?.value as
     | { from: string | null; to: string | null }
     | undefined) ?? { from: null, to: null };
-  const hasNonDateFilters =
-    globalFilter !== '' ||
-    columnFilters.some((f) => f.id !== 'createdAt');
+  const hasNonDateFilters = globalFilter !== '' || columnFilters.some((f) => f.id !== 'createdAt');
   const hasDateFilter = dateRange.from !== null || dateRange.to !== null;
   const hasFilters = hasNonDateFilters || hasDateFilter;
 
@@ -342,7 +344,7 @@ function RouteComponent() {
       </div>
 
       {/* 搜索与筛选栏 */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <div className="relative">
           <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -434,7 +436,7 @@ function RouteComponent() {
         )}
       </div>
 
-      <div className="rounded-md border">
+      <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
