@@ -21,8 +21,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { questionTypeMap } from './question-helpers';
 import type { QuestionRow } from './question-table';
+
+import { questionTypeMap } from './question-helpers';
 
 interface ImportQuestionsDialogProps {
   onSubmit: (questions: Omit<QuestionRow, 'id' | 'status' | 'creatorName' | 'createdAt'>[]) => void;
@@ -31,7 +32,9 @@ interface ImportQuestionsDialogProps {
 
 export function ImportQuestionsDialog({ onSubmit, isLoading }: ImportQuestionsDialogProps) {
   const [open, setOpen] = useState(false);
-  const [questions, setQuestions] = useState<Omit<QuestionRow, 'id' | 'status' | 'creatorName' | 'createdAt'>[]>([]);
+  const [questions, setQuestions] = useState<
+    Omit<QuestionRow, 'id' | 'status' | 'creatorName' | 'createdAt'>[]
+  >([]);
   const [error, setError] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -68,7 +71,13 @@ export function ImportQuestionsDialog({ onSubmit, isLoading }: ImportQuestionsDi
           return;
         }
 
-        const validTypes = ['single_choice', 'multiple_choice', 'true_false', 'fill_blank', 'essay'];
+        const validTypes = [
+          'single_choice',
+          'multiple_choice',
+          'true_false',
+          'fill_blank',
+          'essay',
+        ];
         const parsed: Omit<QuestionRow, 'id' | 'status' | 'creatorName' | 'createdAt'>[] = [];
 
         for (let i = 0; i < json.length; i++) {

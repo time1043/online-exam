@@ -4,7 +4,12 @@ import type { $Enums, Prisma } from '@/generated/prisma/client';
 
 import { prisma } from '@/db';
 import { authFnMiddleware } from '@/middlewares/auth';
-import { createQuestionSchema, deleteQuestionSchema, importQuestionsSchema } from '@/schemas/question';
+import {
+  createQuestionSchema,
+  deleteQuestionSchema,
+  deleteQuestionsSchema,
+  importQuestionsSchema,
+} from '@/schemas/question';
 
 export const getQuestions = createServerFn({ method: 'GET' })
   .middleware([authFnMiddleware])
@@ -76,4 +81,18 @@ export const deleteQuestion = createServerFn({ method: 'POST' })
     if (question.createdBy !== session.user.id) throw new Error('无权删除');
 
     return prisma.question.delete({ where: { id: data.id } });
+  });
+
+export const deleteQuestions = createServerFn({ method: 'POST' })
+  .validator(deleteQuestionsSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+    const { count } = await prisma.question.deleteMany({
+      where: {
+        id: { in: data.ids },
+        createdBy: session.user.id,
+      },
+    });
+    return { count };
   });

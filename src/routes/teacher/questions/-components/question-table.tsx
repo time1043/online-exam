@@ -1,4 +1,9 @@
-import type { ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table';
+import type {
+  ColumnFiltersState,
+  RowSelectionState,
+  SortingState,
+  VisibilityState,
+} from '@tanstack/react-table';
 
 import {
   createColumnHelper,
@@ -34,7 +39,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -59,6 +64,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 import { formatAnswer, questionTypeMap, statusMap } from './question-helpers';
 
@@ -78,6 +84,30 @@ const columnHelper = createColumnHelper<QuestionRow>();
 
 function getColumns(onDelete?: (id: string) => void) {
   return [
+    columnHelper.display({
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="全选"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          onClick={(e) => e.stopPropagation()}
+          aria-label="选择"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+      size: 40,
+    }),
     columnHelper.accessor('content', {
       header: '题干',
       cell: (info) => <span className="line-clamp-2 max-w-80">{info.getValue()}</span>,
@@ -164,11 +194,7 @@ function getColumns(onDelete?: (id: string) => void) {
           <Tooltip>
             <TooltipTrigger asChild>
               <AlertDialogTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={(e) => e.stopPropagation()}
-                >
+                <Button variant="ghost" size="icon-sm" onClick={(e) => e.stopPropagation()}>
                   <Trash2 className="size-4 text-destructive" />
                 </Button>
               </AlertDialogTrigger>
@@ -204,21 +230,24 @@ function getColumns(onDelete?: (id: string) => void) {
 interface QuestionTableProps {
   data: QuestionRow[];
   onDelete?: (id: string) => void;
+  onBatchDelete?: (ids: string[]) => void;
 }
 
-export function QuestionTable({ data, onDelete }: QuestionTableProps) {
+export function QuestionTable({ data, onDelete, onBatchDelete }: QuestionTableProps) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const columns = getColumns(onDelete);
 
   const table = useReactTable({
     data,
     columns,
-    state: { sorting, globalFilter, columnFilters, columnVisibility },
+    state: { sorting, globalFilter, columnFilters, columnVisibility, rowSelection },
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -239,6 +268,8 @@ export function QuestionTable({ data, onDelete }: QuestionTableProps) {
   const hasNonDateFilters = globalFilter !== '' || columnFilters.some((f) => f.id !== 'createdAt');
   const hasDateFilter = dateRange.from !== null || dateRange.to !== null;
   const hasFilters = hasNonDateFilters || hasDateFilter;
+
+  const selectedIds = table.getSelectedRowModel().rows.map((row) => row.original.id);
 
   return (
     <div className="space-y-4">
@@ -372,6 +403,44 @@ export function QuestionTable({ data, onDelete }: QuestionTableProps) {
         )}
       </div>
 
+      {/* 批量操作栏 */}
+      {selectedIds.length > 0 && (
+        <div className="flex items-center gap-3 rounded-md border border-destructive/30 bg-destructive/5 px-4 py-2">
+          <span className="text-sm">已选 {selectedIds.length} 项</span>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" size="sm">
+                <Trash2 className="mr-1 size-4" />
+                批量删除
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>确认批量删除</AlertDialogTitle>
+                <AlertDialogDescription>
+                  删除后无法恢复，确定要删除选中的 {selectedIds.length} 道题目吗？
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction
+                  variant="destructive"
+                  onClick={() => {
+                    onBatchDelete?.(selectedIds);
+                    setRowSelection({});
+                  }}
+                >
+                  删除
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <Button variant="ghost" size="sm" onClick={() => setRowSelection({})}>
+            取消选择
+          </Button>
+        </div>
+      )}
+
       <div className="overflow-x-auto rounded-md border">
         <Table>
           <TableHeader>
@@ -404,7 +473,7 @@ export function QuestionTable({ data, onDelete }: QuestionTableProps) {
               </TableRow>
             ) : (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

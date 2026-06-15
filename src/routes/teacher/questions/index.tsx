@@ -2,7 +2,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { toast } from 'sonner';
 
-import { createQuestion, deleteQuestion, getQuestions, importQuestions } from '@/server/question';
+import {
+  createQuestion,
+  deleteQuestion,
+  deleteQuestions,
+  getQuestions,
+  importQuestions,
+} from '@/server/question';
 
 import type { QuestionRow } from './-components/question-table';
 
@@ -82,6 +88,17 @@ function RouteComponent() {
     },
   });
 
+  const batchDeleteMutation = useMutation({
+    mutationFn: (ids: string[]) => deleteQuestions({ data: { ids } }),
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: ['questions'] });
+      toast.success(`成功删除 ${result.count} 道题目`);
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : '删除失败，请重试');
+    },
+  });
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -101,7 +118,11 @@ function RouteComponent() {
       {isLoading ? (
         <div className="text-center text-muted-foreground">加载中...</div>
       ) : (
-        <QuestionTable data={rows} onDelete={(id) => deleteMutation.mutate(id)} />
+        <QuestionTable
+          data={rows}
+          onDelete={(id) => deleteMutation.mutate(id)}
+          onBatchDelete={(ids) => batchDeleteMutation.mutate(ids)}
+        />
       )}
     </div>
   );

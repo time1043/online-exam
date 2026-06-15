@@ -14,9 +14,16 @@ export const createQuestionSchema = z.object({
 });
 
 export const importQuestionsSchema = z.object({
-  questions: z.array(createQuestionSchema).min(1, '至少导入 1 道题目').max(200, '单次最多导入 200 道'),
+  questions: z
+    .array(createQuestionSchema)
+    .min(1, '至少导入 1 道题目')
+    .max(200, '单次最多导入 200 道'),
 });
 
 export const deleteQuestionSchema = z.object({
   id: z.string(),
+});
+
+export const deleteQuestionsSchema = z.object({
+  ids: z.array(z.string()).min(1, '至少选择 1 道题目'),
 });
