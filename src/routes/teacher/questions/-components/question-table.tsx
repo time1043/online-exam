@@ -251,7 +251,7 @@ export function QuestionTable({ data, onDelete, onBatchDelete }: QuestionTablePr
   const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({ answer: false });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const columns = getColumns(onDelete);

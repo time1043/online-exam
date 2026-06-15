@@ -80,7 +80,10 @@ export function ImportQuestionsDialog({ onSubmit, isLoading }: ImportQuestionsDi
           'fill_blank',
           'essay',
         ];
-        const parsed: Omit<QuestionRow, 'id' | 'status' | 'isReported' | 'creatorName' | 'createdAt'>[] = [];
+        const parsed: Omit<
+          QuestionRow,
+          'id' | 'status' | 'isReported' | 'creatorName' | 'createdAt'
+        >[] = [];
 
         for (let i = 0; i < json.length; i++) {
           const item = json[i];
