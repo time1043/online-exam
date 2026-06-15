@@ -27,9 +27,9 @@ enum QuestionType {
 }
 
 enum QuestionStatus {
+  private
   pending
-  active
-  rejected
+  public
 }
 
 model User {
@@ -152,7 +152,8 @@ model Question {
   options         Json?
   answer          Json
   tags            String[]
-  status          QuestionStatus @default(pending)
+  status          QuestionStatus @default(private)
+  isReported      Boolean        @default(false)
   reviewHistory   Json?
   createdBy       String
   creator         User           @relation("QuestionCreator", fields: [createdBy], references: [id], onDelete: Cascade)
