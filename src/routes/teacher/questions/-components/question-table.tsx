@@ -21,8 +21,20 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -148,16 +160,42 @@ function getColumns(onDelete?: (id: string) => void) {
       id: 'actions',
       header: '操作',
       cell: (info) => (
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete?.(info.row.original.id);
-          }}
-        >
-          <Trash2 className="size-4 text-muted-foreground hover:text-destructive" />
-        </Button>
+        <AlertDialog>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <Trash2 className="size-4 text-destructive" />
+                </Button>
+              </AlertDialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent>删除题目</TooltipContent>
+          </Tooltip>
+          <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+            <AlertDialogHeader>
+              <AlertDialogTitle>确认删除</AlertDialogTitle>
+              <AlertDialogDescription>
+                删除后无法恢复，确定要删除这道题目吗？
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={(e) => e.stopPropagation()}>取消</AlertDialogCancel>
+              <AlertDialogAction
+                variant="destructive"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete?.(info.row.original.id);
+                }}
+              >
+                删除
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       ),
     }),
   ];
