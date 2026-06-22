@@ -251,18 +251,21 @@ export const getExamForStudent = createServerFn({ method: 'GET' })
 
     const submission = await prisma.examSubmission.findUnique({
       where: { examId_studentId: { examId: data.examId, studentId: session.user.id } },
-      select: { submittedAt: true },
+      select: { id: true, submittedAt: true },
     });
     if (submission?.submittedAt) throw new Error('你已经提交过这份试卷');
 
     // Get saved answers (draft)
-    let savedAnswers: { questionId: string; answer: unknown }[] = [];
+    let savedAnswers: { questionId: string; answer: string | number | number[] | string[] }[] = [];
     if (submission) {
       const draftAnswers = await prisma.examAnswer.findMany({
         where: { submissionId: submission.id },
         select: { questionId: true, answer: true },
       });
-      savedAnswers = draftAnswers;
+      savedAnswers = draftAnswers.map((d) => ({
+        questionId: d.questionId,
+        answer: d.answer as string | number | number[] | string[],
+      }));
     }
 
     return { ...exam, savedAnswers };
@@ -636,7 +639,28 @@ export const gradeSubmission = createServerFn({ method: 'POST' })
     // Build update operations
     const updates = data.scores.map((s) => {
       const existing = existingMap.get(s.questionId);
-      const history = (existing?.scoreHistory as unknown[]) ?? [];
+      const history =
+        (existing?.scoreHistory as {
+          score: number;
+          reason: string;
+          role: string;
+          changedAt: string;
+        }[]) ?? [];
+      const lastEntry = history[history.length - 1];
+
+      // Skip if score and reason haven't changed
+      if (lastEntry && lastEntry.score === s.score && lastEntry.reason === s.reason) {
+        return prisma.examAnswer.update({
+          where: {
+            submissionId_questionId: {
+              submissionId: data.submissionId,
+              questionId: s.questionId,
+            },
+          },
+          data: { score: s.score },
+        });
+      }
+
       const newEntry = {
         score: s.score,
         reason: s.reason,

@@ -55,7 +55,6 @@ function RouteComponent() {
     objectiveScore,
     subjectiveTotal,
     subjectiveScore,
-    hasUngraded,
     answers,
   } = data;
   const answerMap = new Map(answers.map((a) => [a.questionId, a]));
