@@ -47,8 +47,19 @@ function RouteComponent() {
     return <div className="text-center text-muted-foreground">未找到考试记录</div>;
   }
 
-  const { exam, submittedAt, totalScore, gradedScore, hasUngraded, answers } = data;
+  const {
+    exam,
+    submittedAt,
+    totalScore,
+    objectiveTotal,
+    objectiveScore,
+    subjectiveTotal,
+    subjectiveScore,
+    hasUngraded,
+    answers,
+  } = data;
   const answerMap = new Map(answers.map((a) => [a.questionId, a]));
+  const gradedScore = objectiveScore + subjectiveScore;
 
   return (
     <div className="space-y-6">
@@ -72,17 +83,23 @@ function RouteComponent() {
       <Card>
         <CardContent className="flex items-center gap-6 pt-6">
           <div className="text-center">
-            <div className="text-3xl font-bold">
-              {hasUngraded ? `${gradedScore}/?` : gradedScore}
-            </div>
+            <div className="text-3xl font-bold">{gradedScore}</div>
             <p className="text-sm text-muted-foreground">/ {totalScore} 分</p>
           </div>
           <Separator orientation="vertical" className="h-12" />
-          <div>
+          <div className="space-y-1">
             <p className="text-sm">
-              客观题得分：<span className="font-medium">{gradedScore}</span>
+              客观题：<span className="font-medium">{objectiveScore}</span>
+              {objectiveTotal > 0 && (
+                <span className="text-muted-foreground"> / {objectiveTotal}</span>
+              )}
             </p>
-            {hasUngraded && <p className="text-sm text-muted-foreground">主观题待教师评分</p>}
+            <p className="text-sm">
+              主观题：<span className="font-medium">{subjectiveScore}</span>
+              {subjectiveTotal > 0 && (
+                <span className="text-muted-foreground"> / {subjectiveTotal}</span>
+              )}
+            </p>
           </div>
         </CardContent>
       </Card>

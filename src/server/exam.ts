@@ -255,7 +255,17 @@ export const getExamForStudent = createServerFn({ method: 'GET' })
     });
     if (submission?.submittedAt) throw new Error('你已经提交过这份试卷');
 
-    return exam;
+    // Get saved answers (draft)
+    let savedAnswers: { questionId: string; answer: unknown }[] = [];
+    if (submission) {
+      const draftAnswers = await prisma.examAnswer.findMany({
+        where: { submissionId: submission.id },
+        select: { questionId: true, answer: true },
+      });
+      savedAnswers = draftAnswers;
+    }
+
+    return { ...exam, savedAnswers };
   });
 
 export const saveExam = createServerFn({ method: 'POST' })
@@ -460,14 +470,34 @@ export const getExamResult = createServerFn({ method: 'GET' })
 
     const answers = submission.answers;
     const totalScore = submission.exam.examQuestions.reduce((sum, eq) => sum + eq.score, 0);
-    const gradedScore = answers.reduce((sum, a) => sum + (a.score ?? 0), 0);
+    const objectiveTypes = ['single_choice', 'multiple_choice', 'true_false', 'fill_blank'];
+
+    let objectiveTotal = 0;
+    let objectiveScore = 0;
+    let subjectiveTotal = 0;
+    let subjectiveScore = 0;
+
+    for (const eq of submission.exam.examQuestions) {
+      const answer = answers.find((a) => a.questionId === eq.question.id);
+      if (objectiveTypes.includes(eq.question.type)) {
+        objectiveTotal += eq.score;
+        objectiveScore += answer?.score ?? 0;
+      } else {
+        subjectiveTotal += eq.score;
+        subjectiveScore += answer?.score ?? 0;
+      }
+    }
+
     const hasUngraded = answers.some((a) => a.score === null);
 
     return {
       exam: submission.exam,
       submittedAt: submission.submittedAt,
       totalScore,
-      gradedScore,
+      objectiveTotal,
+      objectiveScore,
+      subjectiveTotal,
+      subjectiveScore,
       hasUngraded,
       answers,
     };

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { ArrowLeft, Clock } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
@@ -34,6 +34,22 @@ function RouteComponent() {
   });
 
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
+
+  // Restore saved answers from draft
+  useEffect(() => {
+    const ex = exam as Record<string, unknown> | undefined;
+    if (
+      ex?.savedAnswers &&
+      Array.isArray(ex.savedAnswers) &&
+      (ex.savedAnswers as unknown[]).length > 0
+    ) {
+      const restored: Record<string, AnswerValue> = {};
+      for (const a of ex.savedAnswers as { questionId: string; answer: unknown }[]) {
+        restored[a.questionId] = a.answer as AnswerValue;
+      }
+      setAnswers(restored);
+    }
+  }, [exam]);
 
   const saveMutation = useMutation({
     mutationFn: () =>
@@ -153,14 +169,14 @@ function RouteComponent() {
         <Button
           variant="outline"
           size="lg"
-          disabled={saveMutation.isPending}
+          disabled={saveMutation.isPending || submitMutation.isPending}
           onClick={() => saveMutation.mutate()}
         >
           {saveMutation.isPending ? '保存中...' : '保存'}
         </Button>
         <Button
           size="lg"
-          disabled={submitMutation.isPending}
+          disabled={submitMutation.isPending || saveMutation.isPending}
           onClick={() => submitMutation.mutate()}
         >
           {submitMutation.isPending ? '提交中...' : '提交试卷'}
