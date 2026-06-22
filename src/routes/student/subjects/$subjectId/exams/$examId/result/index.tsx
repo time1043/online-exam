@@ -92,9 +92,12 @@ function RouteComponent() {
           const answer = answerMap.get(eq.question.id);
           const studentAnswer = answer?.answer;
           const score = answer?.score;
-          const isObjective = ['single_choice', 'multiple_choice', 'true_false'].includes(
-            eq.question.type,
-          );
+          const isObjective = [
+            'single_choice',
+            'multiple_choice',
+            'true_false',
+            'fill_blank',
+          ].includes(eq.question.type);
           const isCorrect = score === eq.score;
 
           return (
