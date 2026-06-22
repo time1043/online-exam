@@ -236,6 +236,7 @@ export const getExamForStudent = createServerFn({ method: 'GET' })
                 content: true,
                 type: true,
                 options: true,
+                answer: true,
               },
             },
           },
@@ -320,6 +321,15 @@ function gradeObjectiveAnswer(
       const student = (studentAnswer as number[]).slice().sort();
       return correct.length === student.length && correct.every((v, i) => v === student[i]);
     }
+    case 'fill_blank': {
+      const correct = correctAnswer as string[];
+      const student = studentAnswer as string[];
+      if (!Array.isArray(correct) || !Array.isArray(student)) return false;
+      return (
+        correct.length === student.length &&
+        correct.every((v, i) => v.trim().toLowerCase() === (student[i] ?? '').trim().toLowerCase())
+      );
+    }
     default:
       return false;
   }
@@ -360,7 +370,7 @@ export const submitExam = createServerFn({ method: 'POST' })
       ...data.answers.map((a) => {
         const eq = questionMap.get(a.questionId);
         if (!eq) return { questionId: a.questionId, answer: a.answer, score: null };
-        const objectiveTypes = ['single_choice', 'multiple_choice', 'true_false'];
+        const objectiveTypes = ['single_choice', 'multiple_choice', 'true_false', 'fill_blank'];
         if (objectiveTypes.includes(eq.question.type)) {
           const correct = gradeObjectiveAnswer(eq.question.type, eq.question.answer, a.answer);
           return { questionId: a.questionId, answer: a.answer, score: correct ? eq.score : 0 };

@@ -138,6 +138,9 @@ function RouteComponent() {
                 questionId={eq.question.id}
                 type={eq.question.type}
                 options={eq.question.options as string[] | null}
+                blankCount={
+                  Array.isArray(eq.question.answer) ? (eq.question.answer as string[]).length : 1
+                }
                 value={getAnswer(eq.question.id)}
                 onChange={(v) => setAnswer(eq.question.id, v)}
               />
@@ -171,11 +174,19 @@ interface QuestionInputProps {
   questionId: string;
   type: string;
   options: string[] | null;
+  blankCount?: number;
   value: AnswerValue;
   onChange: (value: AnswerValue) => void;
 }
 
-function QuestionInput({ questionId, type, options, value, onChange }: QuestionInputProps) {
+function QuestionInput({
+  questionId,
+  type,
+  options,
+  blankCount,
+  value,
+  onChange,
+}: QuestionInputProps) {
   switch (type) {
     case 'single_choice':
     case 'true_false':
@@ -219,14 +230,27 @@ function QuestionInput({ questionId, type, options, value, onChange }: QuestionI
         </div>
       );
 
-    case 'fill_blank':
+    case 'fill_blank': {
+      const blanks: string[] = Array.isArray(value)
+        ? (value as string[])
+        : Array(blankCount ?? 1).fill('');
       return (
-        <Input
-          value={String(value)}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="输入答案"
-        />
+        <div className="space-y-2">
+          {blanks.map((blank, i) => (
+            <Input
+              key={i}
+              value={blank}
+              onChange={(e) => {
+                const next = [...blanks];
+                next[i] = e.target.value;
+                onChange(next);
+              }}
+              placeholder={`第 ${i + 1} 个空`}
+            />
+          ))}
+        </div>
       );
+    }
 
     case 'essay':
       return (
