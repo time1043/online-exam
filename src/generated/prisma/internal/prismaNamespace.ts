@@ -385,6 +385,7 @@ export const ModelName = {
   Enrollment: 'Enrollment',
   Exam: 'Exam',
   Question: 'Question',
+  ExamQuestion: 'ExamQuestion',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -412,7 +413,8 @@ export type TypeMap<
       | 'subject'
       | 'enrollment'
       | 'exam'
-      | 'question';
+      | 'question'
+      | 'examQuestion';
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -1010,6 +1012,82 @@ export type TypeMap<
         };
       };
     };
+    ExamQuestion: {
+      payload: Prisma.$ExamQuestionPayload<ExtArgs>;
+      fields: Prisma.ExamQuestionFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.ExamQuestionFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.ExamQuestionFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>;
+        };
+        findFirst: {
+          args: Prisma.ExamQuestionFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.ExamQuestionFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>;
+        };
+        findMany: {
+          args: Prisma.ExamQuestionFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>[];
+        };
+        create: {
+          args: Prisma.ExamQuestionCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>;
+        };
+        createMany: {
+          args: Prisma.ExamQuestionCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.ExamQuestionCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>[];
+        };
+        delete: {
+          args: Prisma.ExamQuestionDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>;
+        };
+        update: {
+          args: Prisma.ExamQuestionUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>;
+        };
+        deleteMany: {
+          args: Prisma.ExamQuestionDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.ExamQuestionUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.ExamQuestionUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>[];
+        };
+        upsert: {
+          args: Prisma.ExamQuestionUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamQuestionPayload>;
+        };
+        aggregate: {
+          args: Prisma.ExamQuestionAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExamQuestion>;
+        };
+        groupBy: {
+          args: Prisma.ExamQuestionGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ExamQuestionGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.ExamQuestionCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.ExamQuestionCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -1159,6 +1237,17 @@ export const QuestionScalarFieldEnum = {
 
 export type QuestionScalarFieldEnum =
   (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum];
+
+export const ExamQuestionScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  questionId: 'questionId',
+  order: 'order',
+  score: 'score',
+} as const;
+
+export type ExamQuestionScalarFieldEnum =
+  (typeof ExamQuestionScalarFieldEnum)[keyof typeof ExamQuestionScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',
@@ -1446,6 +1535,7 @@ export type GlobalOmitConfig = {
   enrollment?: Prisma.EnrollmentOmit;
   exam?: Prisma.ExamOmit;
   question?: Prisma.QuestionOmit;
+  examQuestion?: Prisma.ExamQuestionOmit;
 };
 
 /* Types for Logging */

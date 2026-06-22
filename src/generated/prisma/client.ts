@@ -85,3 +85,8 @@ export type Exam = Prisma.ExamModel;
  *
  */
 export type Question = Prisma.QuestionModel;
+/**
+ * Model ExamQuestion
+ *
+ */
+export type ExamQuestion = Prisma.ExamQuestionModel;

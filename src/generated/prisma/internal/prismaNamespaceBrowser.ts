@@ -56,6 +56,7 @@ export const ModelName = {
   Enrollment: 'Enrollment',
   Exam: 'Exam',
   Question: 'Question',
+  ExamQuestion: 'ExamQuestion',
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -184,6 +185,17 @@ export const QuestionScalarFieldEnum = {
 
 export type QuestionScalarFieldEnum =
   (typeof QuestionScalarFieldEnum)[keyof typeof QuestionScalarFieldEnum];
+
+export const ExamQuestionScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  questionId: 'questionId',
+  order: 'order',
+  score: 'score',
+} as const;
+
+export type ExamQuestionScalarFieldEnum =
+  (typeof ExamQuestionScalarFieldEnum)[keyof typeof ExamQuestionScalarFieldEnum];
 
 export const SortOrder = {
   asc: 'asc',

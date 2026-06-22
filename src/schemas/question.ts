@@ -13,10 +13,13 @@ export const createQuestionSchema = z
     gradingCriteria: z.string().optional(),
     tags: z.array(z.string()),
   })
-  .refine((data) => data.type !== 'essay' || (data.gradingCriteria && data.gradingCriteria.length > 0), {
-    message: '论述题必须填写评分标准',
-    path: ['gradingCriteria'],
-  });
+  .refine(
+    (data) => data.type !== 'essay' || (data.gradingCriteria && data.gradingCriteria.length > 0),
+    {
+      message: '论述题必须填写评分标准',
+      path: ['gradingCriteria'],
+    },
+  );
 
 export const importQuestionsSchema = z.object({
   questions: z

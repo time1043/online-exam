@@ -132,14 +132,15 @@ model Enrollment {
 }
 
 model Exam {
-  id        Int        @id @default(autoincrement())
-  title     String
-  subjectId Int
-  subject   Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  status    ExamStatus @default(draft)
-  timeLimit Int?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id            Int            @id @default(autoincrement())
+  title         String
+  subjectId     Int
+  subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  status        ExamStatus     @default(draft)
+  timeLimit     Int?
+  examQuestions ExamQuestion[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 
   @@index([subjectId])
   @@map("exam")
@@ -158,6 +159,7 @@ model Question {
   reviewHistory   Json?
   createdBy       String
   creator         User           @relation("QuestionCreator", fields: [createdBy], references: [id], onDelete: Cascade)
+  examQuestions   ExamQuestion[]
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
@@ -165,4 +167,19 @@ model Question {
   @@index([status])
   @@index([tags])
   @@map("question")
+}
+
+model ExamQuestion {
+  id         Int      @id @default(autoincrement())
+  examId     Int
+  questionId String
+  order      Int
+  score      Int
+  exam       Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, questionId])
+  @@index([examId])
+  @@index([questionId])
+  @@map("exam_question")
 }
