@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import { FileText } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -19,11 +20,12 @@ const statusMap: Record<string, { label: string; variant: 'default' | 'secondary
 };
 
 interface ExamListProps {
+  subjectId: string;
   exams: ExamRow[];
   actions?: React.ReactNode;
 }
 
-export function ExamList({ exams, actions }: ExamListProps) {
+export function ExamList({ subjectId, exams, actions }: ExamListProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
@@ -54,7 +56,15 @@ export function ExamList({ exams, actions }: ExamListProps) {
                   const s = statusMap[exam.status] ?? statusMap.draft;
                   return (
                     <TableRow key={exam.id}>
-                      <TableCell className="font-medium">{exam.title}</TableCell>
+                      <TableCell>
+                        <Link
+                          to="/teacher/subjects/$subjectId/exams/$examId"
+                          params={{ subjectId, examId: String(exam.id) }}
+                          className="font-medium hover:underline"
+                        >
+                          {exam.title}
+                        </Link>
+                      </TableCell>
                       <TableCell>
                         <Badge variant={s.variant}>{s.label}</Badge>
                       </TableCell>
