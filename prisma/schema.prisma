@@ -152,7 +152,7 @@ model ExamSubmission {
   id          Int          @id @default(autoincrement())
   examId      Int
   studentId   String
-  submittedAt DateTime     @default(now())
+  submittedAt DateTime?
   exam        Exam         @relation(fields: [examId], references: [id], onDelete: Cascade)
   student     User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
   answers     ExamAnswer[]

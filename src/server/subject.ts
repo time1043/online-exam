@@ -124,7 +124,15 @@ export const getStudentSubject = createServerFn({ method: 'GET' })
             teacher: { select: { name: true } },
             exams: {
               where: { status: 'published' },
-              select: { id: true, title: true, status: true },
+              select: {
+                id: true,
+                title: true,
+                status: true,
+                examSubmissions: {
+                  where: { studentId: session.user.id },
+                  select: { submittedAt: true },
+                },
+              },
             },
           },
         },

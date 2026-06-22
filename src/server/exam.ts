@@ -8,6 +8,7 @@ import {
   deleteExamSchema,
   getExamForStudentSchema,
   getExamSchema,
+  saveExamSchema,
   getExamsSchema,
   publishExamSchema,
   submitExamSchema,
@@ -244,8 +245,85 @@ export const getExamForStudent = createServerFn({ method: 'GET' })
     });
     if (!exam) throw new Error('试卷不存在或无权访问');
 
+    const submission = await prisma.examSubmission.findUnique({
+      where: { examId_studentId: { examId: data.examId, studentId: session.user.id } },
+      select: { submittedAt: true },
+    });
+    if (submission?.submittedAt) throw new Error('你已经提交过这份试卷');
+
     return exam;
   });
+
+export const saveExam = createServerFn({ method: 'POST' })
+  .validator(saveExamSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+
+    const exam = await prisma.exam.findFirst({
+      where: {
+        id: data.examId,
+        status: 'published',
+        subject: { enrollments: { some: { studentId: session.user.id } } },
+      },
+      select: { id: true },
+    });
+    if (!exam) throw new Error('试卷不存在或无权访问');
+
+    const existing = await prisma.examSubmission.findUnique({
+      where: { examId_studentId: { examId: data.examId, studentId: session.user.id } },
+      select: { id: true, submittedAt: true },
+    });
+    if (existing?.submittedAt) throw new Error('试卷已提交，无法修改');
+
+    if (existing) {
+      await prisma.$transaction([
+        prisma.examAnswer.deleteMany({ where: { submissionId: existing.id } }),
+        prisma.examAnswer.createMany({
+          data: data.answers.map((a) => ({
+            submissionId: existing.id,
+            questionId: a.questionId,
+            answer: a.answer as Prisma.InputJsonValue,
+          })),
+        }),
+      ]);
+      return { submissionId: existing.id };
+    }
+
+    const submission = await prisma.examSubmission.create({
+      data: {
+        examId: data.examId,
+        studentId: session.user.id,
+        submittedAt: undefined,
+        answers: {
+          create: data.answers.map((a) => ({
+            questionId: a.questionId,
+            answer: a.answer as Prisma.InputJsonValue,
+          })),
+        },
+      },
+    });
+    return { submissionId: submission.id };
+  });
+
+function gradeObjectiveAnswer(
+  questionType: string,
+  correctAnswer: unknown,
+  studentAnswer: unknown,
+): boolean {
+  switch (questionType) {
+    case 'single_choice':
+    case 'true_false':
+      return Number(studentAnswer) === Number(correctAnswer);
+    case 'multiple_choice': {
+      const correct = (correctAnswer as number[]).slice().sort();
+      const student = (studentAnswer as number[]).slice().sort();
+      return correct.length === student.length && correct.every((v, i) => v === student[i]);
+    }
+    default:
+      return false;
+  }
+}
 
 export const submitExam = createServerFn({ method: 'POST' })
   .validator(submitExamSchema)
@@ -257,34 +335,69 @@ export const submitExam = createServerFn({ method: 'POST' })
       where: {
         id: data.examId,
         status: 'published',
-        subject: {
-          enrollments: { some: { studentId: session.user.id } },
-        },
+        subject: { enrollments: { some: { studentId: session.user.id } } },
       },
       select: { id: true },
     });
     if (!exam) throw new Error('试卷不存在或无权访问');
 
     const existing = await prisma.examSubmission.findUnique({
-      where: {
-        examId_studentId: { examId: data.examId, studentId: session.user.id },
-      },
-      select: { id: true },
+      where: { examId_studentId: { examId: data.examId, studentId: session.user.id } },
+      select: { id: true, submittedAt: true },
     });
-    if (existing) throw new Error('你已经提交过这份试卷');
+    if (existing?.submittedAt) throw new Error('你已经提交过这份试卷');
+
+    // Get questions with correct answers and scores for auto-grading
+    const examQuestions = await prisma.examQuestion.findMany({
+      where: { examId: data.examId },
+      include: { question: { select: { id: true, type: true, answer: true } } },
+    });
+    const questionMap = new Map(examQuestions.map((eq) => [eq.question.id, eq]));
+
+    // Build answers with scores
+    const answersWithScores = data.answers.map((a) => {
+      const eq = questionMap.get(a.questionId);
+      if (!eq) return { questionId: a.questionId, answer: a.answer, score: null };
+      const objectiveTypes = ['single_choice', 'multiple_choice', 'true_false'];
+      if (objectiveTypes.includes(eq.question.type)) {
+        const correct = gradeObjectiveAnswer(eq.question.type, eq.question.answer, a.answer);
+        return { questionId: a.questionId, answer: a.answer, score: correct ? eq.score : 0 };
+      }
+      return { questionId: a.questionId, answer: a.answer, score: null };
+    });
+
+    if (existing) {
+      await prisma.$transaction([
+        prisma.examAnswer.deleteMany({ where: { submissionId: existing.id } }),
+        prisma.examAnswer.createMany({
+          data: answersWithScores.map((a) => ({
+            submissionId: existing.id,
+            questionId: a.questionId,
+            answer: a.answer as Prisma.InputJsonValue,
+            score: a.score,
+          })),
+        }),
+        prisma.examSubmission.update({
+          where: { id: existing.id },
+          data: { submittedAt: new Date() },
+        }),
+      ]);
+      return { submissionId: existing.id };
+    }
 
     const submission = await prisma.examSubmission.create({
       data: {
         examId: data.examId,
         studentId: session.user.id,
+        submittedAt: new Date(),
         answers: {
-          create: data.answers.map((a) => ({
+          create: answersWithScores.map((a) => ({
             questionId: a.questionId,
             answer: a.answer as Prisma.InputJsonValue,
+            score: a.score,
           })),
         },
       },
     });
-
     return { submissionId: submission.id };
   });

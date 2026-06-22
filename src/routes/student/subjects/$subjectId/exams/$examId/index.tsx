@@ -14,7 +14,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { questionTypeMap } from '@/routes/teacher/questions/-components/question-helpers';
 import { getExamForStudentSchema } from '@/schemas/exam';
-import { getExamForStudent, submitExam } from '@/server/exam';
+import { getExamForStudent, saveExam, submitExam } from '@/server/exam';
 
 export const Route = createFileRoute('/student/subjects/$subjectId/exams/$examId/')({
   component: RouteComponent,
@@ -34,6 +34,25 @@ function RouteComponent() {
   });
 
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
+
+  const saveMutation = useMutation({
+    mutationFn: () =>
+      saveExam({
+        data: {
+          examId: eid,
+          answers: Object.entries(answers).map(([questionId, answer]) => ({
+            questionId,
+            answer,
+          })),
+        },
+      }),
+    onSuccess: () => {
+      toast.success('保存成功');
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : '保存失败，请重试');
+    },
+  });
 
   const submitMutation = useMutation({
     mutationFn: () =>
@@ -127,7 +146,15 @@ function RouteComponent() {
         ))}
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-3">
+        <Button
+          variant="outline"
+          size="lg"
+          disabled={saveMutation.isPending}
+          onClick={() => saveMutation.mutate()}
+        >
+          {saveMutation.isPending ? '保存中...' : '保存'}
+        </Button>
         <Button
           size="lg"
           disabled={submitMutation.isPending}

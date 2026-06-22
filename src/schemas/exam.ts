@@ -45,6 +45,16 @@ export const getExamForStudentSchema = z.object({
   examId: z.number(),
 });
 
+export const saveExamSchema = z.object({
+  examId: z.number(),
+  answers: z.array(
+    z.object({
+      questionId: z.string(),
+      answer: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
+    }),
+  ),
+});
+
 export const submitExamSchema = z.object({
   examId: z.number(),
   answers: z.array(
