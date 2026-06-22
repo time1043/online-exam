@@ -37,6 +37,7 @@ export const createQuestion = createServerFn({ method: 'POST' })
         type: data.type as $Enums.QuestionType,
         ...(data.options !== null ? { options: data.options } : {}),
         answer: data.answer as Prisma.InputJsonValue,
+        gradingCriteria: data.gradingCriteria,
         tags: data.tags,
         createdBy: session.user.id,
       },
@@ -57,6 +58,7 @@ export const importQuestions = createServerFn({ method: 'POST' })
         type: q.type as $Enums.QuestionType,
         ...(q.options !== null ? { options: q.options } : {}),
         answer: q.answer as Prisma.InputJsonValue,
+        gradingCriteria: q.gradingCriteria,
         tags: q.tags,
         createdBy: session.user.id,
       })),
@@ -111,6 +113,7 @@ export const updateQuestion = createServerFn({ method: 'POST' })
         content: data.content,
         ...(data.options !== null ? { options: data.options } : { options: Prisma.JsonNull }),
         answer: data.answer as Prisma.InputJsonValue,
+        gradingCriteria: data.gradingCriteria,
         tags: data.tags,
       },
       include: {

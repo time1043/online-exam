@@ -113,6 +113,7 @@ export function ImportQuestionsDialog({ onSubmit, isLoading }: ImportQuestionsDi
             type: item.type,
             options: item.options ?? null,
             answer: item.answer,
+            gradingCriteria: item.gradingCriteria ?? undefined,
             tags: Array.isArray(item.tags) ? item.tags : [],
           });
         }

@@ -172,6 +172,7 @@ export const QuestionScalarFieldEnum = {
   type: 'type',
   options: 'options',
   answer: 'answer',
+  gradingCriteria: 'gradingCriteria',
   tags: 'tags',
   status: 'status',
   isReported: 'isReported',

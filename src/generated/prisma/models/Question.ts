@@ -28,6 +28,7 @@ export type QuestionMinAggregateOutputType = {
   id: string | null;
   content: string | null;
   type: $Enums.QuestionType | null;
+  gradingCriteria: string | null;
   status: $Enums.QuestionStatus | null;
   isReported: boolean | null;
   createdBy: string | null;
@@ -39,6 +40,7 @@ export type QuestionMaxAggregateOutputType = {
   id: string | null;
   content: string | null;
   type: $Enums.QuestionType | null;
+  gradingCriteria: string | null;
   status: $Enums.QuestionStatus | null;
   isReported: boolean | null;
   createdBy: string | null;
@@ -52,6 +54,7 @@ export type QuestionCountAggregateOutputType = {
   type: number;
   options: number;
   answer: number;
+  gradingCriteria: number;
   tags: number;
   status: number;
   isReported: number;
@@ -66,6 +69,7 @@ export type QuestionMinAggregateInputType = {
   id?: true;
   content?: true;
   type?: true;
+  gradingCriteria?: true;
   status?: true;
   isReported?: true;
   createdBy?: true;
@@ -77,6 +81,7 @@ export type QuestionMaxAggregateInputType = {
   id?: true;
   content?: true;
   type?: true;
+  gradingCriteria?: true;
   status?: true;
   isReported?: true;
   createdBy?: true;
@@ -90,6 +95,7 @@ export type QuestionCountAggregateInputType = {
   type?: true;
   options?: true;
   answer?: true;
+  gradingCriteria?: true;
   tags?: true;
   status?: true;
   isReported?: true;
@@ -181,6 +187,7 @@ export type QuestionGroupByOutputType = {
   type: $Enums.QuestionType;
   options: runtime.JsonValue | null;
   answer: runtime.JsonValue;
+  gradingCriteria: string | null;
   tags: string[];
   status: $Enums.QuestionStatus;
   isReported: boolean;
@@ -214,6 +221,7 @@ export type QuestionWhereInput = {
   type?: Prisma.EnumQuestionTypeFilter<'Question'> | $Enums.QuestionType;
   options?: Prisma.JsonNullableFilter<'Question'>;
   answer?: Prisma.JsonFilter<'Question'>;
+  gradingCriteria?: Prisma.StringNullableFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
   status?: Prisma.EnumQuestionStatusFilter<'Question'> | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFilter<'Question'> | boolean;
@@ -230,6 +238,7 @@ export type QuestionOrderByWithRelationInput = {
   type?: Prisma.SortOrder;
   options?: Prisma.SortOrderInput | Prisma.SortOrder;
   answer?: Prisma.SortOrder;
+  gradingCriteria?: Prisma.SortOrderInput | Prisma.SortOrder;
   tags?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   isReported?: Prisma.SortOrder;
@@ -250,6 +259,7 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<
     type?: Prisma.EnumQuestionTypeFilter<'Question'> | $Enums.QuestionType;
     options?: Prisma.JsonNullableFilter<'Question'>;
     answer?: Prisma.JsonFilter<'Question'>;
+    gradingCriteria?: Prisma.StringNullableFilter<'Question'> | string | null;
     tags?: Prisma.StringNullableListFilter<'Question'>;
     status?: Prisma.EnumQuestionStatusFilter<'Question'> | $Enums.QuestionStatus;
     isReported?: Prisma.BoolFilter<'Question'> | boolean;
@@ -268,6 +278,7 @@ export type QuestionOrderByWithAggregationInput = {
   type?: Prisma.SortOrder;
   options?: Prisma.SortOrderInput | Prisma.SortOrder;
   answer?: Prisma.SortOrder;
+  gradingCriteria?: Prisma.SortOrderInput | Prisma.SortOrder;
   tags?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   isReported?: Prisma.SortOrder;
@@ -293,6 +304,7 @@ export type QuestionScalarWhereWithAggregatesInput = {
   type?: Prisma.EnumQuestionTypeWithAggregatesFilter<'Question'> | $Enums.QuestionType;
   options?: Prisma.JsonNullableWithAggregatesFilter<'Question'>;
   answer?: Prisma.JsonWithAggregatesFilter<'Question'>;
+  gradingCriteria?: Prisma.StringNullableWithAggregatesFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
   status?: Prisma.EnumQuestionStatusWithAggregatesFilter<'Question'> | $Enums.QuestionStatus;
   isReported?: Prisma.BoolWithAggregatesFilter<'Question'> | boolean;
@@ -308,6 +320,7 @@ export type QuestionCreateInput = {
   type: $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
   status?: $Enums.QuestionStatus;
   isReported?: boolean;
@@ -323,6 +336,7 @@ export type QuestionUncheckedCreateInput = {
   type: $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
   status?: $Enums.QuestionStatus;
   isReported?: boolean;
@@ -338,6 +352,7 @@ export type QuestionUpdateInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -353,6 +368,7 @@ export type QuestionUncheckedUpdateInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -368,6 +384,7 @@ export type QuestionCreateManyInput = {
   type: $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
   status?: $Enums.QuestionStatus;
   isReported?: boolean;
@@ -383,6 +400,7 @@ export type QuestionUpdateManyMutationInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -397,6 +415,7 @@ export type QuestionUncheckedUpdateManyInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -430,6 +449,7 @@ export type QuestionCountOrderByAggregateInput = {
   type?: Prisma.SortOrder;
   options?: Prisma.SortOrder;
   answer?: Prisma.SortOrder;
+  gradingCriteria?: Prisma.SortOrder;
   tags?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   isReported?: Prisma.SortOrder;
@@ -443,6 +463,7 @@ export type QuestionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   content?: Prisma.SortOrder;
   type?: Prisma.SortOrder;
+  gradingCriteria?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   isReported?: Prisma.SortOrder;
   createdBy?: Prisma.SortOrder;
@@ -454,6 +475,7 @@ export type QuestionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder;
   content?: Prisma.SortOrder;
   type?: Prisma.SortOrder;
+  gradingCriteria?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   isReported?: Prisma.SortOrder;
   createdBy?: Prisma.SortOrder;
@@ -570,6 +592,7 @@ export type QuestionCreateWithoutCreatorInput = {
   type: $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
   status?: $Enums.QuestionStatus;
   isReported?: boolean;
@@ -584,6 +607,7 @@ export type QuestionUncheckedCreateWithoutCreatorInput = {
   type: $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
   status?: $Enums.QuestionStatus;
   isReported?: boolean;
@@ -642,6 +666,7 @@ export type QuestionScalarWhereInput = {
   type?: Prisma.EnumQuestionTypeFilter<'Question'> | $Enums.QuestionType;
   options?: Prisma.JsonNullableFilter<'Question'>;
   answer?: Prisma.JsonFilter<'Question'>;
+  gradingCriteria?: Prisma.StringNullableFilter<'Question'> | string | null;
   tags?: Prisma.StringNullableListFilter<'Question'>;
   status?: Prisma.EnumQuestionStatusFilter<'Question'> | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFilter<'Question'> | boolean;
@@ -657,6 +682,7 @@ export type QuestionCreateManyCreatorInput = {
   type: $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
   tags?: Prisma.QuestionCreatetagsInput | string[];
   status?: $Enums.QuestionStatus;
   isReported?: boolean;
@@ -671,6 +697,7 @@ export type QuestionUpdateWithoutCreatorInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -685,6 +712,7 @@ export type QuestionUncheckedUpdateWithoutCreatorInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -699,6 +727,7 @@ export type QuestionUncheckedUpdateManyWithoutCreatorInput = {
   type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
   options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
   tags?: Prisma.QuestionUpdatetagsInput | string[];
   status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
   isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
@@ -716,6 +745,7 @@ export type QuestionSelect<
     type?: boolean;
     options?: boolean;
     answer?: boolean;
+    gradingCriteria?: boolean;
     tags?: boolean;
     status?: boolean;
     isReported?: boolean;
@@ -737,6 +767,7 @@ export type QuestionSelectCreateManyAndReturn<
     type?: boolean;
     options?: boolean;
     answer?: boolean;
+    gradingCriteria?: boolean;
     tags?: boolean;
     status?: boolean;
     isReported?: boolean;
@@ -758,6 +789,7 @@ export type QuestionSelectUpdateManyAndReturn<
     type?: boolean;
     options?: boolean;
     answer?: boolean;
+    gradingCriteria?: boolean;
     tags?: boolean;
     status?: boolean;
     isReported?: boolean;
@@ -776,6 +808,7 @@ export type QuestionSelectScalar = {
   type?: boolean;
   options?: boolean;
   answer?: boolean;
+  gradingCriteria?: boolean;
   tags?: boolean;
   status?: boolean;
   isReported?: boolean;
@@ -793,6 +826,7 @@ export type QuestionOmit<
   | 'type'
   | 'options'
   | 'answer'
+  | 'gradingCriteria'
   | 'tags'
   | 'status'
   | 'isReported'
@@ -832,6 +866,7 @@ export type $QuestionPayload<
       type: $Enums.QuestionType;
       options: runtime.JsonValue | null;
       answer: runtime.JsonValue;
+      gradingCriteria: string | null;
       tags: string[];
       status: $Enums.QuestionStatus;
       isReported: boolean;
@@ -1424,6 +1459,7 @@ export interface QuestionFieldRefs {
   readonly type: Prisma.FieldRef<'Question', 'QuestionType'>;
   readonly options: Prisma.FieldRef<'Question', 'Json'>;
   readonly answer: Prisma.FieldRef<'Question', 'Json'>;
+  readonly gradingCriteria: Prisma.FieldRef<'Question', 'String'>;
   readonly tags: Prisma.FieldRef<'Question', 'String[]'>;
   readonly status: Prisma.FieldRef<'Question', 'QuestionStatus'>;
   readonly isReported: Prisma.FieldRef<'Question', 'Boolean'>;

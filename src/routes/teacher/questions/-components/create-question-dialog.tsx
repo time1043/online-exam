@@ -31,6 +31,7 @@ interface CreateQuestionDialogProps {
     type: string;
     options: string[] | null;
     answer: string | number | number[] | string[];
+    gradingCriteria?: string;
     tags: string[];
   }) => void;
 }
@@ -43,6 +44,7 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
   const [multipleAnswers, setMultipleAnswers] = useState<string[]>([]);
   const [fillBlankAnswers, setFillBlankAnswers] = useState<string[]>(['']);
   const [essayAnswer, setEssayAnswer] = useState('');
+  const [gradingCriteria, setGradingCriteria] = useState('');
 
   const form = useForm({
     defaultValues: {
@@ -86,6 +88,7 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
         type: questionType,
         options: filteredOptions,
         answer,
+        gradingCriteria: questionType === 'essay' ? gradingCriteria : undefined,
         tags: parsedTags,
       });
       form.reset();
@@ -94,6 +97,7 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
       setMultipleAnswers([]);
       setFillBlankAnswers(['']);
       setEssayAnswer('');
+      setGradingCriteria('');
       setOpen(false);
     },
   });
@@ -306,16 +310,28 @@ export function CreateQuestionDialog({ onSubmit }: CreateQuestionDialogProps) {
             )}
 
             {questionType === 'essay' && (
-              <div className="space-y-2">
-                <Label htmlFor="essayAnswer">参考答案</Label>
-                <Textarea
-                  id="essayAnswer"
-                  value={essayAnswer}
-                  onChange={(e) => setEssayAnswer(e.target.value)}
-                  placeholder="输入参考答案"
-                  className="mt-2"
-                />
-              </div>
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="essayAnswer">参考答案</Label>
+                  <Textarea
+                    id="essayAnswer"
+                    value={essayAnswer}
+                    onChange={(e) => setEssayAnswer(e.target.value)}
+                    placeholder="输入参考答案"
+                    className="mt-2"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="gradingCriteria">评分标准</Label>
+                  <Textarea
+                    id="gradingCriteria"
+                    value={gradingCriteria}
+                    onChange={(e) => setGradingCriteria(e.target.value)}
+                    placeholder="输入评分标准，供阅卷参考"
+                    className="mt-2"
+                  />
+                </div>
+              </>
             )}
 
             <form.Field

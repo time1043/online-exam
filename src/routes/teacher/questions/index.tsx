@@ -32,6 +32,7 @@ function toQuestionRow(
     type: q.type,
     options: q.options as string[] | null,
     answer: q.answer as string | number | number[],
+    gradingCriteria: q.gradingCriteria,
     tags: q.tags,
     status: q.status,
     isReported: q.isReported,
@@ -45,6 +46,7 @@ type CreateQuestionInput = {
   type: string;
   options: string[] | null;
   answer: string | number | number[] | string[];
+  gradingCriteria?: string;
   tags: string[];
 };
 

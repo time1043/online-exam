@@ -75,6 +75,7 @@ export type QuestionRow = {
   type: string;
   options: string[] | null;
   answer: string | number | number[] | string[];
+  gradingCriteria: string | null;
   tags: string[];
   status: string;
   isReported: boolean;

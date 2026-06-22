@@ -4,13 +4,19 @@ import { QuestionType } from '@/generated/prisma/enums';
 
 const questionTypeValues = Object.values(QuestionType) as [string, ...string[]];
 
-export const createQuestionSchema = z.object({
-  content: z.string().min(1, '题干不能为空'),
-  type: z.enum(questionTypeValues),
-  options: z.array(z.string()).nullable(),
-  answer: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
-  tags: z.array(z.string()),
-});
+export const createQuestionSchema = z
+  .object({
+    content: z.string().min(1, '题干不能为空'),
+    type: z.enum(questionTypeValues),
+    options: z.array(z.string()).nullable(),
+    answer: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
+    gradingCriteria: z.string().optional(),
+    tags: z.array(z.string()),
+  })
+  .refine((data) => data.type !== 'essay' || (data.gradingCriteria && data.gradingCriteria.length > 0), {
+    message: '论述题必须填写评分标准',
+    path: ['gradingCriteria'],
+  });
 
 export const importQuestionsSchema = z.object({
   questions: z
@@ -24,6 +30,7 @@ export const updateQuestionSchema = z.object({
   content: z.string().min(1, '题干不能为空'),
   options: z.array(z.string()).nullable(),
   answer: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
+  gradingCriteria: z.string().optional(),
   tags: z.array(z.string()),
 });
 

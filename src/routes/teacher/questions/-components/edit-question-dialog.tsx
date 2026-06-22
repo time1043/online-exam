@@ -28,6 +28,7 @@ interface EditQuestionDialogProps {
     content: string;
     options: string[] | null;
     answer: string | number | number[] | string[];
+    gradingCriteria?: string;
     tags: string[];
   }) => void;
 }
@@ -39,6 +40,7 @@ export function EditQuestionDialog({ question, onClose, onSubmit }: EditQuestion
   const [multipleAnswers, setMultipleAnswers] = useState<string[]>([]);
   const [fillBlankAnswers, setFillBlankAnswers] = useState<string[]>([]);
   const [essayAnswer, setEssayAnswer] = useState('');
+  const [gradingCriteria, setGradingCriteria] = useState('');
   const [tags, setTags] = useState('');
 
   useEffect(() => {
@@ -59,6 +61,7 @@ export function EditQuestionDialog({ question, onClose, onSubmit }: EditQuestion
         : [''],
     );
     setEssayAnswer(question.type === 'essay' ? String(question.answer) : '');
+    setGradingCriteria(question.gradingCriteria ?? '');
     setTags(question.tags.join(', '));
   }, [question]);
 
@@ -95,7 +98,14 @@ export function EditQuestionDialog({ question, onClose, onSubmit }: EditQuestion
         answer = 0;
     }
 
-    onSubmit({ id: question.id, content, options: filteredOptions, answer, tags: parsedTags });
+    onSubmit({
+      id: question.id,
+      content,
+      options: filteredOptions,
+      answer,
+      gradingCriteria,
+      tags: parsedTags,
+    });
   }
 
   return (
@@ -275,16 +285,28 @@ export function EditQuestionDialog({ question, onClose, onSubmit }: EditQuestion
               )}
 
               {question.type === 'essay' && (
-                <div className="space-y-2">
-                  <Label htmlFor="essayAnswer">参考答案</Label>
-                  <Textarea
-                    id="essayAnswer"
-                    value={essayAnswer}
-                    onChange={(e) => setEssayAnswer(e.target.value)}
-                    placeholder="输入参考答案"
-                    className="mt-2"
-                  />
-                </div>
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="essayAnswer">参考答案</Label>
+                    <Textarea
+                      id="essayAnswer"
+                      value={essayAnswer}
+                      onChange={(e) => setEssayAnswer(e.target.value)}
+                      placeholder="输入参考答案"
+                      className="mt-2"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="gradingCriteria">评分标准</Label>
+                    <Textarea
+                      id="gradingCriteria"
+                      value={gradingCriteria}
+                      onChange={(e) => setGradingCriteria(e.target.value)}
+                      placeholder="输入评分标准，供阅卷参考"
+                      className="mt-2"
+                    />
+                  </div>
+                </>
               )}
 
               <div>
