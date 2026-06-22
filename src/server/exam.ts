@@ -379,21 +379,38 @@ export const submitExam = createServerFn({ method: 'POST' })
 
     // Build answers with scores
     const answeredIds = new Set(data.answers.map((a) => a.questionId));
+    const now = new Date().toISOString();
     const answersWithScores = [
       ...data.answers.map((a) => {
         const eq = questionMap.get(a.questionId);
-        if (!eq) return { questionId: a.questionId, answer: a.answer, score: null };
+        if (!eq)
+          return { questionId: a.questionId, answer: a.answer, score: null, scoreHistory: null };
         const objectiveTypes = ['single_choice', 'multiple_choice', 'true_false', 'fill_blank'];
         if (objectiveTypes.includes(eq.question.type)) {
           const correct = gradeObjectiveAnswer(eq.question.type, eq.question.answer, a.answer);
-          return { questionId: a.questionId, answer: a.answer, score: correct ? eq.score : 0 };
+          const score = correct ? eq.score : 0;
+          return {
+            questionId: a.questionId,
+            answer: a.answer,
+            score,
+            scoreHistory: JSON.stringify([
+              { score, reason: '自动评分', role: 'hard', changedAt: now },
+            ]),
+          };
         }
-        return { questionId: a.questionId, answer: a.answer, score: null };
+        return { questionId: a.questionId, answer: a.answer, score: null, scoreHistory: null };
       }),
       // Unanswered questions get 0
       ...examQuestions
         .filter((eq) => !answeredIds.has(eq.question.id))
-        .map((eq) => ({ questionId: eq.question.id, answer: '', score: 0 })),
+        .map((eq) => ({
+          questionId: eq.question.id,
+          answer: '',
+          score: 0,
+          scoreHistory: JSON.stringify([
+            { score: 0, reason: '未作答', role: 'hard', changedAt: now },
+          ]),
+        })),
     ];
 
     if (existing) {
@@ -405,6 +422,7 @@ export const submitExam = createServerFn({ method: 'POST' })
             questionId: a.questionId,
             answer: a.answer as Prisma.InputJsonValue,
             score: a.score,
+            scoreHistory: a.scoreHistory ? JSON.parse(a.scoreHistory as string) : undefined,
           })),
         }),
         prisma.examSubmission.update({
@@ -425,6 +443,7 @@ export const submitExam = createServerFn({ method: 'POST' })
             questionId: a.questionId,
             answer: a.answer as Prisma.InputJsonValue,
             score: a.score,
+            scoreHistory: a.scoreHistory ? JSON.parse(a.scoreHistory as string) : undefined,
           })),
         },
       },
@@ -602,19 +621,44 @@ export const gradeSubmission = createServerFn({ method: 'POST' })
     });
     if (!submission) throw new Error('提交记录不存在或无权访问');
 
-    await prisma.$transaction(
-      data.scores.map((s) =>
-        prisma.examAnswer.update({
-          where: {
-            submissionId_questionId: {
-              submissionId: data.submissionId,
-              questionId: s.questionId,
-            },
+    const now = new Date().toISOString();
+
+    // First fetch all existing answers
+    const existingAnswers = await prisma.examAnswer.findMany({
+      where: {
+        submissionId: data.submissionId,
+        questionId: { in: data.scores.map((s) => s.questionId) },
+      },
+      select: { questionId: true, score: true, scoreHistory: true },
+    });
+    const existingMap = new Map(existingAnswers.map((a) => [a.questionId, a]));
+
+    // Build update operations
+    const updates = data.scores.map((s) => {
+      const existing = existingMap.get(s.questionId);
+      const history = (existing?.scoreHistory as unknown[]) ?? [];
+      const newEntry = {
+        score: s.score,
+        reason: s.reason,
+        role: 'teacher' as const,
+        changedAt: now,
+      };
+
+      return prisma.examAnswer.update({
+        where: {
+          submissionId_questionId: {
+            submissionId: data.submissionId,
+            questionId: s.questionId,
           },
-          data: { score: s.score },
-        }),
-      ),
-    );
+        },
+        data: {
+          score: s.score,
+          scoreHistory: [...history, newEntry],
+        },
+      });
+    });
+
+    await prisma.$transaction(updates);
 
     return { success: true };
   });

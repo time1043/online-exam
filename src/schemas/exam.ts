@@ -80,6 +80,7 @@ export const gradeSubmissionSchema = z.object({
     z.object({
       questionId: z.string(),
       score: z.number().min(0),
+      reason: z.string().min(1, '请填写批改说明'),
     }),
   ),
 });

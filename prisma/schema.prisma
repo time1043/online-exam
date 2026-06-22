@@ -169,6 +169,7 @@ model ExamAnswer {
   questionId     String
   answer         Json
   score          Int?
+  scoreHistory   Json?
   submission     ExamSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
   question       Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
 

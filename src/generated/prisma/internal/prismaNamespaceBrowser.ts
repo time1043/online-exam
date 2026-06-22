@@ -185,6 +185,7 @@ export const ExamAnswerScalarFieldEnum = {
   questionId: 'questionId',
   answer: 'answer',
   score: 'score',
+  scoreHistory: 'scoreHistory',
 } as const;
 
 export type ExamAnswerScalarFieldEnum =

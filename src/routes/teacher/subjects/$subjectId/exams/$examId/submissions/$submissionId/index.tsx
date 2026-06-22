@@ -48,6 +48,7 @@ function RouteComponent() {
   });
 
   const [scores, setScores] = useState<Record<string, number>>({});
+  const [reasons, setReasons] = useState<Record<string, string>>({});
 
   const gradeMutation = useMutation({
     mutationFn: () =>
@@ -57,6 +58,7 @@ function RouteComponent() {
           scores: Object.entries(scores).map(([questionId, score]) => ({
             questionId,
             score,
+            reason: reasons[questionId] || '教师批改',
           })),
         },
       }),
@@ -171,10 +173,38 @@ function RouteComponent() {
                   </div>
                 )}
 
+                {/* 评分历史 */}
+                {answer?.scoreHistory && (answer.scoreHistory as unknown[]).length > 0 && (
+                  <div className="space-y-1">
+                    <span className="text-sm text-muted-foreground">评分历史：</span>
+                    {(
+                      answer.scoreHistory as {
+                        score: number;
+                        reason: string;
+                        role: string;
+                        changedAt: string;
+                      }[]
+                    ).map((h, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-2 text-xs text-muted-foreground"
+                      >
+                        <Badge variant="outline" className="text-xs">
+                          {h.role === 'hard' ? '自动' : h.role === 'teacher' ? '教师' : h.role}
+                        </Badge>
+                        <span>{h.score} 分</span>
+                        <span>—</span>
+                        <span>{h.reason}</span>
+                        <span>{new Date(h.changedAt).toLocaleString('zh-CN')}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {/* 填空题/论述题：可修改分数 */}
                 {(eq.question.type === 'fill_blank' || eq.question.type === 'essay') && (
                   <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-3">
-                    <Label htmlFor={`score-${eq.question.id}`} className="text-sm">
+                    <Label htmlFor={`score-${eq.question.id}`} className="shrink-0 text-sm">
                       得分：
                     </Label>
                     <Input
@@ -189,9 +219,17 @@ function RouteComponent() {
                           [eq.question.id]: Math.min(Number(e.target.value) || 0, eq.score),
                         }))
                       }
-                      className="h-8 w-20"
+                      className="h-8 w-20 shrink-0"
                     />
-                    <span className="text-sm text-muted-foreground">/ {eq.score}</span>
+                    <span className="shrink-0 text-sm text-muted-foreground">/ {eq.score}</span>
+                    <Input
+                      placeholder="批改说明（必填）"
+                      value={reasons[eq.question.id] ?? ''}
+                      onChange={(e) =>
+                        setReasons((prev) => ({ ...prev, [eq.question.id]: e.target.value }))
+                      }
+                      className="h-8 flex-1"
+                    />
                   </div>
                 )}
               </CardContent>
@@ -203,7 +241,11 @@ function RouteComponent() {
       <div className="flex justify-end">
         <Button
           size="lg"
-          disabled={gradeMutation.isPending || Object.keys(scores).length === 0}
+          disabled={
+            gradeMutation.isPending ||
+            Object.keys(scores).length === 0 ||
+            Object.keys(scores).some((qid) => !reasons[qid]?.trim())
+          }
           onClick={() => gradeMutation.mutate()}
         >
           {gradeMutation.isPending ? '保存中...' : '保存批改'}

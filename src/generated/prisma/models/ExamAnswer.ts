@@ -58,6 +58,7 @@ export type ExamAnswerCountAggregateOutputType = {
   questionId: number;
   answer: number;
   score: number;
+  scoreHistory: number;
   _all: number;
 };
 
@@ -93,6 +94,7 @@ export type ExamAnswerCountAggregateInputType = {
   questionId?: true;
   answer?: true;
   score?: true;
+  scoreHistory?: true;
   _all?: true;
 };
 
@@ -191,6 +193,7 @@ export type ExamAnswerGroupByOutputType = {
   questionId: string;
   answer: runtime.JsonValue;
   score: number | null;
+  scoreHistory: runtime.JsonValue | null;
   _count: ExamAnswerCountAggregateOutputType | null;
   _avg: ExamAnswerAvgAggregateOutputType | null;
   _sum: ExamAnswerSumAggregateOutputType | null;
@@ -219,6 +222,7 @@ export type ExamAnswerWhereInput = {
   questionId?: Prisma.StringFilter<'ExamAnswer'> | string;
   answer?: Prisma.JsonFilter<'ExamAnswer'>;
   score?: Prisma.IntNullableFilter<'ExamAnswer'> | number | null;
+  scoreHistory?: Prisma.JsonNullableFilter<'ExamAnswer'>;
   submission?: Prisma.XOR<
     Prisma.ExamSubmissionScalarRelationFilter,
     Prisma.ExamSubmissionWhereInput
@@ -232,6 +236,7 @@ export type ExamAnswerOrderByWithRelationInput = {
   questionId?: Prisma.SortOrder;
   answer?: Prisma.SortOrder;
   score?: Prisma.SortOrderInput | Prisma.SortOrder;
+  scoreHistory?: Prisma.SortOrderInput | Prisma.SortOrder;
   submission?: Prisma.ExamSubmissionOrderByWithRelationInput;
   question?: Prisma.QuestionOrderByWithRelationInput;
 };
@@ -247,6 +252,7 @@ export type ExamAnswerWhereUniqueInput = Prisma.AtLeast<
     questionId?: Prisma.StringFilter<'ExamAnswer'> | string;
     answer?: Prisma.JsonFilter<'ExamAnswer'>;
     score?: Prisma.IntNullableFilter<'ExamAnswer'> | number | null;
+    scoreHistory?: Prisma.JsonNullableFilter<'ExamAnswer'>;
     submission?: Prisma.XOR<
       Prisma.ExamSubmissionScalarRelationFilter,
       Prisma.ExamSubmissionWhereInput
@@ -262,6 +268,7 @@ export type ExamAnswerOrderByWithAggregationInput = {
   questionId?: Prisma.SortOrder;
   answer?: Prisma.SortOrder;
   score?: Prisma.SortOrderInput | Prisma.SortOrder;
+  scoreHistory?: Prisma.SortOrderInput | Prisma.SortOrder;
   _count?: Prisma.ExamAnswerCountOrderByAggregateInput;
   _avg?: Prisma.ExamAnswerAvgOrderByAggregateInput;
   _max?: Prisma.ExamAnswerMaxOrderByAggregateInput;
@@ -282,11 +289,13 @@ export type ExamAnswerScalarWhereWithAggregatesInput = {
   questionId?: Prisma.StringWithAggregatesFilter<'ExamAnswer'> | string;
   answer?: Prisma.JsonWithAggregatesFilter<'ExamAnswer'>;
   score?: Prisma.IntNullableWithAggregatesFilter<'ExamAnswer'> | number | null;
+  scoreHistory?: Prisma.JsonNullableWithAggregatesFilter<'ExamAnswer'>;
 };
 
 export type ExamAnswerCreateInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   submission: Prisma.ExamSubmissionCreateNestedOneWithoutAnswersInput;
   question: Prisma.QuestionCreateNestedOneWithoutExamAnswersInput;
 };
@@ -297,11 +306,13 @@ export type ExamAnswerUncheckedCreateInput = {
   questionId: string;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerUpdateInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   submission?: Prisma.ExamSubmissionUpdateOneRequiredWithoutAnswersNestedInput;
   question?: Prisma.QuestionUpdateOneRequiredWithoutExamAnswersNestedInput;
 };
@@ -312,6 +323,7 @@ export type ExamAnswerUncheckedUpdateInput = {
   questionId?: Prisma.StringFieldUpdateOperationsInput | string;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerCreateManyInput = {
@@ -320,11 +332,13 @@ export type ExamAnswerCreateManyInput = {
   questionId: string;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerUpdateManyMutationInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerUncheckedUpdateManyInput = {
@@ -333,6 +347,7 @@ export type ExamAnswerUncheckedUpdateManyInput = {
   questionId?: Prisma.StringFieldUpdateOperationsInput | string;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerListRelationFilter = {
@@ -356,6 +371,7 @@ export type ExamAnswerCountOrderByAggregateInput = {
   questionId?: Prisma.SortOrder;
   answer?: Prisma.SortOrder;
   score?: Prisma.SortOrder;
+  scoreHistory?: Prisma.SortOrder;
 };
 
 export type ExamAnswerAvgOrderByAggregateInput = {
@@ -559,6 +575,7 @@ export type ExamAnswerUncheckedUpdateManyWithoutQuestionNestedInput = {
 export type ExamAnswerCreateWithoutSubmissionInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   question: Prisma.QuestionCreateNestedOneWithoutExamAnswersInput;
 };
 
@@ -567,6 +584,7 @@ export type ExamAnswerUncheckedCreateWithoutSubmissionInput = {
   questionId: string;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerCreateOrConnectWithoutSubmissionInput = {
@@ -619,11 +637,13 @@ export type ExamAnswerScalarWhereInput = {
   questionId?: Prisma.StringFilter<'ExamAnswer'> | string;
   answer?: Prisma.JsonFilter<'ExamAnswer'>;
   score?: Prisma.IntNullableFilter<'ExamAnswer'> | number | null;
+  scoreHistory?: Prisma.JsonNullableFilter<'ExamAnswer'>;
 };
 
 export type ExamAnswerCreateWithoutQuestionInput = {
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   submission: Prisma.ExamSubmissionCreateNestedOneWithoutAnswersInput;
 };
 
@@ -632,6 +652,7 @@ export type ExamAnswerUncheckedCreateWithoutQuestionInput = {
   submissionId: number;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerCreateOrConnectWithoutQuestionInput = {
@@ -680,11 +701,13 @@ export type ExamAnswerCreateManySubmissionInput = {
   questionId: string;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerUpdateWithoutSubmissionInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   question?: Prisma.QuestionUpdateOneRequiredWithoutExamAnswersNestedInput;
 };
 
@@ -693,6 +716,7 @@ export type ExamAnswerUncheckedUpdateWithoutSubmissionInput = {
   questionId?: Prisma.StringFieldUpdateOperationsInput | string;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerUncheckedUpdateManyWithoutSubmissionInput = {
@@ -700,6 +724,7 @@ export type ExamAnswerUncheckedUpdateManyWithoutSubmissionInput = {
   questionId?: Prisma.StringFieldUpdateOperationsInput | string;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerCreateManyQuestionInput = {
@@ -707,11 +732,13 @@ export type ExamAnswerCreateManyQuestionInput = {
   submissionId: number;
   answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerUpdateWithoutQuestionInput = {
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
   submission?: Prisma.ExamSubmissionUpdateOneRequiredWithoutAnswersNestedInput;
 };
 
@@ -720,6 +747,7 @@ export type ExamAnswerUncheckedUpdateWithoutQuestionInput = {
   submissionId?: Prisma.IntFieldUpdateOperationsInput | number;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerUncheckedUpdateManyWithoutQuestionInput = {
@@ -727,6 +755,7 @@ export type ExamAnswerUncheckedUpdateManyWithoutQuestionInput = {
   submissionId?: Prisma.IntFieldUpdateOperationsInput | number;
   answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
   score?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  scoreHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
 };
 
 export type ExamAnswerSelect<
@@ -738,6 +767,7 @@ export type ExamAnswerSelect<
     questionId?: boolean;
     answer?: boolean;
     score?: boolean;
+    scoreHistory?: boolean;
     submission?: boolean | Prisma.ExamSubmissionDefaultArgs<ExtArgs>;
     question?: boolean | Prisma.QuestionDefaultArgs<ExtArgs>;
   },
@@ -753,6 +783,7 @@ export type ExamAnswerSelectCreateManyAndReturn<
     questionId?: boolean;
     answer?: boolean;
     score?: boolean;
+    scoreHistory?: boolean;
     submission?: boolean | Prisma.ExamSubmissionDefaultArgs<ExtArgs>;
     question?: boolean | Prisma.QuestionDefaultArgs<ExtArgs>;
   },
@@ -768,6 +799,7 @@ export type ExamAnswerSelectUpdateManyAndReturn<
     questionId?: boolean;
     answer?: boolean;
     score?: boolean;
+    scoreHistory?: boolean;
     submission?: boolean | Prisma.ExamSubmissionDefaultArgs<ExtArgs>;
     question?: boolean | Prisma.QuestionDefaultArgs<ExtArgs>;
   },
@@ -780,12 +812,13 @@ export type ExamAnswerSelectScalar = {
   questionId?: boolean;
   answer?: boolean;
   score?: boolean;
+  scoreHistory?: boolean;
 };
 
 export type ExamAnswerOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'submissionId' | 'questionId' | 'answer' | 'score',
+  'id' | 'submissionId' | 'questionId' | 'answer' | 'score' | 'scoreHistory',
   ExtArgs['result']['examAnswer']
 >;
 export type ExamAnswerInclude<
@@ -822,6 +855,7 @@ export type $ExamAnswerPayload<
       questionId: string;
       answer: runtime.JsonValue;
       score: number | null;
+      scoreHistory: runtime.JsonValue | null;
     },
     ExtArgs['result']['examAnswer']
   >;
@@ -1424,6 +1458,7 @@ export interface ExamAnswerFieldRefs {
   readonly questionId: Prisma.FieldRef<'ExamAnswer', 'String'>;
   readonly answer: Prisma.FieldRef<'ExamAnswer', 'Json'>;
   readonly score: Prisma.FieldRef<'ExamAnswer', 'Int'>;
+  readonly scoreHistory: Prisma.FieldRef<'ExamAnswer', 'Json'>;
 }
 
 // Custom InputTypes
