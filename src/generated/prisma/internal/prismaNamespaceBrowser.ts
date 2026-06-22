@@ -55,6 +55,8 @@ export const ModelName = {
   Subject: 'Subject',
   Enrollment: 'Enrollment',
   Exam: 'Exam',
+  ExamSubmission: 'ExamSubmission',
+  ExamAnswer: 'ExamAnswer',
   Question: 'Question',
   ExamQuestion: 'ExamQuestion',
 } as const;
@@ -167,6 +169,27 @@ export const ExamScalarFieldEnum = {
 
 export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum];
 
+export const ExamSubmissionScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  studentId: 'studentId',
+  submittedAt: 'submittedAt',
+} as const;
+
+export type ExamSubmissionScalarFieldEnum =
+  (typeof ExamSubmissionScalarFieldEnum)[keyof typeof ExamSubmissionScalarFieldEnum];
+
+export const ExamAnswerScalarFieldEnum = {
+  id: 'id',
+  submissionId: 'submissionId',
+  questionId: 'questionId',
+  answer: 'answer',
+  score: 'score',
+} as const;
+
+export type ExamAnswerScalarFieldEnum =
+  (typeof ExamAnswerScalarFieldEnum)[keyof typeof ExamAnswerScalarFieldEnum];
+
 export const QuestionScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -204,6 +227,12 @@ export const SortOrder = {
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull,
+} as const;
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -211,12 +240,6 @@ export const NullableJsonNullValueInput = {
 
 export type NullableJsonNullValueInput =
   (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull,
-} as const;
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
 
 export const QueryMode = {
   default: 'default',

@@ -44,8 +44,9 @@ model User {
   sessions      Session[]
   accounts      Account[]
   subjects      Subject[]    @relation("TeacherSubjects")
-  enrollments   Enrollment[]
-  questions     Question[]   @relation("QuestionCreator")
+  enrollments       Enrollment[]
+  questions         Question[]       @relation("QuestionCreator")
+  examSubmissions   ExamSubmission[]
 
   @@unique([email])
   @@map("user")
@@ -138,12 +139,43 @@ model Exam {
   subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   status        ExamStatus     @default(draft)
   timeLimit     Int?
-  examQuestions ExamQuestion[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  examQuestions    ExamQuestion[]
+  examSubmissions  ExamSubmission[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 
   @@index([subjectId])
   @@map("exam")
+}
+
+model ExamSubmission {
+  id          Int          @id @default(autoincrement())
+  examId      Int
+  studentId   String
+  submittedAt DateTime     @default(now())
+  exam        Exam         @relation(fields: [examId], references: [id], onDelete: Cascade)
+  student     User         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  answers     ExamAnswer[]
+
+  @@unique([examId, studentId])
+  @@index([examId])
+  @@index([studentId])
+  @@map("exam_submission")
+}
+
+model ExamAnswer {
+  id             Int            @id @default(autoincrement())
+  submissionId   Int
+  questionId     String
+  answer         Json
+  score          Int?
+  submission     ExamSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  question       Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([submissionId, questionId])
+  @@index([submissionId])
+  @@index([questionId])
+  @@map("exam_answer")
 }
 
 model Question {
@@ -160,6 +192,7 @@ model Question {
   createdBy       String
   creator         User           @relation("QuestionCreator", fields: [createdBy], references: [id], onDelete: Cascade)
   examQuestions   ExamQuestion[]
+  examAnswers     ExamAnswer[]
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 

@@ -52,6 +52,16 @@ export type Enrollment = Prisma.EnrollmentModel;
  */
 export type Exam = Prisma.ExamModel;
 /**
+ * Model ExamSubmission
+ *
+ */
+export type ExamSubmission = Prisma.ExamSubmissionModel;
+/**
+ * Model ExamAnswer
+ *
+ */
+export type ExamAnswer = Prisma.ExamAnswerModel;
+/**
  * Model Question
  *
  */

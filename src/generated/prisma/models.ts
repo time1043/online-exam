@@ -14,6 +14,8 @@ export type * from './models/Verification.ts';
 export type * from './models/Subject.ts';
 export type * from './models/Enrollment.ts';
 export type * from './models/Exam.ts';
+export type * from './models/ExamSubmission.ts';
+export type * from './models/ExamAnswer.ts';
 export type * from './models/Question.ts';
 export type * from './models/ExamQuestion.ts';
 export type * from './commonInputTypes.ts';

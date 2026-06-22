@@ -384,6 +384,8 @@ export const ModelName = {
   Subject: 'Subject',
   Enrollment: 'Enrollment',
   Exam: 'Exam',
+  ExamSubmission: 'ExamSubmission',
+  ExamAnswer: 'ExamAnswer',
   Question: 'Question',
   ExamQuestion: 'ExamQuestion',
 } as const;
@@ -413,6 +415,8 @@ export type TypeMap<
       | 'subject'
       | 'enrollment'
       | 'exam'
+      | 'examSubmission'
+      | 'examAnswer'
       | 'question'
       | 'examQuestion';
     txIsolationLevel: TransactionIsolationLevel;
@@ -938,6 +942,156 @@ export type TypeMap<
         };
       };
     };
+    ExamSubmission: {
+      payload: Prisma.$ExamSubmissionPayload<ExtArgs>;
+      fields: Prisma.ExamSubmissionFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.ExamSubmissionFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.ExamSubmissionFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>;
+        };
+        findFirst: {
+          args: Prisma.ExamSubmissionFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.ExamSubmissionFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>;
+        };
+        findMany: {
+          args: Prisma.ExamSubmissionFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>[];
+        };
+        create: {
+          args: Prisma.ExamSubmissionCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>;
+        };
+        createMany: {
+          args: Prisma.ExamSubmissionCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.ExamSubmissionCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>[];
+        };
+        delete: {
+          args: Prisma.ExamSubmissionDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>;
+        };
+        update: {
+          args: Prisma.ExamSubmissionUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>;
+        };
+        deleteMany: {
+          args: Prisma.ExamSubmissionDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.ExamSubmissionUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.ExamSubmissionUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>[];
+        };
+        upsert: {
+          args: Prisma.ExamSubmissionUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamSubmissionPayload>;
+        };
+        aggregate: {
+          args: Prisma.ExamSubmissionAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExamSubmission>;
+        };
+        groupBy: {
+          args: Prisma.ExamSubmissionGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ExamSubmissionGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.ExamSubmissionCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.ExamSubmissionCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
+    ExamAnswer: {
+      payload: Prisma.$ExamAnswerPayload<ExtArgs>;
+      fields: Prisma.ExamAnswerFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.ExamAnswerFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.ExamAnswerFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>;
+        };
+        findFirst: {
+          args: Prisma.ExamAnswerFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.ExamAnswerFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>;
+        };
+        findMany: {
+          args: Prisma.ExamAnswerFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>[];
+        };
+        create: {
+          args: Prisma.ExamAnswerCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>;
+        };
+        createMany: {
+          args: Prisma.ExamAnswerCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.ExamAnswerCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>[];
+        };
+        delete: {
+          args: Prisma.ExamAnswerDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>;
+        };
+        update: {
+          args: Prisma.ExamAnswerUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>;
+        };
+        deleteMany: {
+          args: Prisma.ExamAnswerDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.ExamAnswerUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.ExamAnswerUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>[];
+        };
+        upsert: {
+          args: Prisma.ExamAnswerUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExamAnswerPayload>;
+        };
+        aggregate: {
+          args: Prisma.ExamAnswerAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExamAnswer>;
+        };
+        groupBy: {
+          args: Prisma.ExamAnswerGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ExamAnswerGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.ExamAnswerCountArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.ExamAnswerCountAggregateOutputType> | number;
+        };
+      };
+    };
     Question: {
       payload: Prisma.$QuestionPayload<ExtArgs>;
       fields: Prisma.QuestionFieldRefs;
@@ -1219,6 +1373,27 @@ export const ExamScalarFieldEnum = {
 
 export type ExamScalarFieldEnum = (typeof ExamScalarFieldEnum)[keyof typeof ExamScalarFieldEnum];
 
+export const ExamSubmissionScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  studentId: 'studentId',
+  submittedAt: 'submittedAt',
+} as const;
+
+export type ExamSubmissionScalarFieldEnum =
+  (typeof ExamSubmissionScalarFieldEnum)[keyof typeof ExamSubmissionScalarFieldEnum];
+
+export const ExamAnswerScalarFieldEnum = {
+  id: 'id',
+  submissionId: 'submissionId',
+  questionId: 'questionId',
+  answer: 'answer',
+  score: 'score',
+} as const;
+
+export type ExamAnswerScalarFieldEnum =
+  (typeof ExamAnswerScalarFieldEnum)[keyof typeof ExamAnswerScalarFieldEnum];
+
 export const QuestionScalarFieldEnum = {
   id: 'id',
   content: 'content',
@@ -1256,6 +1431,12 @@ export const SortOrder = {
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull,
+} as const;
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -1263,12 +1444,6 @@ export const NullableJsonNullValueInput = {
 
 export type NullableJsonNullValueInput =
   (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
-
-export const JsonNullValueInput = {
-  JsonNull: JsonNull,
-} as const;
-
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
 
 export const QueryMode = {
   default: 'default',
@@ -1358,6 +1533,16 @@ export type ListEnumExamStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
 >;
 
 /**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>;
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>;
+
+/**
  * Reference to a field of type 'QuestionType'
  */
 export type EnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
@@ -1372,16 +1557,6 @@ export type ListEnumQuestionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
   $PrismaModel,
   'QuestionType[]'
 >;
-
-/**
- * Reference to a field of type 'Json'
- */
-export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>;
-
-/**
- * Reference to a field of type 'QueryMode'
- */
-export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>;
 
 /**
  * Reference to a field of type 'QuestionStatus'
@@ -1534,6 +1709,8 @@ export type GlobalOmitConfig = {
   subject?: Prisma.SubjectOmit;
   enrollment?: Prisma.EnrollmentOmit;
   exam?: Prisma.ExamOmit;
+  examSubmission?: Prisma.ExamSubmissionOmit;
+  examAnswer?: Prisma.ExamAnswerOmit;
   question?: Prisma.QuestionOmit;
   examQuestion?: Prisma.ExamQuestionOmit;
 };

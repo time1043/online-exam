@@ -231,6 +231,7 @@ export type QuestionWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
   creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   examQuestions?: Prisma.ExamQuestionListRelationFilter;
+  examAnswers?: Prisma.ExamAnswerListRelationFilter;
 };
 
 export type QuestionOrderByWithRelationInput = {
@@ -249,6 +250,7 @@ export type QuestionOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder;
   creator?: Prisma.UserOrderByWithRelationInput;
   examQuestions?: Prisma.ExamQuestionOrderByRelationAggregateInput;
+  examAnswers?: Prisma.ExamAnswerOrderByRelationAggregateInput;
 };
 
 export type QuestionWhereUniqueInput = Prisma.AtLeast<
@@ -271,6 +273,7 @@ export type QuestionWhereUniqueInput = Prisma.AtLeast<
     updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
     creator?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     examQuestions?: Prisma.ExamQuestionListRelationFilter;
+    examAnswers?: Prisma.ExamAnswerListRelationFilter;
   },
   'id'
 >;
@@ -332,6 +335,7 @@ export type QuestionCreateInput = {
   updatedAt?: Date | string;
   creator: Prisma.UserCreateNestedOneWithoutQuestionsInput;
   examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput;
+  examAnswers?: Prisma.ExamAnswerCreateNestedManyWithoutQuestionInput;
 };
 
 export type QuestionUncheckedCreateInput = {
@@ -349,6 +353,7 @@ export type QuestionUncheckedCreateInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput;
+  examAnswers?: Prisma.ExamAnswerUncheckedCreateNestedManyWithoutQuestionInput;
 };
 
 export type QuestionUpdateInput = {
@@ -366,6 +371,7 @@ export type QuestionUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   creator?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput;
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput;
+  examAnswers?: Prisma.ExamAnswerUpdateManyWithoutQuestionNestedInput;
 };
 
 export type QuestionUncheckedUpdateInput = {
@@ -383,6 +389,7 @@ export type QuestionUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput;
+  examAnswers?: Prisma.ExamAnswerUncheckedUpdateManyWithoutQuestionNestedInput;
 };
 
 export type QuestionCreateManyInput = {
@@ -442,6 +449,11 @@ export type QuestionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder;
 };
 
+export type QuestionScalarRelationFilter = {
+  is?: Prisma.QuestionWhereInput;
+  isNot?: Prisma.QuestionWhereInput;
+};
+
 export type StringNullableListFilter<$PrismaModel = never> = {
   equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null;
   has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null;
@@ -488,11 +500,6 @@ export type QuestionMinOrderByAggregateInput = {
   createdBy?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-};
-
-export type QuestionScalarRelationFilter = {
-  is?: Prisma.QuestionWhereInput;
-  isNot?: Prisma.QuestionWhereInput;
 };
 
 export type QuestionCreateNestedManyWithoutCreatorInput = {
@@ -581,6 +588,32 @@ export type QuestionUncheckedUpdateManyWithoutCreatorNestedInput = {
   deleteMany?: Prisma.QuestionScalarWhereInput | Prisma.QuestionScalarWhereInput[];
 };
 
+export type QuestionCreateNestedOneWithoutExamAnswersInput = {
+  create?: Prisma.XOR<
+    Prisma.QuestionCreateWithoutExamAnswersInput,
+    Prisma.QuestionUncheckedCreateWithoutExamAnswersInput
+  >;
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutExamAnswersInput;
+  connect?: Prisma.QuestionWhereUniqueInput;
+};
+
+export type QuestionUpdateOneRequiredWithoutExamAnswersNestedInput = {
+  create?: Prisma.XOR<
+    Prisma.QuestionCreateWithoutExamAnswersInput,
+    Prisma.QuestionUncheckedCreateWithoutExamAnswersInput
+  >;
+  connectOrCreate?: Prisma.QuestionCreateOrConnectWithoutExamAnswersInput;
+  upsert?: Prisma.QuestionUpsertWithoutExamAnswersInput;
+  connect?: Prisma.QuestionWhereUniqueInput;
+  update?: Prisma.XOR<
+    Prisma.XOR<
+      Prisma.QuestionUpdateToOneWithWhereWithoutExamAnswersInput,
+      Prisma.QuestionUpdateWithoutExamAnswersInput
+    >,
+    Prisma.QuestionUncheckedUpdateWithoutExamAnswersInput
+  >;
+};
+
 export type QuestionCreatetagsInput = {
   set: string[];
 };
@@ -638,6 +671,7 @@ export type QuestionCreateWithoutCreatorInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput;
+  examAnswers?: Prisma.ExamAnswerCreateNestedManyWithoutQuestionInput;
 };
 
 export type QuestionUncheckedCreateWithoutCreatorInput = {
@@ -654,6 +688,7 @@ export type QuestionUncheckedCreateWithoutCreatorInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput;
+  examAnswers?: Prisma.ExamAnswerUncheckedCreateNestedManyWithoutQuestionInput;
 };
 
 export type QuestionCreateOrConnectWithoutCreatorInput = {
@@ -716,6 +751,102 @@ export type QuestionScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<'Question'> | Date | string;
 };
 
+export type QuestionCreateWithoutExamAnswersInput = {
+  id?: string;
+  content: string;
+  type: $Enums.QuestionType;
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
+  tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  isReported?: boolean;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  creator: Prisma.UserCreateNestedOneWithoutQuestionsInput;
+  examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutQuestionInput;
+};
+
+export type QuestionUncheckedCreateWithoutExamAnswersInput = {
+  id?: string;
+  content: string;
+  type: $Enums.QuestionType;
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  answer: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: string | null;
+  tags?: Prisma.QuestionCreatetagsInput | string[];
+  status?: $Enums.QuestionStatus;
+  isReported?: boolean;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdBy: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
+  examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutQuestionInput;
+};
+
+export type QuestionCreateOrConnectWithoutExamAnswersInput = {
+  where: Prisma.QuestionWhereUniqueInput;
+  create: Prisma.XOR<
+    Prisma.QuestionCreateWithoutExamAnswersInput,
+    Prisma.QuestionUncheckedCreateWithoutExamAnswersInput
+  >;
+};
+
+export type QuestionUpsertWithoutExamAnswersInput = {
+  update: Prisma.XOR<
+    Prisma.QuestionUpdateWithoutExamAnswersInput,
+    Prisma.QuestionUncheckedUpdateWithoutExamAnswersInput
+  >;
+  create: Prisma.XOR<
+    Prisma.QuestionCreateWithoutExamAnswersInput,
+    Prisma.QuestionUncheckedCreateWithoutExamAnswersInput
+  >;
+  where?: Prisma.QuestionWhereInput;
+};
+
+export type QuestionUpdateToOneWithWhereWithoutExamAnswersInput = {
+  where?: Prisma.QuestionWhereInput;
+  data: Prisma.XOR<
+    Prisma.QuestionUpdateWithoutExamAnswersInput,
+    Prisma.QuestionUncheckedUpdateWithoutExamAnswersInput
+  >;
+};
+
+export type QuestionUpdateWithoutExamAnswersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  content?: Prisma.StringFieldUpdateOperationsInput | string;
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  creator?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput;
+  examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput;
+};
+
+export type QuestionUncheckedUpdateWithoutExamAnswersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string;
+  content?: Prisma.StringFieldUpdateOperationsInput | string;
+  type?: Prisma.EnumQuestionTypeFieldUpdateOperationsInput | $Enums.QuestionType;
+  options?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  answer?: Prisma.JsonNullValueInput | runtime.InputJsonValue;
+  gradingCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+  tags?: Prisma.QuestionUpdatetagsInput | string[];
+  status?: Prisma.EnumQuestionStatusFieldUpdateOperationsInput | $Enums.QuestionStatus;
+  isReported?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+  reviewHistory?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue;
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string;
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput;
+};
+
 export type QuestionCreateWithoutExamQuestionsInput = {
   id?: string;
   content: string;
@@ -730,6 +861,7 @@ export type QuestionCreateWithoutExamQuestionsInput = {
   createdAt?: Date | string;
   updatedAt?: Date | string;
   creator: Prisma.UserCreateNestedOneWithoutQuestionsInput;
+  examAnswers?: Prisma.ExamAnswerCreateNestedManyWithoutQuestionInput;
 };
 
 export type QuestionUncheckedCreateWithoutExamQuestionsInput = {
@@ -746,6 +878,7 @@ export type QuestionUncheckedCreateWithoutExamQuestionsInput = {
   createdBy: string;
   createdAt?: Date | string;
   updatedAt?: Date | string;
+  examAnswers?: Prisma.ExamAnswerUncheckedCreateNestedManyWithoutQuestionInput;
 };
 
 export type QuestionCreateOrConnectWithoutExamQuestionsInput = {
@@ -790,6 +923,7 @@ export type QuestionUpdateWithoutExamQuestionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   creator?: Prisma.UserUpdateOneRequiredWithoutQuestionsNestedInput;
+  examAnswers?: Prisma.ExamAnswerUpdateManyWithoutQuestionNestedInput;
 };
 
 export type QuestionUncheckedUpdateWithoutExamQuestionsInput = {
@@ -806,6 +940,7 @@ export type QuestionUncheckedUpdateWithoutExamQuestionsInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  examAnswers?: Prisma.ExamAnswerUncheckedUpdateManyWithoutQuestionNestedInput;
 };
 
 export type QuestionCreateManyCreatorInput = {
@@ -837,6 +972,7 @@ export type QuestionUpdateWithoutCreatorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutQuestionNestedInput;
+  examAnswers?: Prisma.ExamAnswerUpdateManyWithoutQuestionNestedInput;
 };
 
 export type QuestionUncheckedUpdateWithoutCreatorInput = {
@@ -853,6 +989,7 @@ export type QuestionUncheckedUpdateWithoutCreatorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutQuestionNestedInput;
+  examAnswers?: Prisma.ExamAnswerUncheckedUpdateManyWithoutQuestionNestedInput;
 };
 
 export type QuestionUncheckedUpdateManyWithoutCreatorInput = {
@@ -876,12 +1013,14 @@ export type QuestionUncheckedUpdateManyWithoutCreatorInput = {
 
 export type QuestionCountOutputType = {
   examQuestions: number;
+  examAnswers: number;
 };
 
 export type QuestionCountOutputTypeSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
   examQuestions?: boolean | QuestionCountOutputTypeCountExamQuestionsArgs;
+  examAnswers?: boolean | QuestionCountOutputTypeCountExamAnswersArgs;
 };
 
 /**
@@ -905,6 +1044,15 @@ export type QuestionCountOutputTypeCountExamQuestionsArgs<
   where?: Prisma.ExamQuestionWhereInput;
 };
 
+/**
+ * QuestionCountOutputType without action
+ */
+export type QuestionCountOutputTypeCountExamAnswersArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  where?: Prisma.ExamAnswerWhereInput;
+};
+
 export type QuestionSelect<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetSelect<
@@ -924,6 +1072,7 @@ export type QuestionSelect<
     updatedAt?: boolean;
     creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     examQuestions?: boolean | Prisma.Question$examQuestionsArgs<ExtArgs>;
+    examAnswers?: boolean | Prisma.Question$examAnswersArgs<ExtArgs>;
     _count?: boolean | Prisma.QuestionCountOutputTypeDefaultArgs<ExtArgs>;
   },
   ExtArgs['result']['question']
@@ -1012,6 +1161,7 @@ export type QuestionInclude<
 > = {
   creator?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   examQuestions?: boolean | Prisma.Question$examQuestionsArgs<ExtArgs>;
+  examAnswers?: boolean | Prisma.Question$examAnswersArgs<ExtArgs>;
   _count?: boolean | Prisma.QuestionCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type QuestionIncludeCreateManyAndReturn<
@@ -1032,6 +1182,7 @@ export type $QuestionPayload<
   objects: {
     creator: Prisma.$UserPayload<ExtArgs>;
     examQuestions: Prisma.$ExamQuestionPayload<ExtArgs>[];
+    examAnswers: Prisma.$ExamAnswerPayload<ExtArgs>[];
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -1608,6 +1759,17 @@ export interface Prisma__QuestionClient<
       >
     | Null
   >;
+  examAnswers<T extends Prisma.Question$examAnswersArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.Question$examAnswersArgs<ExtArgs>>,
+  ): Prisma.PrismaPromise<
+    | runtime.Types.Result.GetResult<
+        Prisma.$ExamAnswerPayload<ExtArgs>,
+        T,
+        'findMany',
+        GlobalOmitOptions
+      >
+    | Null
+  >;
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2105,6 +2267,32 @@ export type Question$examQuestionsArgs<
   take?: number;
   skip?: number;
   distinct?: Prisma.ExamQuestionScalarFieldEnum | Prisma.ExamQuestionScalarFieldEnum[];
+};
+
+/**
+ * Question.examAnswers
+ */
+export type Question$examAnswersArgs<
+  ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
+> = {
+  /**
+   * Select specific fields to fetch from the ExamAnswer
+   */
+  select?: Prisma.ExamAnswerSelect<ExtArgs> | null;
+  /**
+   * Omit specific fields from the ExamAnswer
+   */
+  omit?: Prisma.ExamAnswerOmit<ExtArgs> | null;
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExamAnswerInclude<ExtArgs> | null;
+  where?: Prisma.ExamAnswerWhereInput;
+  orderBy?: Prisma.ExamAnswerOrderByWithRelationInput | Prisma.ExamAnswerOrderByWithRelationInput[];
+  cursor?: Prisma.ExamAnswerWhereUniqueInput;
+  take?: number;
+  skip?: number;
+  distinct?: Prisma.ExamAnswerScalarFieldEnum | Prisma.ExamAnswerScalarFieldEnum[];
 };
 
 /**
