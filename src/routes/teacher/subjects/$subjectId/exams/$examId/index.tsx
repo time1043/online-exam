@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import type { ExamQuestionItem } from './-components/mock-data';
@@ -52,12 +53,13 @@ const mockAvailableQuestions = [
 function RouteComponent() {
   const { subjectId, examId: _examId } = Route.useParams();
   const [questions, setQuestions] = useState<ExamQuestionItem[]>(mockExamQuestions);
+  const [examStatus, setExamStatus] = useState<'draft' | 'published'>(mockExamInfo.status);
 
   const statusMap: Record<string, { label: string; variant: 'default' | 'secondary' }> = {
     draft: { label: '草稿', variant: 'secondary' },
     published: { label: '已发布', variant: 'default' },
   };
-  const s = statusMap[mockExamInfo.status] ?? statusMap.draft;
+  const s = statusMap[examStatus] ?? statusMap.draft;
 
   function handleScoreChange(order: number, score: number) {
     setQuestions((prev) => prev.map((q) => (q.order === order ? { ...q, score } : q)));
@@ -121,6 +123,19 @@ function RouteComponent() {
           </p>
         </div>
         <Badge variant={s.variant}>{s.label}</Badge>
+        {examStatus === 'draft' ? (
+          <Button
+            size="sm"
+            disabled={questions.length === 0}
+            onClick={() => setExamStatus('published')}
+          >
+            发布试卷
+          </Button>
+        ) : (
+          <Button variant="outline" size="sm" onClick={() => setExamStatus('draft')}>
+            取消发布
+          </Button>
+        )}
       </div>
 
       <Card>
