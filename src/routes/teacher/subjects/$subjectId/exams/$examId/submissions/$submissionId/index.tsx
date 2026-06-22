@@ -171,8 +171,8 @@ function RouteComponent() {
                   </div>
                 )}
 
-                {/* 主观题打分 */}
-                {!isObjective && (
+                {/* 填空题/论述题：可修改分数 */}
+                {(eq.question.type === 'fill_blank' || eq.question.type === 'essay') && (
                   <div className="flex items-center gap-2 rounded-md border bg-muted/30 p-3">
                     <Label htmlFor={`score-${eq.question.id}`} className="text-sm">
                       得分：
