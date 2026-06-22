@@ -355,16 +355,23 @@ export const submitExam = createServerFn({ method: 'POST' })
     const questionMap = new Map(examQuestions.map((eq) => [eq.question.id, eq]));
 
     // Build answers with scores
-    const answersWithScores = data.answers.map((a) => {
-      const eq = questionMap.get(a.questionId);
-      if (!eq) return { questionId: a.questionId, answer: a.answer, score: null };
-      const objectiveTypes = ['single_choice', 'multiple_choice', 'true_false'];
-      if (objectiveTypes.includes(eq.question.type)) {
-        const correct = gradeObjectiveAnswer(eq.question.type, eq.question.answer, a.answer);
-        return { questionId: a.questionId, answer: a.answer, score: correct ? eq.score : 0 };
-      }
-      return { questionId: a.questionId, answer: a.answer, score: null };
-    });
+    const answeredIds = new Set(data.answers.map((a) => a.questionId));
+    const answersWithScores = [
+      ...data.answers.map((a) => {
+        const eq = questionMap.get(a.questionId);
+        if (!eq) return { questionId: a.questionId, answer: a.answer, score: null };
+        const objectiveTypes = ['single_choice', 'multiple_choice', 'true_false'];
+        if (objectiveTypes.includes(eq.question.type)) {
+          const correct = gradeObjectiveAnswer(eq.question.type, eq.question.answer, a.answer);
+          return { questionId: a.questionId, answer: a.answer, score: correct ? eq.score : 0 };
+        }
+        return { questionId: a.questionId, answer: a.answer, score: null };
+      }),
+      // Unanswered questions get 0
+      ...examQuestions
+        .filter((eq) => !answeredIds.has(eq.question.id))
+        .map((eq) => ({ questionId: eq.question.id, answer: '', score: 0 })),
+    ];
 
     if (existing) {
       await prisma.$transaction([
