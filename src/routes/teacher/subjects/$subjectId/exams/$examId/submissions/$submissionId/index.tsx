@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { questionTypeMap } from '@/routes/teacher/questions/-components/question-helpers';
 import { getSubmissionDetailSchema } from '@/schemas/exam';
+import { gradeEssayWithAI } from '@/server/ai';
 import { getSubmissionDetail, gradeSubmission } from '@/server/exam';
 
 export const Route = createFileRoute(
@@ -49,6 +50,19 @@ function RouteComponent() {
 
   const [scores, setScores] = useState<Record<string, number>>({});
   const [reasons, setReasons] = useState<Record<string, string>>({});
+
+  const aiMutation = useMutation({
+    mutationFn: (questionId: string) =>
+      gradeEssayWithAI({ data: { submissionId: sid, questionId } }),
+    onSuccess: (result, questionId) => {
+      setScores((prev) => ({ ...prev, [questionId]: result.suggestedScore }));
+      setReasons((prev) => ({ ...prev, [questionId]: result.reason }));
+      toast.success(`AI 建议：${result.suggestedScore} 分`);
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : 'AI 评分失败');
+    },
+  });
 
   const gradeMutation = useMutation({
     mutationFn: () =>
@@ -222,6 +236,18 @@ function RouteComponent() {
                       className="h-8 w-20 shrink-0"
                     />
                     <span className="shrink-0 text-sm text-muted-foreground">/ {eq.score}</span>
+                    {eq.question.type === 'essay' && (
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        disabled={aiMutation.isPending}
+                        onClick={() => aiMutation.mutate(eq.question.id)}
+                        className="h-8 shrink-0"
+                      >
+                        {aiMutation.isPending ? 'AI 评分中...' : 'AI 评分'}
+                      </Button>
+                    )}
                     <Input
                       placeholder="批改说明（必填）"
                       value={reasons[eq.question.id] ?? ''}

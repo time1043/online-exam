@@ -22,6 +22,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^3.0.74",
     "@base-ui/react": "^1.5.0",
     "@better-auth-ui/core": "^1.6.20",
     "@better-auth-ui/react": "^1.6.20",
@@ -42,6 +43,7 @@
     "@tanstack/react-start": "latest",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/router-plugin": "^1.132.0",
+    "ai": "^6.0.208",
     "better-auth": "^1.6.18",
     "bowser": "^2.14.1",
     "class-variance-authority": "^0.7.1",
