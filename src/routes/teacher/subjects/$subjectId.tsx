@@ -5,6 +5,9 @@ import { ArrowLeft } from 'lucide-react';
 import { getSubjectSchema } from '@/schemas/subject';
 import { getSubject } from '@/server/subject';
 
+import { CreateExamDialog } from './$subjectId/-components/create-exam-dialog';
+import { ExamList } from './$subjectId/-components/exam-list';
+import { mockExams } from './$subjectId/-components/mock-data';
 import { EnrollmentList } from './-components/enrollment-list';
 import { InviteCodeCard } from './-components/invite-code-card';
 
@@ -40,6 +43,10 @@ function RouteComponent() {
       </div>
 
       <InviteCodeCard inviteCode={subject.inviteCode} />
+      <ExamList
+        exams={mockExams}
+        actions={<CreateExamDialog onSubmit={(data) => console.log('创建试卷:', data)} />}
+      />
       <EnrollmentList enrollments={subject.enrollments} />
     </div>
   );
