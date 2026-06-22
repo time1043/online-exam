@@ -1,65 +1,115 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getExam, publishExam, updateExamQuestions } from '@/server/exam';
+import { getQuestions } from '@/server/question';
 
 import type { ExamQuestionItem } from './-components/mock-data';
 
 import { AddQuestionsDialog } from './-components/add-questions-dialog';
 import { ExamQuestionList } from './-components/exam-question-list';
-import { mockExamInfo, mockExamQuestions } from './-components/mock-data';
 
 export const Route = createFileRoute('/teacher/subjects/$subjectId/exams/$examId/')({
   component: RouteComponent,
 });
 
-// 题库中可选的题目（mock）
-const mockAvailableQuestions = [
-  {
-    id: 'q6',
-    content: 'React 中 useState 返回的第二个值是什么？',
-    type: 'fill_blank',
-    tags: ['React', 'Hooks'],
-  },
-  {
-    id: 'q7',
-    content: 'CSS 中，以下哪个属性用于设置文字颜色？',
-    type: 'single_choice',
-    tags: ['CSS', '基础'],
-  },
-  {
-    id: 'q8',
-    content: '以下哪些是 HTTP 请求方法？',
-    type: 'multiple_choice',
-    tags: ['HTTP', '网络'],
-  },
-  {
-    id: 'q9',
-    content: '在 JavaScript 中，null == undefined 的结果是 true。',
-    type: 'true_false',
-    tags: ['JavaScript', '基础'],
-  },
-  {
-    id: 'q10',
-    content: '解释浏览器从输入 URL 到页面渲染完成的完整流程。',
-    type: 'essay',
-    tags: ['浏览器', '原理'],
-  },
-];
-
 function RouteComponent() {
-  const { subjectId, examId: _examId } = Route.useParams();
-  const [questions, setQuestions] = useState<ExamQuestionItem[]>(mockExamQuestions);
-  const [examStatus, setExamStatus] = useState<'draft' | 'published'>(mockExamInfo.status);
+  const { subjectId, examId } = Route.useParams();
+  const queryClient = useQueryClient();
+  const sid = Number(subjectId);
+  const eid = Number(examId);
+
+  const { data: exam, isLoading: examLoading } = useQuery({
+    queryKey: ['exam', subjectId, examId],
+    queryFn: () => getExam({ data: { subjectId: sid, examId: eid } }),
+  });
+
+  const { data: allQuestions = [] } = useQuery({
+    queryKey: ['questions'],
+    queryFn: () => getQuestions(),
+  });
+
+  const [questions, setQuestions] = useState<ExamQuestionItem[]>([]);
+
+  useEffect(() => {
+    if (exam) {
+      setQuestions(
+        exam.examQuestions.map((eq) => ({
+          order: eq.order,
+          score: eq.score,
+          question: {
+            id: eq.question.id,
+            content: eq.question.content,
+            type: eq.question.type,
+            options: eq.question.options as string[] | null,
+            answer: eq.question.answer as string | number | number[],
+            tags: eq.question.tags,
+          },
+        })),
+      );
+    }
+  }, [exam]);
+
+  const saveMutation = useMutation({
+    mutationFn: () =>
+      updateExamQuestions({
+        data: {
+          examId: eid,
+          questions: questions.map((q) => ({
+            questionId: q.question.id,
+            order: q.order,
+            score: q.score,
+          })),
+        },
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['exam', subjectId, examId] });
+      queryClient.invalidateQueries({ queryKey: ['exams', subjectId] });
+      toast.success('试卷已保存');
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : '保存失败，请重试');
+    },
+  });
+
+  const publishMutation = useMutation({
+    mutationFn: () => publishExam({ data: { examId: eid } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['exam', subjectId, examId] });
+      queryClient.invalidateQueries({ queryKey: ['exams', subjectId] });
+      toast.success('状态已更新');
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : '操作失败');
+    },
+  });
 
   const statusMap: Record<string, { label: string; variant: 'default' | 'secondary' }> = {
     draft: { label: '草稿', variant: 'secondary' },
     published: { label: '已发布', variant: 'default' },
   };
-  const s = statusMap[examStatus] ?? statusMap.draft;
+
+  if (examLoading) {
+    return <div className="text-center text-muted-foreground">加载中...</div>;
+  }
+
+  if (!exam) {
+    return <div className="text-center text-muted-foreground">试卷不存在</div>;
+  }
+
+  const s = statusMap[exam.status] ?? statusMap.draft;
+
+  // Available questions = not already in exam
+  const usedIds = new Set(questions.map((q) => q.question.id));
+  const availableQuestions = allQuestions
+    .filter((q) => !usedIds.has(q.id))
+    .map((q) => ({ id: q.id, content: q.content, type: q.type, tags: q.tags }));
 
   function handleScoreChange(order: number, score: number) {
     setQuestions((prev) => prev.map((q) => (q.order === order ? { ...q, score } : q)));
@@ -85,7 +135,7 @@ function RouteComponent() {
 
   function handleAdd(questionIds: string[]) {
     const newItems: ExamQuestionItem[] = questionIds.map((id) => {
-      const q = mockAvailableQuestions.find((aq) => aq.id === id)!;
+      const q = allQuestions.find((aq) => aq.id === id)!;
       return {
         order: 0,
         score: 10,
@@ -93,8 +143,8 @@ function RouteComponent() {
           id: q.id,
           content: q.content,
           type: q.type,
-          options: null,
-          answer: 0,
+          options: q.options as string[] | null,
+          answer: q.answer as string | number | number[],
           tags: q.tags,
         },
       };
@@ -116,23 +166,36 @@ function RouteComponent() {
           <ArrowLeft className="size-5" />
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold">{mockExamInfo.title}</h1>
+          <h1 className="text-2xl font-bold">{exam.title}</h1>
           <p className="text-sm text-muted-foreground">
-            {mockExamInfo.subjectName}
-            {mockExamInfo.timeLimit && ` · ${mockExamInfo.timeLimit} 分钟`}
+            {exam.subject.name}
+            {exam.timeLimit && ` · ${exam.timeLimit} 分钟`}
           </p>
         </div>
         <Badge variant={s.variant}>{s.label}</Badge>
-        {examStatus === 'draft' ? (
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => saveMutation.mutate()}
+          disabled={saveMutation.isPending}
+        >
+          保存
+        </Button>
+        {exam.status === 'draft' ? (
           <Button
             size="sm"
-            disabled={questions.length === 0}
-            onClick={() => setExamStatus('published')}
+            disabled={questions.length === 0 || publishMutation.isPending}
+            onClick={() => publishMutation.mutate()}
           >
             发布试卷
           </Button>
         ) : (
-          <Button variant="outline" size="sm" onClick={() => setExamStatus('draft')}>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={publishMutation.isPending}
+            onClick={() => publishMutation.mutate()}
+          >
             取消发布
           </Button>
         )}
@@ -141,7 +204,7 @@ function RouteComponent() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-lg">试卷题目</CardTitle>
-          <AddQuestionsDialog availableQuestions={mockAvailableQuestions} onAdd={handleAdd} />
+          <AddQuestionsDialog availableQuestions={availableQuestions} onAdd={handleAdd} />
         </CardHeader>
         <CardContent>
           <ExamQuestionList

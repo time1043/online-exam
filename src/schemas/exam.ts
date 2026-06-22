@@ -1,0 +1,41 @@
+import { z } from 'zod';
+
+export const getExamsSchema = z.object({
+  subjectId: z.number(),
+});
+
+export const getExamSchema = z.object({
+  subjectId: z.number(),
+  examId: z.number(),
+});
+
+export const createExamSchema = z.object({
+  subjectId: z.number(),
+  title: z.string().min(1, '试卷名称不能为空'),
+  timeLimit: z.number().min(1).nullable(),
+});
+
+export const updateExamSchema = z.object({
+  examId: z.number(),
+  title: z.string().min(1, '试卷名称不能为空').optional(),
+  timeLimit: z.number().min(1).nullable().optional(),
+});
+
+export const updateExamQuestionsSchema = z.object({
+  examId: z.number(),
+  questions: z.array(
+    z.object({
+      questionId: z.string(),
+      order: z.number(),
+      score: z.number().min(1),
+    }),
+  ),
+});
+
+export const publishExamSchema = z.object({
+  examId: z.number(),
+});
+
+export const deleteExamSchema = z.object({
+  examId: z.number(),
+});
