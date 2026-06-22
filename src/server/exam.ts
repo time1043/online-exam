@@ -1,6 +1,9 @@
 import { createServerFn } from '@tanstack/react-start';
 
 import { prisma } from '@/db';
+import { createOpenAI } from '@ai-sdk/openai';
+import { generateText } from 'ai';
+
 import { Prisma } from '@/generated/prisma/client';
 import { authFnMiddleware } from '@/middlewares/auth';
 import {
@@ -15,6 +18,7 @@ import {
   getExamsSchema,
   publishExamSchema,
   submitExamSchema,
+  toggleAIGradingSchema,
   updateExamQuestionsSchema,
   updateExamSchema,
 } from '@/schemas/exam';
@@ -173,6 +177,26 @@ export const publishExam = createServerFn({ method: 'POST' })
     });
   });
 
+export const toggleAIGrading = createServerFn({ method: 'POST' })
+  .validator(toggleAIGradingSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+    const exam = await prisma.exam.findFirst({
+      where: {
+        id: data.examId,
+        subject: { teacherId: session.user.id },
+      },
+      select: { id: true },
+    });
+    if (!exam) throw new Error('试卷不存在或无权访问');
+
+    return prisma.exam.update({
+      where: { id: data.examId },
+      data: { aiGradingEnabled: data.enabled },
+    });
+  });
+
 export const deleteExam = createServerFn({ method: 'POST' })
   .validator(deleteExamSchema)
   .middleware([authFnMiddleware])
@@ -283,7 +307,7 @@ export const saveExam = createServerFn({ method: 'POST' })
         status: 'published',
         subject: { enrollments: { some: { studentId: session.user.id } } },
       },
-      select: { id: true },
+      select: { id: true, aiGradingEnabled: true },
     });
     if (!exam) throw new Error('试卷不存在或无权访问');
 
@@ -363,7 +387,7 @@ export const submitExam = createServerFn({ method: 'POST' })
         status: 'published',
         subject: { enrollments: { some: { studentId: session.user.id } } },
       },
-      select: { id: true },
+      select: { id: true, aiGradingEnabled: true },
     });
     if (!exam) throw new Error('试卷不存在或无权访问');
 
@@ -451,7 +475,54 @@ export const submitExam = createServerFn({ method: 'POST' })
         },
       },
     });
-    return { submissionId: submission.id };
+    const submissionId = submission.id;
+
+    // Auto-grade essay questions with AI if enabled
+    if (exam.aiGradingEnabled) {
+      try {
+        const essayAnswers = await prisma.examAnswer.findMany({
+          where: { submissionId, score: null },
+          include: {
+            question: {
+              select: { id: true, content: true, type: true, gradingCriteria: true },
+            },
+          },
+        });
+
+        const openai = createOpenAI({
+          baseURL: process.env.MIMO_OPENAI_API_URL,
+          apiKey: process.env.MIMO_API_KEY,
+        });
+        const now = new Date().toISOString();
+
+        for (const eq of essayAnswers) {
+          if (eq.question.type !== 'essay') continue;
+          const criteria = eq.question.gradingCriteria || '无评分标准，请根据论述质量综合评分';
+          try {
+            const { text } = await generateText({
+              model: openai.chat('mimo-v2.5'),
+              system: '你是一个严格的阅卷老师。评分。只返回 JSON：{"score": number, "reason": string}。',
+              prompt: `【题目】${eq.question.content}\n【评分标准】${criteria}\n【学生答案】${JSON.stringify(eq.answer)}\n\n请返回 JSON 格式评分。`,
+            });
+            const result = JSON.parse(text) as { score: number; reason: string };
+            const history = (eq.scoreHistory as unknown[] ?? []);
+            await prisma.examAnswer.update({
+              where: { submissionId_questionId: { submissionId, questionId: eq.questionId } },
+              data: {
+                score: result.score,
+                scoreHistory: [...history, { score: result.score, reason: result.reason, role: 'ai', changedAt: now }] as unknown as Prisma.InputJsonValue,
+              },
+            });
+          } catch (aiErr) {
+            console.error('AI grading failed for question', eq.questionId, aiErr);
+          }
+        }
+      } catch (err) {
+        console.error('AI auto-grading failed:', err);
+      }
+    }
+
+    return { submissionId };
   });
 
 export const getExamResult = createServerFn({ method: 'GET' })

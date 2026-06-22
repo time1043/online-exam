@@ -44,6 +44,7 @@ export type ExamMinAggregateOutputType = {
   subjectId: number | null;
   status: $Enums.ExamStatus | null;
   timeLimit: number | null;
+  aiGradingEnabled: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -54,6 +55,7 @@ export type ExamMaxAggregateOutputType = {
   subjectId: number | null;
   status: $Enums.ExamStatus | null;
   timeLimit: number | null;
+  aiGradingEnabled: boolean | null;
   createdAt: Date | null;
   updatedAt: Date | null;
 };
@@ -64,6 +66,7 @@ export type ExamCountAggregateOutputType = {
   subjectId: number;
   status: number;
   timeLimit: number;
+  aiGradingEnabled: number;
   createdAt: number;
   updatedAt: number;
   _all: number;
@@ -87,6 +90,7 @@ export type ExamMinAggregateInputType = {
   subjectId?: true;
   status?: true;
   timeLimit?: true;
+  aiGradingEnabled?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -97,6 +101,7 @@ export type ExamMaxAggregateInputType = {
   subjectId?: true;
   status?: true;
   timeLimit?: true;
+  aiGradingEnabled?: true;
   createdAt?: true;
   updatedAt?: true;
 };
@@ -107,6 +112,7 @@ export type ExamCountAggregateInputType = {
   subjectId?: true;
   status?: true;
   timeLimit?: true;
+  aiGradingEnabled?: true;
   createdAt?: true;
   updatedAt?: true;
   _all?: true;
@@ -205,6 +211,7 @@ export type ExamGroupByOutputType = {
   subjectId: number;
   status: $Enums.ExamStatus;
   timeLimit: number | null;
+  aiGradingEnabled: boolean;
   createdAt: Date;
   updatedAt: Date;
   _count: ExamCountAggregateOutputType | null;
@@ -235,6 +242,7 @@ export type ExamWhereInput = {
   subjectId?: Prisma.IntFilter<'Exam'> | number;
   status?: Prisma.EnumExamStatusFilter<'Exam'> | $Enums.ExamStatus;
   timeLimit?: Prisma.IntNullableFilter<'Exam'> | number | null;
+  aiGradingEnabled?: Prisma.BoolFilter<'Exam'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'Exam'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Exam'> | Date | string;
   subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>;
@@ -248,6 +256,7 @@ export type ExamOrderByWithRelationInput = {
   subjectId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   timeLimit?: Prisma.SortOrderInput | Prisma.SortOrder;
+  aiGradingEnabled?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   subject?: Prisma.SubjectOrderByWithRelationInput;
@@ -265,6 +274,7 @@ export type ExamWhereUniqueInput = Prisma.AtLeast<
     subjectId?: Prisma.IntFilter<'Exam'> | number;
     status?: Prisma.EnumExamStatusFilter<'Exam'> | $Enums.ExamStatus;
     timeLimit?: Prisma.IntNullableFilter<'Exam'> | number | null;
+    aiGradingEnabled?: Prisma.BoolFilter<'Exam'> | boolean;
     createdAt?: Prisma.DateTimeFilter<'Exam'> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<'Exam'> | Date | string;
     subject?: Prisma.XOR<Prisma.SubjectScalarRelationFilter, Prisma.SubjectWhereInput>;
@@ -280,6 +290,7 @@ export type ExamOrderByWithAggregationInput = {
   subjectId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   timeLimit?: Prisma.SortOrderInput | Prisma.SortOrder;
+  aiGradingEnabled?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
   _count?: Prisma.ExamCountOrderByAggregateInput;
@@ -298,6 +309,7 @@ export type ExamScalarWhereWithAggregatesInput = {
   subjectId?: Prisma.IntWithAggregatesFilter<'Exam'> | number;
   status?: Prisma.EnumExamStatusWithAggregatesFilter<'Exam'> | $Enums.ExamStatus;
   timeLimit?: Prisma.IntNullableWithAggregatesFilter<'Exam'> | number | null;
+  aiGradingEnabled?: Prisma.BoolWithAggregatesFilter<'Exam'> | boolean;
   createdAt?: Prisma.DateTimeWithAggregatesFilter<'Exam'> | Date | string;
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<'Exam'> | Date | string;
 };
@@ -306,6 +318,7 @@ export type ExamCreateInput = {
   title: string;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   subject: Prisma.SubjectCreateNestedOneWithoutExamsInput;
@@ -319,6 +332,7 @@ export type ExamUncheckedCreateInput = {
   subjectId: number;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutExamInput;
@@ -329,6 +343,7 @@ export type ExamUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   subject?: Prisma.SubjectUpdateOneRequiredWithoutExamsNestedInput;
@@ -342,6 +357,7 @@ export type ExamUncheckedUpdateInput = {
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutExamNestedInput;
@@ -354,6 +370,7 @@ export type ExamCreateManyInput = {
   subjectId: number;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -362,6 +379,7 @@ export type ExamUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -372,6 +390,7 @@ export type ExamUncheckedUpdateManyInput = {
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -392,6 +411,7 @@ export type ExamCountOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   timeLimit?: Prisma.SortOrder;
+  aiGradingEnabled?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -408,6 +428,7 @@ export type ExamMaxOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   timeLimit?: Prisma.SortOrder;
+  aiGradingEnabled?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -418,6 +439,7 @@ export type ExamMinOrderByAggregateInput = {
   subjectId?: Prisma.SortOrder;
   status?: Prisma.SortOrder;
   timeLimit?: Prisma.SortOrder;
+  aiGradingEnabled?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
 };
@@ -587,6 +609,7 @@ export type ExamCreateWithoutSubjectInput = {
   title: string;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examQuestions?: Prisma.ExamQuestionCreateNestedManyWithoutExamInput;
@@ -598,6 +621,7 @@ export type ExamUncheckedCreateWithoutSubjectInput = {
   title: string;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutExamInput;
@@ -654,6 +678,7 @@ export type ExamScalarWhereInput = {
   subjectId?: Prisma.IntFilter<'Exam'> | number;
   status?: Prisma.EnumExamStatusFilter<'Exam'> | $Enums.ExamStatus;
   timeLimit?: Prisma.IntNullableFilter<'Exam'> | number | null;
+  aiGradingEnabled?: Prisma.BoolFilter<'Exam'> | boolean;
   createdAt?: Prisma.DateTimeFilter<'Exam'> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<'Exam'> | Date | string;
 };
@@ -662,6 +687,7 @@ export type ExamCreateWithoutExamSubmissionsInput = {
   title: string;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   subject: Prisma.SubjectCreateNestedOneWithoutExamsInput;
@@ -674,6 +700,7 @@ export type ExamUncheckedCreateWithoutExamSubmissionsInput = {
   subjectId: number;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedCreateNestedManyWithoutExamInput;
@@ -711,6 +738,7 @@ export type ExamUpdateWithoutExamSubmissionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   subject?: Prisma.SubjectUpdateOneRequiredWithoutExamsNestedInput;
@@ -723,6 +751,7 @@ export type ExamUncheckedUpdateWithoutExamSubmissionsInput = {
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutExamNestedInput;
@@ -732,6 +761,7 @@ export type ExamCreateWithoutExamQuestionsInput = {
   title: string;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   subject: Prisma.SubjectCreateNestedOneWithoutExamsInput;
@@ -744,6 +774,7 @@ export type ExamUncheckedCreateWithoutExamQuestionsInput = {
   subjectId: number;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
   examSubmissions?: Prisma.ExamSubmissionUncheckedCreateNestedManyWithoutExamInput;
@@ -781,6 +812,7 @@ export type ExamUpdateWithoutExamQuestionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   subject?: Prisma.SubjectUpdateOneRequiredWithoutExamsNestedInput;
@@ -793,6 +825,7 @@ export type ExamUncheckedUpdateWithoutExamQuestionsInput = {
   subjectId?: Prisma.IntFieldUpdateOperationsInput | number;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examSubmissions?: Prisma.ExamSubmissionUncheckedUpdateManyWithoutExamNestedInput;
@@ -803,6 +836,7 @@ export type ExamCreateManySubjectInput = {
   title: string;
   status?: $Enums.ExamStatus;
   timeLimit?: number | null;
+  aiGradingEnabled?: boolean;
   createdAt?: Date | string;
   updatedAt?: Date | string;
 };
@@ -811,6 +845,7 @@ export type ExamUpdateWithoutSubjectInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examQuestions?: Prisma.ExamQuestionUpdateManyWithoutExamNestedInput;
@@ -822,6 +857,7 @@ export type ExamUncheckedUpdateWithoutSubjectInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   examQuestions?: Prisma.ExamQuestionUncheckedUpdateManyWithoutExamNestedInput;
@@ -833,6 +869,7 @@ export type ExamUncheckedUpdateManyWithoutSubjectInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string;
   status?: Prisma.EnumExamStatusFieldUpdateOperationsInput | $Enums.ExamStatus;
   timeLimit?: Prisma.NullableIntFieldUpdateOperationsInput | number | null;
+  aiGradingEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean;
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
@@ -892,6 +929,7 @@ export type ExamSelect<
     subjectId?: boolean;
     status?: boolean;
     timeLimit?: boolean;
+    aiGradingEnabled?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
@@ -911,6 +949,7 @@ export type ExamSelectCreateManyAndReturn<
     subjectId?: boolean;
     status?: boolean;
     timeLimit?: boolean;
+    aiGradingEnabled?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
@@ -927,6 +966,7 @@ export type ExamSelectUpdateManyAndReturn<
     subjectId?: boolean;
     status?: boolean;
     timeLimit?: boolean;
+    aiGradingEnabled?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
     subject?: boolean | Prisma.SubjectDefaultArgs<ExtArgs>;
@@ -940,6 +980,7 @@ export type ExamSelectScalar = {
   subjectId?: boolean;
   status?: boolean;
   timeLimit?: boolean;
+  aiGradingEnabled?: boolean;
   createdAt?: boolean;
   updatedAt?: boolean;
 };
@@ -947,7 +988,14 @@ export type ExamSelectScalar = {
 export type ExamOmit<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = runtime.Types.Extensions.GetOmit<
-  'id' | 'title' | 'subjectId' | 'status' | 'timeLimit' | 'createdAt' | 'updatedAt',
+  | 'id'
+  | 'title'
+  | 'subjectId'
+  | 'status'
+  | 'timeLimit'
+  | 'aiGradingEnabled'
+  | 'createdAt'
+  | 'updatedAt',
   ExtArgs['result']['exam']
 >;
 export type ExamInclude<
@@ -985,6 +1033,7 @@ export type $ExamPayload<
       subjectId: number;
       status: $Enums.ExamStatus;
       timeLimit: number | null;
+      aiGradingEnabled: boolean;
       createdAt: Date;
       updatedAt: Date;
     },
@@ -1569,6 +1618,7 @@ export interface ExamFieldRefs {
   readonly subjectId: Prisma.FieldRef<'Exam', 'Int'>;
   readonly status: Prisma.FieldRef<'Exam', 'ExamStatus'>;
   readonly timeLimit: Prisma.FieldRef<'Exam', 'Int'>;
+  readonly aiGradingEnabled: Prisma.FieldRef<'Exam', 'Boolean'>;
   readonly createdAt: Prisma.FieldRef<'Exam', 'DateTime'>;
   readonly updatedAt: Prisma.FieldRef<'Exam', 'DateTime'>;
 }

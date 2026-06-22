@@ -133,16 +133,17 @@ model Enrollment {
 }
 
 model Exam {
-  id            Int            @id @default(autoincrement())
-  title         String
-  subjectId     Int
-  subject       Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  status        ExamStatus     @default(draft)
-  timeLimit     Int?
+  id               Int            @id @default(autoincrement())
+  title            String
+  subjectId        Int
+  subject          Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  status           ExamStatus     @default(draft)
+  timeLimit        Int?
+  aiGradingEnabled Boolean        @default(false)
   examQuestions    ExamQuestion[]
   examSubmissions  ExamSubmission[]
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
   @@index([subjectId])
   @@map("exam")

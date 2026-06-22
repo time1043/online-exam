@@ -36,6 +36,11 @@ export const publishExamSchema = z.object({
   examId: z.number(),
 });
 
+export const toggleAIGradingSchema = z.object({
+  examId: z.number(),
+  enabled: z.boolean(),
+});
+
 export const deleteExamSchema = z.object({
   examId: z.number(),
 });

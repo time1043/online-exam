@@ -7,7 +7,8 @@ import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getExam, publishExam, updateExamQuestions } from '@/server/exam';
+import { Switch } from '@/components/ui/switch';
+import { getExam, publishExam, toggleAIGrading, updateExamQuestions } from '@/server/exam';
 import { getQuestions } from '@/server/question';
 
 import type { ExamQuestionItem } from './-components/mock-data';
@@ -84,6 +85,18 @@ function RouteComponent() {
       queryClient.invalidateQueries({ queryKey: ['exam', subjectId, examId] });
       queryClient.invalidateQueries({ queryKey: ['exams', subjectId] });
       toast.success('状态已更新');
+    },
+    onError: (err) => {
+      toast.error(err instanceof Error ? err.message : '操作失败');
+    },
+  });
+
+  const aiGradingMutation = useMutation({
+    mutationFn: (enabled: boolean) =>
+      toggleAIGrading({ data: { examId: eid, enabled } }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['exam', subjectId, examId] });
+      toast.success('设置已更新');
     },
     onError: (err) => {
       toast.error(err instanceof Error ? err.message : '操作失败');
@@ -191,6 +204,15 @@ function RouteComponent() {
         >
           保存
         </Button>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">AI 自动判题</span>
+          <Switch
+            size="sm"
+            checked={(exam as Record<string, unknown>).aiGradingEnabled as boolean}
+            disabled={aiGradingMutation.isPending}
+            onCheckedChange={(checked) => aiGradingMutation.mutate(checked)}
+          />
+        </div>
         {exam.status === 'draft' ? (
           <Button
             size="sm"

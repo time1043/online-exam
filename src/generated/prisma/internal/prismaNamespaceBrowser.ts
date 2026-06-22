@@ -163,6 +163,7 @@ export const ExamScalarFieldEnum = {
   subjectId: 'subjectId',
   status: 'status',
   timeLimit: 'timeLimit',
+  aiGradingEnabled: 'aiGradingEnabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
 } as const;
