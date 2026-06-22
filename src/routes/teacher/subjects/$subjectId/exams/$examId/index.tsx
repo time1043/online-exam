@@ -63,6 +63,18 @@ function RouteComponent() {
     setQuestions((prev) => prev.map((q) => (q.order === order ? { ...q, score } : q)));
   }
 
+  function handleMove(fromOrder: number, direction: 'up' | 'down') {
+    setQuestions((prev) => {
+      const idx = prev.findIndex((q) => q.order === fromOrder);
+      if (idx === -1) return prev;
+      const targetIdx = direction === 'up' ? idx - 1 : idx + 1;
+      if (targetIdx < 0 || targetIdx >= prev.length) return prev;
+      const next = [...prev];
+      [next[idx], next[targetIdx]] = [next[targetIdx], next[idx]];
+      return next.map((q, i) => ({ ...q, order: i + 1 }));
+    });
+  }
+
   function handleRemove(order: number) {
     setQuestions((prev) =>
       prev.filter((q) => q.order !== order).map((q, i) => ({ ...q, order: i + 1 })),
@@ -120,6 +132,7 @@ function RouteComponent() {
           <ExamQuestionList
             questions={questions}
             onScoreChange={handleScoreChange}
+            onMove={handleMove}
             onRemove={handleRemove}
           />
         </CardContent>

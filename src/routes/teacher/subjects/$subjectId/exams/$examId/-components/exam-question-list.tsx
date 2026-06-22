@@ -1,4 +1,4 @@
-import { GripVertical, Trash2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Trash2 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,10 +18,16 @@ import type { ExamQuestionItem } from './mock-data';
 interface ExamQuestionListProps {
   questions: ExamQuestionItem[];
   onScoreChange: (order: number, score: number) => void;
+  onMove: (fromOrder: number, direction: 'up' | 'down') => void;
   onRemove: (order: number) => void;
 }
 
-export function ExamQuestionList({ questions, onScoreChange, onRemove }: ExamQuestionListProps) {
+export function ExamQuestionList({
+  questions,
+  onScoreChange,
+  onMove,
+  onRemove,
+}: ExamQuestionListProps) {
   const totalScore = questions.reduce((sum, q) => sum + q.score, 0);
 
   return (
@@ -35,7 +41,7 @@ export function ExamQuestionList({ questions, onScoreChange, onRemove }: ExamQue
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-8"></TableHead>
+              <TableHead className="w-16 text-center">排序</TableHead>
               <TableHead className="w-10 text-center">序号</TableHead>
               <TableHead>题干</TableHead>
               <TableHead className="w-20">题型</TableHead>
@@ -51,10 +57,27 @@ export function ExamQuestionList({ questions, onScoreChange, onRemove }: ExamQue
                 </TableCell>
               </TableRow>
             ) : (
-              questions.map((item) => (
-                <TableRow key={item.order}>
+              questions.map((item, index) => (
+                <TableRow key={item.question.id}>
                   <TableCell>
-                    <GripVertical className="size-4 text-muted-foreground" />
+                    <div className="flex items-center justify-center gap-0.5">
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        disabled={index === 0}
+                        onClick={() => onMove(item.order, 'up')}
+                      >
+                        <ChevronUp className="size-3.5" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        disabled={index === questions.length - 1}
+                        onClick={() => onMove(item.order, 'down')}
+                      >
+                        <ChevronDown className="size-3.5" />
+                      </Button>
+                    </div>
                   </TableCell>
                   <TableCell className="text-center text-muted-foreground">{item.order}</TableCell>
                   <TableCell>
