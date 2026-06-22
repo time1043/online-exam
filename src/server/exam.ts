@@ -1,13 +1,16 @@
 import { createServerFn } from '@tanstack/react-start';
 
 import { prisma } from '@/db';
+import { Prisma } from '@/generated/prisma/client';
 import { authFnMiddleware } from '@/middlewares/auth';
 import {
   createExamSchema,
   deleteExamSchema,
+  getExamForStudentSchema,
   getExamSchema,
   getExamsSchema,
   publishExamSchema,
+  submitExamSchema,
   updateExamQuestionsSchema,
   updateExamSchema,
 } from '@/schemas/exam';
@@ -181,4 +184,107 @@ export const deleteExam = createServerFn({ method: 'POST' })
     if (!exam) throw new Error('试卷不存在或无权访问');
 
     return prisma.exam.delete({ where: { id: data.examId } });
+  });
+
+// Student server functions
+export const getAvailableExams = createServerFn({ method: 'GET' })
+  .middleware([authFnMiddleware])
+  .handler(async ({ context }) => {
+    const { session } = context;
+    return prisma.exam.findMany({
+      where: {
+        status: 'published',
+        subject: {
+          enrollments: { some: { studentId: session.user.id } },
+        },
+      },
+      include: {
+        subject: { select: { id: true, name: true } },
+        _count: { select: { examQuestions: true } },
+        examQuestions: { select: { score: true } },
+        examSubmissions: {
+          where: { studentId: session.user.id },
+          select: { id: true, submittedAt: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  });
+
+export const getExamForStudent = createServerFn({ method: 'GET' })
+  .validator(getExamForStudentSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+
+    const exam = await prisma.exam.findFirst({
+      where: {
+        id: data.examId,
+        status: 'published',
+        subject: {
+          enrollments: { some: { studentId: session.user.id } },
+        },
+      },
+      include: {
+        subject: { select: { name: true } },
+        examQuestions: {
+          include: {
+            question: {
+              select: {
+                id: true,
+                content: true,
+                type: true,
+                options: true,
+              },
+            },
+          },
+          orderBy: { order: 'asc' },
+        },
+      },
+    });
+    if (!exam) throw new Error('试卷不存在或无权访问');
+
+    return exam;
+  });
+
+export const submitExam = createServerFn({ method: 'POST' })
+  .validator(submitExamSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+
+    const exam = await prisma.exam.findFirst({
+      where: {
+        id: data.examId,
+        status: 'published',
+        subject: {
+          enrollments: { some: { studentId: session.user.id } },
+        },
+      },
+      select: { id: true },
+    });
+    if (!exam) throw new Error('试卷不存在或无权访问');
+
+    const existing = await prisma.examSubmission.findUnique({
+      where: {
+        examId_studentId: { examId: data.examId, studentId: session.user.id },
+      },
+      select: { id: true },
+    });
+    if (existing) throw new Error('你已经提交过这份试卷');
+
+    const submission = await prisma.examSubmission.create({
+      data: {
+        examId: data.examId,
+        studentId: session.user.id,
+        answers: {
+          create: data.answers.map((a) => ({
+            questionId: a.questionId,
+            answer: a.answer as Prisma.InputJsonValue,
+          })),
+        },
+      },
+    });
+
+    return { submissionId: submission.id };
   });

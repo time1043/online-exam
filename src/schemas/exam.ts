@@ -39,3 +39,18 @@ export const publishExamSchema = z.object({
 export const deleteExamSchema = z.object({
   examId: z.number(),
 });
+
+// Student schemas
+export const getExamForStudentSchema = z.object({
+  examId: z.number(),
+});
+
+export const submitExamSchema = z.object({
+  examId: z.number(),
+  answers: z.array(
+    z.object({
+      questionId: z.string(),
+      answer: z.union([z.string(), z.number(), z.array(z.number()), z.array(z.string())]),
+    }),
+  ),
+});

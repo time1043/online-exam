@@ -26,7 +26,9 @@ import { Route as TeacherSubjectsSubjectIdRouteImport } from './routes/teacher/s
 import { Route as StudentSubjectsSubjectIdRouteImport } from './routes/student/subjects/$subjectId'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as TeacherSubjectsSubjectIdIndexRouteImport } from './routes/teacher/subjects/$subjectId/index'
+import { Route as StudentSubjectsSubjectIdIndexRouteImport } from './routes/student/subjects/$subjectId/index'
 import { Route as TeacherSubjectsSubjectIdExamsExamIdIndexRouteImport } from './routes/teacher/subjects/$subjectId/exams/$examId/index'
+import { Route as StudentSubjectsSubjectIdExamsExamIdIndexRouteImport } from './routes/student/subjects/$subjectId/exams/$examId/index'
 
 const TeacherRouteRoute = TeacherRouteRouteImport.update({
   id: '/teacher',
@@ -115,11 +117,23 @@ const TeacherSubjectsSubjectIdIndexRoute =
     path: '/',
     getParentRoute: () => TeacherSubjectsSubjectIdRoute,
   } as any)
+const StudentSubjectsSubjectIdIndexRoute =
+  StudentSubjectsSubjectIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => StudentSubjectsSubjectIdRoute,
+  } as any)
 const TeacherSubjectsSubjectIdExamsExamIdIndexRoute =
   TeacherSubjectsSubjectIdExamsExamIdIndexRouteImport.update({
     id: '/exams/$examId/',
     path: '/exams/$examId/',
     getParentRoute: () => TeacherSubjectsSubjectIdRoute,
+  } as any)
+const StudentSubjectsSubjectIdExamsExamIdIndexRoute =
+  StudentSubjectsSubjectIdExamsExamIdIndexRouteImport.update({
+    id: '/exams/$examId/',
+    path: '/exams/$examId/',
+    getParentRoute: () => StudentSubjectsSubjectIdRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -133,12 +147,14 @@ export interface FileRoutesByFullPath {
   '/student/': typeof StudentIndexRoute
   '/teacher/': typeof TeacherIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRoute
+  '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRouteWithChildren
   '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRouteWithChildren
   '/student/subjects/': typeof StudentSubjectsIndexRoute
   '/teacher/questions/': typeof TeacherQuestionsIndexRoute
   '/teacher/subjects/': typeof TeacherSubjectsIndexRoute
+  '/student/subjects/$subjectId/': typeof StudentSubjectsSubjectIdIndexRoute
   '/teacher/subjects/$subjectId/': typeof TeacherSubjectsSubjectIdIndexRoute
+  '/student/subjects/$subjectId/exams/$examId/': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId/': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
 }
 export interface FileRoutesByTo {
@@ -149,11 +165,12 @@ export interface FileRoutesByTo {
   '/student': typeof StudentIndexRoute
   '/teacher': typeof TeacherIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRoute
   '/student/subjects': typeof StudentSubjectsIndexRoute
   '/teacher/questions': typeof TeacherQuestionsIndexRoute
   '/teacher/subjects': typeof TeacherSubjectsIndexRoute
+  '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdIndexRoute
   '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdIndexRoute
+  '/student/subjects/$subjectId/exams/$examId': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
 }
 export interface FileRoutesById {
@@ -169,12 +186,14 @@ export interface FileRoutesById {
   '/student/': typeof StudentIndexRoute
   '/teacher/': typeof TeacherIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRoute
+  '/student/subjects/$subjectId': typeof StudentSubjectsSubjectIdRouteWithChildren
   '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdRouteWithChildren
   '/student/subjects/': typeof StudentSubjectsIndexRoute
   '/teacher/questions/': typeof TeacherQuestionsIndexRoute
   '/teacher/subjects/': typeof TeacherSubjectsIndexRoute
+  '/student/subjects/$subjectId/': typeof StudentSubjectsSubjectIdIndexRoute
   '/teacher/subjects/$subjectId/': typeof TeacherSubjectsSubjectIdIndexRoute
+  '/student/subjects/$subjectId/exams/$examId/': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId/': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -195,7 +214,9 @@ export interface FileRouteTypes {
     | '/student/subjects/'
     | '/teacher/questions/'
     | '/teacher/subjects/'
+    | '/student/subjects/$subjectId/'
     | '/teacher/subjects/$subjectId/'
+    | '/student/subjects/$subjectId/exams/$examId/'
     | '/teacher/subjects/$subjectId/exams/$examId/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -206,11 +227,12 @@ export interface FileRouteTypes {
     | '/student'
     | '/teacher'
     | '/api/auth/$'
-    | '/student/subjects/$subjectId'
     | '/student/subjects'
     | '/teacher/questions'
     | '/teacher/subjects'
+    | '/student/subjects/$subjectId'
     | '/teacher/subjects/$subjectId'
+    | '/student/subjects/$subjectId/exams/$examId'
     | '/teacher/subjects/$subjectId/exams/$examId'
   id:
     | '__root__'
@@ -230,7 +252,9 @@ export interface FileRouteTypes {
     | '/student/subjects/'
     | '/teacher/questions/'
     | '/teacher/subjects/'
+    | '/student/subjects/$subjectId/'
     | '/teacher/subjects/$subjectId/'
+    | '/student/subjects/$subjectId/exams/$examId/'
     | '/teacher/subjects/$subjectId/exams/$examId/'
   fileRoutesById: FileRoutesById
 }
@@ -365,12 +389,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherSubjectsSubjectIdIndexRouteImport
       parentRoute: typeof TeacherSubjectsSubjectIdRoute
     }
+    '/student/subjects/$subjectId/': {
+      id: '/student/subjects/$subjectId/'
+      path: '/'
+      fullPath: '/student/subjects/$subjectId/'
+      preLoaderRoute: typeof StudentSubjectsSubjectIdIndexRouteImport
+      parentRoute: typeof StudentSubjectsSubjectIdRoute
+    }
     '/teacher/subjects/$subjectId/exams/$examId/': {
       id: '/teacher/subjects/$subjectId/exams/$examId/'
       path: '/exams/$examId'
       fullPath: '/teacher/subjects/$subjectId/exams/$examId/'
       preLoaderRoute: typeof TeacherSubjectsSubjectIdExamsExamIdIndexRouteImport
       parentRoute: typeof TeacherSubjectsSubjectIdRoute
+    }
+    '/student/subjects/$subjectId/exams/$examId/': {
+      id: '/student/subjects/$subjectId/exams/$examId/'
+      path: '/exams/$examId'
+      fullPath: '/student/subjects/$subjectId/exams/$examId/'
+      preLoaderRoute: typeof StudentSubjectsSubjectIdExamsExamIdIndexRouteImport
+      parentRoute: typeof StudentSubjectsSubjectIdRoute
     }
   }
 }
@@ -399,15 +437,32 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
   AdminRouteRouteChildren,
 )
 
+interface StudentSubjectsSubjectIdRouteChildren {
+  StudentSubjectsSubjectIdIndexRoute: typeof StudentSubjectsSubjectIdIndexRoute
+  StudentSubjectsSubjectIdExamsExamIdIndexRoute: typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
+}
+
+const StudentSubjectsSubjectIdRouteChildren: StudentSubjectsSubjectIdRouteChildren =
+  {
+    StudentSubjectsSubjectIdIndexRoute: StudentSubjectsSubjectIdIndexRoute,
+    StudentSubjectsSubjectIdExamsExamIdIndexRoute:
+      StudentSubjectsSubjectIdExamsExamIdIndexRoute,
+  }
+
+const StudentSubjectsSubjectIdRouteWithChildren =
+  StudentSubjectsSubjectIdRoute._addFileChildren(
+    StudentSubjectsSubjectIdRouteChildren,
+  )
+
 interface StudentRouteRouteChildren {
   StudentIndexRoute: typeof StudentIndexRoute
-  StudentSubjectsSubjectIdRoute: typeof StudentSubjectsSubjectIdRoute
+  StudentSubjectsSubjectIdRoute: typeof StudentSubjectsSubjectIdRouteWithChildren
   StudentSubjectsIndexRoute: typeof StudentSubjectsIndexRoute
 }
 
 const StudentRouteRouteChildren: StudentRouteRouteChildren = {
   StudentIndexRoute: StudentIndexRoute,
-  StudentSubjectsSubjectIdRoute: StudentSubjectsSubjectIdRoute,
+  StudentSubjectsSubjectIdRoute: StudentSubjectsSubjectIdRouteWithChildren,
   StudentSubjectsIndexRoute: StudentSubjectsIndexRoute,
 }
 
