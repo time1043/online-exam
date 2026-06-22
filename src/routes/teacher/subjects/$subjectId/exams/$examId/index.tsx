@@ -92,8 +92,7 @@ function RouteComponent() {
   });
 
   const aiGradingMutation = useMutation({
-    mutationFn: (enabled: boolean) =>
-      toggleAIGrading({ data: { examId: eid, enabled } }),
+    mutationFn: (enabled: boolean) => toggleAIGrading({ data: { examId: eid, enabled } }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['exam', subjectId, examId] });
       toast.success('设置已更新');

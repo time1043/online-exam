@@ -170,6 +170,38 @@ function RouteComponent() {
                     </p>
                   </div>
                 )}
+                {answer?.scoreHistory && (answer.scoreHistory as unknown[]).length > 0 && (
+                  <div className="space-y-1">
+                    <span className="text-sm text-muted-foreground">评分历史：</span>
+                    {(
+                      answer.scoreHistory as {
+                        score: number;
+                        reason: string;
+                        role: string;
+                        changedAt: string;
+                      }[]
+                    ).map((h, i) => (
+                      <div
+                        key={i}
+                        className="flex items-center gap-2 text-xs text-muted-foreground"
+                      >
+                        <Badge variant="outline" className="text-xs">
+                          {h.role === 'hard'
+                            ? '自动'
+                            : h.role === 'teacher'
+                              ? '教师'
+                              : h.role === 'ai'
+                                ? 'AI'
+                                : h.role}
+                        </Badge>
+                        <span>{h.score} 分</span>
+                        <span>—</span>
+                        <span>{h.reason}</span>
+                        <span>{new Date(h.changedAt).toLocaleString('zh-CN')}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           );

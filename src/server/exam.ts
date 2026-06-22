@@ -1,9 +1,8 @@
-import { createServerFn } from '@tanstack/react-start';
-
-import { prisma } from '@/db';
 import { createOpenAI } from '@ai-sdk/openai';
+import { createServerFn } from '@tanstack/react-start';
 import { generateText } from 'ai';
 
+import { prisma } from '@/db';
 import { Prisma } from '@/generated/prisma/client';
 import { authFnMiddleware } from '@/middlewares/auth';
 import {
@@ -501,16 +500,20 @@ export const submitExam = createServerFn({ method: 'POST' })
           try {
             const { text } = await generateText({
               model: openai.chat('mimo-v2.5'),
-              system: '你是一个严格的阅卷老师。评分。只返回 JSON：{"score": number, "reason": string}。',
+              system:
+                '你是一个严格的阅卷老师。评分。只返回 JSON：{"score": number, "reason": string}。',
               prompt: `【题目】${eq.question.content}\n【评分标准】${criteria}\n【学生答案】${JSON.stringify(eq.answer)}\n\n请返回 JSON 格式评分。`,
             });
             const result = JSON.parse(text) as { score: number; reason: string };
-            const history = (eq.scoreHistory as unknown[] ?? []);
+            const history = (eq.scoreHistory as unknown[]) ?? [];
             await prisma.examAnswer.update({
               where: { submissionId_questionId: { submissionId, questionId: eq.questionId } },
               data: {
                 score: result.score,
-                scoreHistory: [...history, { score: result.score, reason: result.reason, role: 'ai', changedAt: now }] as unknown as Prisma.InputJsonValue,
+                scoreHistory: [
+                  ...history,
+                  { score: result.score, reason: result.reason, role: 'ai', changedAt: now },
+                ] as unknown as Prisma.InputJsonValue,
               },
             });
           } catch (aiErr) {
