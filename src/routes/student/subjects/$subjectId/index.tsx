@@ -43,27 +43,32 @@ function RouteComponent() {
           <p className="text-muted-foreground">暂无考试</p>
         ) : (
           <div className="space-y-3">
-            {subject.exams.map((exam) => (
-              <Link
-                key={exam.id}
-                to="/student/subjects/$subjectId/exams/$examId"
-                params={{ subjectId, examId: String(exam.id) }}
-                className={`flex items-center justify-between rounded-lg border p-4 ${
-                  exam.examSubmissions.length > 0 && exam.examSubmissions[0].submittedAt
-                    ? 'pointer-events-none opacity-60'
-                    : 'hover:bg-muted/50'
-                }`}
-              >
-                <span className="font-medium">{exam.title}</span>
-                {exam.examSubmissions.length > 0 && exam.examSubmissions[0].submittedAt ? (
-                  <Badge variant="secondary">已提交</Badge>
-                ) : exam.examSubmissions.length > 0 ? (
-                  <Badge variant="outline">答题中</Badge>
-                ) : (
-                  <Badge>可参加</Badge>
-                )}
-              </Link>
-            ))}
+            {subject.exams.map((exam) => {
+              const submitted =
+                exam.examSubmissions.length > 0 && exam.examSubmissions[0].submittedAt;
+              const draft = exam.examSubmissions.length > 0 && !exam.examSubmissions[0].submittedAt;
+              return (
+                <Link
+                  key={exam.id}
+                  to={
+                    submitted
+                      ? '/student/subjects/$subjectId/exams/$examId/result'
+                      : '/student/subjects/$subjectId/exams/$examId'
+                  }
+                  params={{ subjectId, examId: String(exam.id) }}
+                  className="flex items-center justify-between rounded-lg border p-4 hover:bg-muted/50"
+                >
+                  <span className="font-medium">{exam.title}</span>
+                  {submitted ? (
+                    <Badge variant="secondary">已提交 · 查看成绩</Badge>
+                  ) : draft ? (
+                    <Badge variant="outline">答题中</Badge>
+                  ) : (
+                    <Badge>可参加</Badge>
+                  )}
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>

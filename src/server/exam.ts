@@ -401,3 +401,55 @@ export const submitExam = createServerFn({ method: 'POST' })
     });
     return { submissionId: submission.id };
   });
+
+export const getExamResult = createServerFn({ method: 'GET' })
+  .validator(getExamForStudentSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+
+    const submission = await prisma.examSubmission.findUnique({
+      where: {
+        examId_studentId: { examId: data.examId, studentId: session.user.id },
+      },
+      include: {
+        exam: {
+          include: {
+            subject: { select: { name: true } },
+            examQuestions: {
+              include: {
+                question: {
+                  select: {
+                    id: true,
+                    content: true,
+                    type: true,
+                    options: true,
+                    answer: true,
+                    gradingCriteria: true,
+                  },
+                },
+              },
+              orderBy: { order: 'asc' },
+            },
+          },
+        },
+        answers: true,
+      },
+    });
+    if (!submission?.submittedAt) throw new Error('未找到提交记录');
+
+    const answerMap = new Map(submission.answers.map((a) => [a.questionId, a]));
+
+    const totalScore = submission.exam.examQuestions.reduce((sum, eq) => sum + eq.score, 0);
+    const gradedScore = submission.answers.reduce((sum, a) => sum + (a.score ?? 0), 0);
+    const hasUngraded = submission.answers.some((a) => a.score === null);
+
+    return {
+      exam: submission.exam,
+      submittedAt: submission.submittedAt,
+      totalScore,
+      gradedScore,
+      hasUngraded,
+      answerMap,
+    };
+  });

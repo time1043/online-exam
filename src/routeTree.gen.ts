@@ -29,6 +29,7 @@ import { Route as TeacherSubjectsSubjectIdIndexRouteImport } from './routes/teac
 import { Route as StudentSubjectsSubjectIdIndexRouteImport } from './routes/student/subjects/$subjectId/index'
 import { Route as TeacherSubjectsSubjectIdExamsExamIdIndexRouteImport } from './routes/teacher/subjects/$subjectId/exams/$examId/index'
 import { Route as StudentSubjectsSubjectIdExamsExamIdIndexRouteImport } from './routes/student/subjects/$subjectId/exams/$examId/index'
+import { Route as StudentSubjectsSubjectIdExamsExamIdResultIndexRouteImport } from './routes/student/subjects/$subjectId/exams/$examId/result/index'
 
 const TeacherRouteRoute = TeacherRouteRouteImport.update({
   id: '/teacher',
@@ -135,6 +136,12 @@ const StudentSubjectsSubjectIdExamsExamIdIndexRoute =
     path: '/exams/$examId/',
     getParentRoute: () => StudentSubjectsSubjectIdRoute,
   } as any)
+const StudentSubjectsSubjectIdExamsExamIdResultIndexRoute =
+  StudentSubjectsSubjectIdExamsExamIdResultIndexRouteImport.update({
+    id: '/exams/$examId/result/',
+    path: '/exams/$examId/result/',
+    getParentRoute: () => StudentSubjectsSubjectIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof MainIndexRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByFullPath {
   '/teacher/subjects/$subjectId/': typeof TeacherSubjectsSubjectIdIndexRoute
   '/student/subjects/$subjectId/exams/$examId/': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId/': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
+  '/student/subjects/$subjectId/exams/$examId/result/': typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth/$path': typeof AuthPathRoute
@@ -172,6 +180,7 @@ export interface FileRoutesByTo {
   '/teacher/subjects/$subjectId': typeof TeacherSubjectsSubjectIdIndexRoute
   '/student/subjects/$subjectId/exams/$examId': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
+  '/student/subjects/$subjectId/exams/$examId/result': typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -195,6 +204,7 @@ export interface FileRoutesById {
   '/teacher/subjects/$subjectId/': typeof TeacherSubjectsSubjectIdIndexRoute
   '/student/subjects/$subjectId/exams/$examId/': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId/': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
+  '/student/subjects/$subjectId/exams/$examId/result/': typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/teacher/subjects/$subjectId/'
     | '/student/subjects/$subjectId/exams/$examId/'
     | '/teacher/subjects/$subjectId/exams/$examId/'
+    | '/student/subjects/$subjectId/exams/$examId/result/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth/$path'
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/teacher/subjects/$subjectId'
     | '/student/subjects/$subjectId/exams/$examId'
     | '/teacher/subjects/$subjectId/exams/$examId'
+    | '/student/subjects/$subjectId/exams/$examId/result'
   id:
     | '__root__'
     | '/_main'
@@ -256,6 +268,7 @@ export interface FileRouteTypes {
     | '/teacher/subjects/$subjectId/'
     | '/student/subjects/$subjectId/exams/$examId/'
     | '/teacher/subjects/$subjectId/exams/$examId/'
+    | '/student/subjects/$subjectId/exams/$examId/result/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -410,6 +423,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentSubjectsSubjectIdExamsExamIdIndexRouteImport
       parentRoute: typeof StudentSubjectsSubjectIdRoute
     }
+    '/student/subjects/$subjectId/exams/$examId/result/': {
+      id: '/student/subjects/$subjectId/exams/$examId/result/'
+      path: '/exams/$examId/result'
+      fullPath: '/student/subjects/$subjectId/exams/$examId/result/'
+      preLoaderRoute: typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRouteImport
+      parentRoute: typeof StudentSubjectsSubjectIdRoute
+    }
   }
 }
 
@@ -440,6 +460,7 @@ const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
 interface StudentSubjectsSubjectIdRouteChildren {
   StudentSubjectsSubjectIdIndexRoute: typeof StudentSubjectsSubjectIdIndexRoute
   StudentSubjectsSubjectIdExamsExamIdIndexRoute: typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
+  StudentSubjectsSubjectIdExamsExamIdResultIndexRoute: typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRoute
 }
 
 const StudentSubjectsSubjectIdRouteChildren: StudentSubjectsSubjectIdRouteChildren =
@@ -447,6 +468,8 @@ const StudentSubjectsSubjectIdRouteChildren: StudentSubjectsSubjectIdRouteChildr
     StudentSubjectsSubjectIdIndexRoute: StudentSubjectsSubjectIdIndexRoute,
     StudentSubjectsSubjectIdExamsExamIdIndexRoute:
       StudentSubjectsSubjectIdExamsExamIdIndexRoute,
+    StudentSubjectsSubjectIdExamsExamIdResultIndexRoute:
+      StudentSubjectsSubjectIdExamsExamIdResultIndexRoute,
   }
 
 const StudentSubjectsSubjectIdRouteWithChildren =
