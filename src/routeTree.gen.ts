@@ -29,7 +29,9 @@ import { Route as TeacherSubjectsSubjectIdIndexRouteImport } from './routes/teac
 import { Route as StudentSubjectsSubjectIdIndexRouteImport } from './routes/student/subjects/$subjectId/index'
 import { Route as TeacherSubjectsSubjectIdExamsExamIdIndexRouteImport } from './routes/teacher/subjects/$subjectId/exams/$examId/index'
 import { Route as StudentSubjectsSubjectIdExamsExamIdIndexRouteImport } from './routes/student/subjects/$subjectId/exams/$examId/index'
+import { Route as TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRouteImport } from './routes/teacher/subjects/$subjectId/exams/$examId/submissions/index'
 import { Route as StudentSubjectsSubjectIdExamsExamIdResultIndexRouteImport } from './routes/student/subjects/$subjectId/exams/$examId/result/index'
+import { Route as TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRouteImport } from './routes/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/index'
 
 const TeacherRouteRoute = TeacherRouteRouteImport.update({
   id: '/teacher',
@@ -136,12 +138,26 @@ const StudentSubjectsSubjectIdExamsExamIdIndexRoute =
     path: '/exams/$examId/',
     getParentRoute: () => StudentSubjectsSubjectIdRoute,
   } as any)
+const TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute =
+  TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRouteImport.update({
+    id: '/exams/$examId/submissions/',
+    path: '/exams/$examId/submissions/',
+    getParentRoute: () => TeacherSubjectsSubjectIdRoute,
+  } as any)
 const StudentSubjectsSubjectIdExamsExamIdResultIndexRoute =
   StudentSubjectsSubjectIdExamsExamIdResultIndexRouteImport.update({
     id: '/exams/$examId/result/',
     path: '/exams/$examId/result/',
     getParentRoute: () => StudentSubjectsSubjectIdRoute,
   } as any)
+const TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute =
+  TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRouteImport.update(
+    {
+      id: '/exams/$examId/submissions/$submissionId/',
+      path: '/exams/$examId/submissions/$submissionId/',
+      getParentRoute: () => TeacherSubjectsSubjectIdRoute,
+    } as any,
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof MainIndexRoute
@@ -164,6 +180,8 @@ export interface FileRoutesByFullPath {
   '/student/subjects/$subjectId/exams/$examId/': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId/': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
   '/student/subjects/$subjectId/exams/$examId/result/': typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRoute
+  '/teacher/subjects/$subjectId/exams/$examId/submissions/': typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute
+  '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/': typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth/$path': typeof AuthPathRoute
@@ -181,6 +199,8 @@ export interface FileRoutesByTo {
   '/student/subjects/$subjectId/exams/$examId': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
   '/student/subjects/$subjectId/exams/$examId/result': typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRoute
+  '/teacher/subjects/$subjectId/exams/$examId/submissions': typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute
+  '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId': typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -205,6 +225,8 @@ export interface FileRoutesById {
   '/student/subjects/$subjectId/exams/$examId/': typeof StudentSubjectsSubjectIdExamsExamIdIndexRoute
   '/teacher/subjects/$subjectId/exams/$examId/': typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
   '/student/subjects/$subjectId/exams/$examId/result/': typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRoute
+  '/teacher/subjects/$subjectId/exams/$examId/submissions/': typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute
+  '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/': typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -229,6 +251,8 @@ export interface FileRouteTypes {
     | '/student/subjects/$subjectId/exams/$examId/'
     | '/teacher/subjects/$subjectId/exams/$examId/'
     | '/student/subjects/$subjectId/exams/$examId/result/'
+    | '/teacher/subjects/$subjectId/exams/$examId/submissions/'
+    | '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth/$path'
@@ -246,6 +270,8 @@ export interface FileRouteTypes {
     | '/student/subjects/$subjectId/exams/$examId'
     | '/teacher/subjects/$subjectId/exams/$examId'
     | '/student/subjects/$subjectId/exams/$examId/result'
+    | '/teacher/subjects/$subjectId/exams/$examId/submissions'
+    | '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId'
   id:
     | '__root__'
     | '/_main'
@@ -269,6 +295,8 @@ export interface FileRouteTypes {
     | '/student/subjects/$subjectId/exams/$examId/'
     | '/teacher/subjects/$subjectId/exams/$examId/'
     | '/student/subjects/$subjectId/exams/$examId/result/'
+    | '/teacher/subjects/$subjectId/exams/$examId/submissions/'
+    | '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -423,12 +451,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentSubjectsSubjectIdExamsExamIdIndexRouteImport
       parentRoute: typeof StudentSubjectsSubjectIdRoute
     }
+    '/teacher/subjects/$subjectId/exams/$examId/submissions/': {
+      id: '/teacher/subjects/$subjectId/exams/$examId/submissions/'
+      path: '/exams/$examId/submissions'
+      fullPath: '/teacher/subjects/$subjectId/exams/$examId/submissions/'
+      preLoaderRoute: typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRouteImport
+      parentRoute: typeof TeacherSubjectsSubjectIdRoute
+    }
     '/student/subjects/$subjectId/exams/$examId/result/': {
       id: '/student/subjects/$subjectId/exams/$examId/result/'
       path: '/exams/$examId/result'
       fullPath: '/student/subjects/$subjectId/exams/$examId/result/'
       preLoaderRoute: typeof StudentSubjectsSubjectIdExamsExamIdResultIndexRouteImport
       parentRoute: typeof StudentSubjectsSubjectIdRoute
+    }
+    '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/': {
+      id: '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/'
+      path: '/exams/$examId/submissions/$submissionId'
+      fullPath: '/teacher/subjects/$subjectId/exams/$examId/submissions/$submissionId/'
+      preLoaderRoute: typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRouteImport
+      parentRoute: typeof TeacherSubjectsSubjectIdRoute
     }
   }
 }
@@ -496,6 +538,8 @@ const StudentRouteRouteWithChildren = StudentRouteRoute._addFileChildren(
 interface TeacherSubjectsSubjectIdRouteChildren {
   TeacherSubjectsSubjectIdIndexRoute: typeof TeacherSubjectsSubjectIdIndexRoute
   TeacherSubjectsSubjectIdExamsExamIdIndexRoute: typeof TeacherSubjectsSubjectIdExamsExamIdIndexRoute
+  TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute: typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute
+  TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute: typeof TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute
 }
 
 const TeacherSubjectsSubjectIdRouteChildren: TeacherSubjectsSubjectIdRouteChildren =
@@ -503,6 +547,10 @@ const TeacherSubjectsSubjectIdRouteChildren: TeacherSubjectsSubjectIdRouteChildr
     TeacherSubjectsSubjectIdIndexRoute: TeacherSubjectsSubjectIdIndexRoute,
     TeacherSubjectsSubjectIdExamsExamIdIndexRoute:
       TeacherSubjectsSubjectIdExamsExamIdIndexRoute,
+    TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute:
+      TeacherSubjectsSubjectIdExamsExamIdSubmissionsIndexRoute,
+    TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute:
+      TeacherSubjectsSubjectIdExamsExamIdSubmissionsSubmissionIdIndexRoute,
   }
 
 const TeacherSubjectsSubjectIdRouteWithChildren =

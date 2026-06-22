@@ -173,6 +173,16 @@ function RouteComponent() {
           </p>
         </div>
         <Badge variant={s.variant}>{s.label}</Badge>
+        {exam.status === 'published' && (
+          <Link
+            to="/teacher/subjects/$subjectId/exams/$examId/submissions"
+            params={{ subjectId, examId }}
+          >
+            <Button variant="outline" size="sm">
+              查看提交
+            </Button>
+          </Link>
+        )}
         <Button
           variant="outline"
           size="sm"

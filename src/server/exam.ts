@@ -8,6 +8,9 @@ import {
   deleteExamSchema,
   getExamForStudentSchema,
   getExamSchema,
+  getExamSubmissionsSchema,
+  getSubmissionDetailSchema,
+  gradeSubmissionSchema,
   saveExamSchema,
   getExamsSchema,
   publishExamSchema,
@@ -455,11 +458,10 @@ export const getExamResult = createServerFn({ method: 'GET' })
     });
     if (!submission?.submittedAt) throw new Error('未找到提交记录');
 
-    const answerMap = new Map(submission.answers.map((a) => [a.questionId, a]));
-
+    const answers = submission.answers;
     const totalScore = submission.exam.examQuestions.reduce((sum, eq) => sum + eq.score, 0);
-    const gradedScore = submission.answers.reduce((sum, a) => sum + (a.score ?? 0), 0);
-    const hasUngraded = submission.answers.some((a) => a.score === null);
+    const gradedScore = answers.reduce((sum, a) => sum + (a.score ?? 0), 0);
+    const hasUngraded = answers.some((a) => a.score === null);
 
     return {
       exam: submission.exam,
@@ -467,6 +469,122 @@ export const getExamResult = createServerFn({ method: 'GET' })
       totalScore,
       gradedScore,
       hasUngraded,
-      answerMap,
+      answers,
     };
+  });
+
+export const getExamSubmissions = createServerFn({ method: 'GET' })
+  .validator(getExamSubmissionsSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+    const exam = await prisma.exam.findFirst({
+      where: {
+        id: data.examId,
+        subject: { teacherId: session.user.id },
+      },
+      select: { id: true, title: true },
+    });
+    if (!exam) throw new Error('试卷不存在或无权访问');
+
+    const submissions = await prisma.examSubmission.findMany({
+      where: { examId: data.examId, submittedAt: { not: null } },
+      include: {
+        student: { select: { id: true, name: true, email: true } },
+        answers: { select: { score: true } },
+      },
+      orderBy: { submittedAt: 'desc' },
+    });
+
+    return submissions.map((s) => ({
+      id: s.id,
+      student: s.student,
+      submittedAt: s.submittedAt,
+      gradedScore: s.answers.reduce((sum, a) => sum + (a.score ?? 0), 0),
+      hasUngraded: s.answers.some((a) => a.score === null),
+    }));
+  });
+
+export const getSubmissionDetail = createServerFn({ method: 'GET' })
+  .validator(getSubmissionDetailSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+
+    const submission = await prisma.examSubmission.findFirst({
+      where: {
+        id: data.submissionId,
+        submittedAt: { not: null },
+        exam: { subject: { teacherId: session.user.id } },
+      },
+      include: {
+        student: { select: { id: true, name: true, email: true } },
+        exam: {
+          include: {
+            examQuestions: {
+              include: {
+                question: {
+                  select: {
+                    id: true,
+                    content: true,
+                    type: true,
+                    options: true,
+                    answer: true,
+                    gradingCriteria: true,
+                  },
+                },
+              },
+              orderBy: { order: 'asc' },
+            },
+          },
+        },
+        answers: true,
+      },
+    });
+    if (!submission) throw new Error('提交记录不存在');
+
+    const answers = submission.answers;
+    const totalScore = submission.exam.examQuestions.reduce((sum, eq) => sum + eq.score, 0);
+    const gradedScore = answers.reduce((sum, a) => sum + (a.score ?? 0), 0);
+
+    return {
+      submission,
+      answers,
+      totalScore,
+      gradedScore,
+      hasUngraded: answers.some((a) => a.score === null),
+    };
+  });
+
+export const gradeSubmission = createServerFn({ method: 'POST' })
+  .validator(gradeSubmissionSchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+
+    const submission = await prisma.examSubmission.findFirst({
+      where: {
+        id: data.submissionId,
+        submittedAt: { not: null },
+        exam: { subject: { teacherId: session.user.id } },
+      },
+      select: { id: true },
+    });
+    if (!submission) throw new Error('提交记录不存在或无权访问');
+
+    await prisma.$transaction(
+      data.scores.map((s) =>
+        prisma.examAnswer.update({
+          where: {
+            submissionId_questionId: {
+              submissionId: data.submissionId,
+              questionId: s.questionId,
+            },
+          },
+          data: { score: s.score },
+        }),
+      ),
+    );
+
+    return { success: true };
   });

@@ -47,7 +47,8 @@ function RouteComponent() {
     return <div className="text-center text-muted-foreground">未找到考试记录</div>;
   }
 
-  const { exam, submittedAt, totalScore, gradedScore, hasUngraded, answerMap } = data;
+  const { exam, submittedAt, totalScore, gradedScore, hasUngraded, answers } = data;
+  const answerMap = new Map(answers.map((a) => [a.questionId, a]));
 
   return (
     <div className="space-y-6">

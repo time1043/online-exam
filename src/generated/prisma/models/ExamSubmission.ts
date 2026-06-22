@@ -186,7 +186,7 @@ export type ExamSubmissionGroupByOutputType = {
   id: number;
   examId: number;
   studentId: string;
-  submittedAt: Date;
+  submittedAt: Date | null;
   _count: ExamSubmissionCountAggregateOutputType | null;
   _avg: ExamSubmissionAvgAggregateOutputType | null;
   _sum: ExamSubmissionSumAggregateOutputType | null;
@@ -214,7 +214,7 @@ export type ExamSubmissionWhereInput = {
   id?: Prisma.IntFilter<'ExamSubmission'> | number;
   examId?: Prisma.IntFilter<'ExamSubmission'> | number;
   studentId?: Prisma.StringFilter<'ExamSubmission'> | string;
-  submittedAt?: Prisma.DateTimeFilter<'ExamSubmission'> | Date | string;
+  submittedAt?: Prisma.DateTimeNullableFilter<'ExamSubmission'> | Date | string | null;
   exam?: Prisma.XOR<Prisma.ExamScalarRelationFilter, Prisma.ExamWhereInput>;
   student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   answers?: Prisma.ExamAnswerListRelationFilter;
@@ -224,7 +224,7 @@ export type ExamSubmissionOrderByWithRelationInput = {
   id?: Prisma.SortOrder;
   examId?: Prisma.SortOrder;
   studentId?: Prisma.SortOrder;
-  submittedAt?: Prisma.SortOrder;
+  submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   exam?: Prisma.ExamOrderByWithRelationInput;
   student?: Prisma.UserOrderByWithRelationInput;
   answers?: Prisma.ExamAnswerOrderByRelationAggregateInput;
@@ -239,7 +239,7 @@ export type ExamSubmissionWhereUniqueInput = Prisma.AtLeast<
     NOT?: Prisma.ExamSubmissionWhereInput | Prisma.ExamSubmissionWhereInput[];
     examId?: Prisma.IntFilter<'ExamSubmission'> | number;
     studentId?: Prisma.StringFilter<'ExamSubmission'> | string;
-    submittedAt?: Prisma.DateTimeFilter<'ExamSubmission'> | Date | string;
+    submittedAt?: Prisma.DateTimeNullableFilter<'ExamSubmission'> | Date | string | null;
     exam?: Prisma.XOR<Prisma.ExamScalarRelationFilter, Prisma.ExamWhereInput>;
     student?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     answers?: Prisma.ExamAnswerListRelationFilter;
@@ -251,7 +251,7 @@ export type ExamSubmissionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder;
   examId?: Prisma.SortOrder;
   studentId?: Prisma.SortOrder;
-  submittedAt?: Prisma.SortOrder;
+  submittedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
   _count?: Prisma.ExamSubmissionCountOrderByAggregateInput;
   _avg?: Prisma.ExamSubmissionAvgOrderByAggregateInput;
   _max?: Prisma.ExamSubmissionMaxOrderByAggregateInput;
@@ -270,11 +270,15 @@ export type ExamSubmissionScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<'ExamSubmission'> | number;
   examId?: Prisma.IntWithAggregatesFilter<'ExamSubmission'> | number;
   studentId?: Prisma.StringWithAggregatesFilter<'ExamSubmission'> | string;
-  submittedAt?: Prisma.DateTimeWithAggregatesFilter<'ExamSubmission'> | Date | string;
+  submittedAt?:
+    | Prisma.DateTimeNullableWithAggregatesFilter<'ExamSubmission'>
+    | Date
+    | string
+    | null;
 };
 
 export type ExamSubmissionCreateInput = {
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
   exam: Prisma.ExamCreateNestedOneWithoutExamSubmissionsInput;
   student: Prisma.UserCreateNestedOneWithoutExamSubmissionsInput;
   answers?: Prisma.ExamAnswerCreateNestedManyWithoutSubmissionInput;
@@ -284,12 +288,12 @@ export type ExamSubmissionUncheckedCreateInput = {
   id?: number;
   examId: number;
   studentId: string;
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
   answers?: Prisma.ExamAnswerUncheckedCreateNestedManyWithoutSubmissionInput;
 };
 
 export type ExamSubmissionUpdateInput = {
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   exam?: Prisma.ExamUpdateOneRequiredWithoutExamSubmissionsNestedInput;
   student?: Prisma.UserUpdateOneRequiredWithoutExamSubmissionsNestedInput;
   answers?: Prisma.ExamAnswerUpdateManyWithoutSubmissionNestedInput;
@@ -299,7 +303,7 @@ export type ExamSubmissionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   examId?: Prisma.IntFieldUpdateOperationsInput | number;
   studentId?: Prisma.StringFieldUpdateOperationsInput | string;
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   answers?: Prisma.ExamAnswerUncheckedUpdateManyWithoutSubmissionNestedInput;
 };
 
@@ -307,18 +311,18 @@ export type ExamSubmissionCreateManyInput = {
   id?: number;
   examId: number;
   studentId: string;
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
 };
 
 export type ExamSubmissionUpdateManyMutationInput = {
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 
 export type ExamSubmissionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   examId?: Prisma.IntFieldUpdateOperationsInput | number;
   studentId?: Prisma.StringFieldUpdateOperationsInput | string;
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 
 export type ExamSubmissionListRelationFilter = {
@@ -571,7 +575,7 @@ export type ExamSubmissionUpdateOneRequiredWithoutAnswersNestedInput = {
 };
 
 export type ExamSubmissionCreateWithoutStudentInput = {
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
   exam: Prisma.ExamCreateNestedOneWithoutExamSubmissionsInput;
   answers?: Prisma.ExamAnswerCreateNestedManyWithoutSubmissionInput;
 };
@@ -579,7 +583,7 @@ export type ExamSubmissionCreateWithoutStudentInput = {
 export type ExamSubmissionUncheckedCreateWithoutStudentInput = {
   id?: number;
   examId: number;
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
   answers?: Prisma.ExamAnswerUncheckedCreateNestedManyWithoutSubmissionInput;
 };
 
@@ -631,11 +635,11 @@ export type ExamSubmissionScalarWhereInput = {
   id?: Prisma.IntFilter<'ExamSubmission'> | number;
   examId?: Prisma.IntFilter<'ExamSubmission'> | number;
   studentId?: Prisma.StringFilter<'ExamSubmission'> | string;
-  submittedAt?: Prisma.DateTimeFilter<'ExamSubmission'> | Date | string;
+  submittedAt?: Prisma.DateTimeNullableFilter<'ExamSubmission'> | Date | string | null;
 };
 
 export type ExamSubmissionCreateWithoutExamInput = {
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
   student: Prisma.UserCreateNestedOneWithoutExamSubmissionsInput;
   answers?: Prisma.ExamAnswerCreateNestedManyWithoutSubmissionInput;
 };
@@ -643,7 +647,7 @@ export type ExamSubmissionCreateWithoutExamInput = {
 export type ExamSubmissionUncheckedCreateWithoutExamInput = {
   id?: number;
   studentId: string;
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
   answers?: Prisma.ExamAnswerUncheckedCreateNestedManyWithoutSubmissionInput;
 };
 
@@ -689,7 +693,7 @@ export type ExamSubmissionUpdateManyWithWhereWithoutExamInput = {
 };
 
 export type ExamSubmissionCreateWithoutAnswersInput = {
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
   exam: Prisma.ExamCreateNestedOneWithoutExamSubmissionsInput;
   student: Prisma.UserCreateNestedOneWithoutExamSubmissionsInput;
 };
@@ -698,7 +702,7 @@ export type ExamSubmissionUncheckedCreateWithoutAnswersInput = {
   id?: number;
   examId: number;
   studentId: string;
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
 };
 
 export type ExamSubmissionCreateOrConnectWithoutAnswersInput = {
@@ -730,7 +734,7 @@ export type ExamSubmissionUpdateToOneWithWhereWithoutAnswersInput = {
 };
 
 export type ExamSubmissionUpdateWithoutAnswersInput = {
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   exam?: Prisma.ExamUpdateOneRequiredWithoutExamSubmissionsNestedInput;
   student?: Prisma.UserUpdateOneRequiredWithoutExamSubmissionsNestedInput;
 };
@@ -739,17 +743,17 @@ export type ExamSubmissionUncheckedUpdateWithoutAnswersInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   examId?: Prisma.IntFieldUpdateOperationsInput | number;
   studentId?: Prisma.StringFieldUpdateOperationsInput | string;
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 
 export type ExamSubmissionCreateManyStudentInput = {
   id?: number;
   examId: number;
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
 };
 
 export type ExamSubmissionUpdateWithoutStudentInput = {
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   exam?: Prisma.ExamUpdateOneRequiredWithoutExamSubmissionsNestedInput;
   answers?: Prisma.ExamAnswerUpdateManyWithoutSubmissionNestedInput;
 };
@@ -757,24 +761,24 @@ export type ExamSubmissionUpdateWithoutStudentInput = {
 export type ExamSubmissionUncheckedUpdateWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   examId?: Prisma.IntFieldUpdateOperationsInput | number;
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   answers?: Prisma.ExamAnswerUncheckedUpdateManyWithoutSubmissionNestedInput;
 };
 
 export type ExamSubmissionUncheckedUpdateManyWithoutStudentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   examId?: Prisma.IntFieldUpdateOperationsInput | number;
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 
 export type ExamSubmissionCreateManyExamInput = {
   id?: number;
   studentId: string;
-  submittedAt?: Date | string;
+  submittedAt?: Date | string | null;
 };
 
 export type ExamSubmissionUpdateWithoutExamInput = {
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   student?: Prisma.UserUpdateOneRequiredWithoutExamSubmissionsNestedInput;
   answers?: Prisma.ExamAnswerUpdateManyWithoutSubmissionNestedInput;
 };
@@ -782,14 +786,14 @@ export type ExamSubmissionUpdateWithoutExamInput = {
 export type ExamSubmissionUncheckedUpdateWithoutExamInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   studentId?: Prisma.StringFieldUpdateOperationsInput | string;
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
   answers?: Prisma.ExamAnswerUncheckedUpdateManyWithoutSubmissionNestedInput;
 };
 
 export type ExamSubmissionUncheckedUpdateManyWithoutExamInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number;
   studentId?: Prisma.StringFieldUpdateOperationsInput | string;
-  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+  submittedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
 };
 
 /**
@@ -919,7 +923,7 @@ export type $ExamSubmissionPayload<
       id: number;
       examId: number;
       studentId: string;
-      submittedAt: Date;
+      submittedAt: Date | null;
     },
     ExtArgs['result']['examSubmission']
   >;

@@ -64,3 +64,22 @@ export const submitExamSchema = z.object({
     }),
   ),
 });
+
+// Teacher grading schemas
+export const getExamSubmissionsSchema = z.object({
+  examId: z.number(),
+});
+
+export const getSubmissionDetailSchema = z.object({
+  submissionId: z.number(),
+});
+
+export const gradeSubmissionSchema = z.object({
+  submissionId: z.number(),
+  scores: z.array(
+    z.object({
+      questionId: z.string(),
+      score: z.number().min(0),
+    }),
+  ),
+});
