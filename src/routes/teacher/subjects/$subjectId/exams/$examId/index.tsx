@@ -234,7 +234,7 @@ function RouteComponent() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6 lg:col-span-2">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg">试卷题目</CardTitle>
@@ -251,7 +251,12 @@ function RouteComponent() {
           </Card>
         </div>
         <div className="max-h-[calc(100vh-12rem)]">
-          <ExamChat examId={eid} />
+          <ExamChat
+            examId={eid}
+            onModified={() => {
+              queryClient.invalidateQueries({ queryKey: ['exam', subjectId, examId] });
+            }}
+          />
         </div>
       </div>
     </div>

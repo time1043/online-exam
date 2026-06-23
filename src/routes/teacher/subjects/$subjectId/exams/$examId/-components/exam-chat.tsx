@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Streamdown } from 'streamdown';
 import { toast } from 'sonner';
+import { Streamdown } from 'streamdown';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-
 import { chatWithAI } from '@/server/ai';
 
 interface Message {
@@ -15,9 +14,10 @@ interface Message {
 
 interface ExamChatProps {
   examId: number;
+  onModified?: () => void;
 }
 
-export function ExamChat({ examId }: ExamChatProps) {
+export function ExamChat({ examId, onModified }: ExamChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,6 +34,7 @@ export function ExamChat({ examId }: ExamChatProps) {
         data: { examId, message: userMsg },
       });
       setMessages((prev) => [...prev, { role: 'ai', text: result.reply }]);
+      if (result.modified) onModified?.();
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'AI 回复失败');
     } finally {
@@ -57,13 +58,13 @@ export function ExamChat({ examId }: ExamChatProps) {
             <div
               key={i}
               className={`rounded-lg px-3 py-2 text-sm ${
-                m.role === 'user'
-                  ? 'ml-8 bg-primary text-primary-foreground'
-                  : 'mr-8 bg-muted'
+                m.role === 'user' ? 'ml-8 bg-primary text-primary-foreground' : 'mr-8 bg-muted'
               }`}
             >
               {m.role === 'ai' ? (
-                <Streamdown className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">{m.text}</Streamdown>
+                <Streamdown className="prose prose-sm dark:prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+                  {m.text}
+                </Streamdown>
               ) : (
                 m.text
               )}
@@ -90,7 +91,12 @@ export function ExamChat({ examId }: ExamChatProps) {
             rows={2}
             disabled={loading}
           />
-          <Button size="sm" onClick={handleSend} disabled={loading || !input.trim()} className="shrink-0">
+          <Button
+            size="sm"
+            onClick={handleSend}
+            disabled={loading || !input.trim()}
+            className="shrink-0"
+          >
             发送
           </Button>
         </div>
