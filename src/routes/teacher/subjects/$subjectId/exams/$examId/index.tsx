@@ -14,6 +14,7 @@ import { getQuestions } from '@/server/question';
 import type { ExamQuestionItem } from './-components/mock-data';
 
 import { AddQuestionsDialog } from './-components/add-questions-dialog';
+import { ExamChat } from './-components/exam-chat';
 import { ExamQuestionList } from './-components/exam-question-list';
 
 export const Route = createFileRoute('/teacher/subjects/$subjectId/exams/$examId/')({
@@ -232,20 +233,27 @@ function RouteComponent() {
         )}
       </div>
 
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">试卷题目</CardTitle>
-          <AddQuestionsDialog availableQuestions={availableQuestions} onAdd={handleAdd} />
-        </CardHeader>
-        <CardContent>
-          <ExamQuestionList
-            questions={questions}
-            onScoreChange={handleScoreChange}
-            onMove={handleMove}
-            onRemove={handleRemove}
-          />
-        </CardContent>
-      </Card>
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2 space-y-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-lg">试卷题目</CardTitle>
+              <AddQuestionsDialog availableQuestions={availableQuestions} onAdd={handleAdd} />
+            </CardHeader>
+            <CardContent>
+              <ExamQuestionList
+                questions={questions}
+                onScoreChange={handleScoreChange}
+                onMove={handleMove}
+                onRemove={handleRemove}
+              />
+            </CardContent>
+          </Card>
+        </div>
+        <div className="max-h-[calc(100vh-12rem)]">
+          <ExamChat examId={eid} />
+        </div>
+      </div>
     </div>
   );
 }

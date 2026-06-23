@@ -4,7 +4,7 @@ import { generateText } from 'ai';
 
 import { prisma } from '@/db';
 import { authFnMiddleware } from '@/middlewares/auth';
-import { gradeEssayWithAISchema } from '@/schemas/ai';
+import { chatWithAISchema, gradeEssayWithAISchema } from '@/schemas/ai';
 
 const openai = createOpenAI({
   baseURL: process.env.MIMO_OPENAI_API_URL,
@@ -64,4 +64,46 @@ export const gradeEssayWithAI = createServerFn({ method: 'POST' })
       console.error('AI grading error:', err);
       throw err;
     }
+  });
+
+export const chatWithAI = createServerFn({ method: 'POST' })
+  .validator(chatWithAISchema)
+  .middleware([authFnMiddleware])
+  .handler(async ({ data, context }) => {
+    const { session } = context;
+
+    const exam = await prisma.exam.findFirst({
+      where: {
+        id: data.examId,
+        subject: { teacherId: session.user.id },
+      },
+      include: {
+        subject: { select: { name: true } },
+        examQuestions: {
+          include: {
+            question: {
+              select: { id: true, content: true, type: true },
+            },
+          },
+          orderBy: { order: 'asc' },
+        },
+      },
+    });
+    if (!exam) throw new Error('试卷不存在或无权访问');
+
+    const currentQuestions = exam.examQuestions.map((eq) => ({
+      id: eq.question.id,
+      content: eq.question.content,
+      type: eq.question.type,
+      score: eq.score,
+      order: eq.order,
+    }));
+
+    const { text } = await generateText({
+      model: openai.chat('mimo-v2.5'),
+      system: `你是组卷助手。当前试卷：标题"${exam.title}"，科目"${exam.subject.name}"，时间限制${exam.timeLimit ?? '不限'}。已选题目：${JSON.stringify(currentQuestions)}。`,
+      prompt: data.message,
+    });
+
+    return { reply: text };
   });
